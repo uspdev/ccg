@@ -35,3 +35,6 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 - Nº de créditos-aula exigidos em disciplinas optativas eletivas
 - Nº de créditos-aula exigidos em disciplinas optativas livres
 
+## Model
+
+<img src="docs/model.jpg width="80%" />
