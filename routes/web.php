@@ -1,3 +1,4 @@
 <?php
 
-Route::get('/licenciatura/alunos', 'LicenciaturaController@mostrarAlunos');
+Route::get('/busca', 'GraduacaoController@busca');
+Route::post('/busca', 'GraduacaoController@buscaReplicado');
