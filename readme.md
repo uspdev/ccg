@@ -54,6 +54,7 @@ Caso falte alguma dependência, siga as instruções do `composer`.
 ## Projetos utilizados
 
     - uspdev/replicado
+    - jeroennoten/Laravel-AdminLTE
 
 ## Contribuindo com o projeto
 
