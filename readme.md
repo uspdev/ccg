@@ -37,7 +37,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 
 ## Model
 
-<img src="docs/model.jpg" width="80%" />
+<img src="docs/model.png" width="80%" />
 
 ## Procedimentos de deploy
  
