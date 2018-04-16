@@ -38,3 +38,31 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 ## Model
 
 <img src="docs/model.jpg" width="80%" />
+
+## Procedimentos de deploy
+ 
+    - composer install
+    - cp .env.example .env
+    - Editar o arquivo .env
+        - Dados da conexão na base replicada
+        - Código da unidade local
+    - php artisan key:generate
+    - php artisan migrate
+
+Caso falte alguma dependência, siga as instruções do `composer`.
+
+## Projetos utilizados
+
+    - uspdev/replicado
+
+## Contribuindo com o projeto
+
+### Passos iniciais
+
+Siga o guia no site do [uspdev](https://uspdev.github.io/contribua)
+
+### Padrões de Projeto
+
+Utilizamos a [PSR-2](https://www.php-fig.org/psr/psr-2/) para padrões de projeto. Ajuste seu editor favorito para a especificação.
+
+
