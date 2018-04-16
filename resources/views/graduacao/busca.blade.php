@@ -7,6 +7,8 @@
 @stop</h>
 
 @section('content')
+    @include('flash')
+
     <form method="post" action"/buscaReplicado">
         {{ csrf_field() }} 
         Nº USP: <input name="codpes" requrired>
