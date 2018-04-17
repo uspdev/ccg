@@ -48,14 +48,15 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
         - Dados da conexão na base replicada
         - Código da unidade local
     - php artisan key:generate
-    - php artisan migrate
+    - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
 ## Projetos utilizados
 
-    - uspdev/replicado
-    - jeroennoten/Laravel-AdminLTE
+    - github: uspdev/replicado
+    - github: jeroennoten/Laravel-AdminLTE
+    - gitlab: uspdev/replicado_queries
 
 ## Contribuindo com o projeto
 
