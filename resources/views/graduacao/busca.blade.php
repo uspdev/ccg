@@ -11,14 +11,14 @@
 
     <form method="post" action"/buscaReplicado">
         {{ csrf_field() }} 
-        Nº USP: <input name="codpes" requrired>
+        <input name="codpes" type="text" pattern="[0-9]*" placeholder="Nº USP" required>
 
         <button type="submit">Buscar</button>
     </form>
 
     @if (isset($graduacaoCurso))
 
-        <h2>{{ $graduacaoCurso['nompes'] }}</h2>
+        <h2>{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h2>
         Curso: <strong>{{ $graduacaoCurso['codcur'] }} - {{ $graduacaoCurso['nomcur'] }}</strong><br />
         Habilitação: <strong>{{ $graduacaoCurso['codhab'] }} - {{ $graduacaoCurso['nomhab'] }}</strong><br />
         Ano de ingresso: <strong>{{ Carbon\Carbon::parse($graduacaoCurso['dtainivin'])->format('Y') }}</strong>

@@ -41,7 +41,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 
 ## Procedimentos de deploy
  
-    - adicione a biblioteca php referente ao sgbd da base replicada
+    - Adicionar a biblioteca php referente ao sgbd da base replicada
     - composer install
     - cp .env.example .env
     - Editar o arquivo .env
