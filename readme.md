@@ -49,6 +49,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
         - Código da unidade local
     - php artisan key:generate
     - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
+    - php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
