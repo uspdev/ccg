@@ -45,9 +45,11 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
     - composer install
     - cp .env.example .env
     - Editar o arquivo .env
+        - Dados da conexão na base do sistema
         - Dados da conexão na base replicada
         - Código da unidade local
     - php artisan key:generate
+    - php artisan migrate
     - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
     - php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets
 
@@ -57,6 +59,7 @@ Caso falte alguma dependência, siga as instruções do `composer`.
 
     - github: uspdev/replicado
     - github: jeroennoten/Laravel-AdminLTE
+    - github: uspdev/senhaunica-socialite
     - gitlab: uspdev/replicado_queries
 
 ## Contribuindo com o projeto

@@ -4,9 +4,10 @@
 
 @section('content_header')
     <h1>Buscar aluno</h1>
-@stop</h>
+@stop
 
 @section('content')
+    
     @include('flash')
 
     <form method="post" action"/buscaReplicado">
@@ -24,4 +25,5 @@
         Ano de ingresso: <strong>{{ Carbon\Carbon::parse($graduacaoCurso['dtainivin'])->format('Y') }}</strong>
 
     @endif
-@stop</p>
+
+@stop
