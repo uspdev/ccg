@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Uspdev\Replicado\Connection;
-use Uspdev\Replicado\Pessoa;
 use Uspdev\Replicado\Graduacao;
 use Carbon;
 
@@ -12,6 +11,8 @@ class GraduacaoController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('auth')->except(['index']);
+        
         $this->repIp    = env('REPLICADO_HOST');
         $this->repPort  = env('REPLICADO_PORT');
         $this->repDb    = env('REPLICADO_DATABASE');

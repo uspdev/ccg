@@ -10,7 +10,8 @@
         "jeroennoten/laravel-adminlte": "^1.23",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0",
-        "uspdev/replicado": "dev-master"
+        "uspdev/replicado": "dev-master",
+        "uspdev/senhaunica-socialite": "^1.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",

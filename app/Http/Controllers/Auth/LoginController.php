@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Auth;
+use App\User;
+use Socialite;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -25,7 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -35,5 +38,56 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function redirectToProvider()
+    {
+        return Socialite::driver('senhaunica')->redirect();
+    }
+
+    public function handleProviderCallback()
+    {
+        $userSenhaUnica = Socialite::driver('senhaunica')->user();
+        
+        // aqui vc pode inserir o usuário no banco de dados local, fazer o login etc.
+        
+		# busca o usuário local
+        $user = User::find($userSenhaUnica->id);
+        
+		# restrição só para admins
+        $admins = explode(',', trim(env('CODPES_ADMINS')));
+        
+		if (!in_array($userSenhaUnica->id, $admins)) {
+            # exibir mensagem flash de restrição...
+            dd('ACESSO RESTRITO!');
+            return redirect('/');
+        }    
+        
+		# se o usuário local NÃO EXISTE, cadastra
+        if (is_null($user)) {
+            $user = new User;
+            $user->id = $userSenhaUnica->id;
+            $user->email = $userSenhaUnica->email;
+            $user->name = $userSenhaUnica->name;
+            $user->save();
+        } else {
+            # se o usuário EXISTE local
+            # atualiza os dados
+            $user->id = $userSenhaUnica->id;
+            $user->email = $userSenhaUnica->email;
+            $user->name = $userSenhaUnica->name;
+            $user->save(); 
+        }
+        
+		# faz login
+        Auth::login($user, true);
+        
+		# redireciona
+        return redirect('/');  
+    }
+    
+	public function logout() {
+        Auth::logout();
+        return redirect('/');
     }
 }
