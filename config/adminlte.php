@@ -118,14 +118,20 @@ return [
             'text' => 'Meus créditos',
             'url'  => 'creditos',
             'icon' => 'credit-card',
-            # 'can'  => 'alunos', 
+            'can'  => 'alunos', 
         ],
-        'Secretaria', # somente para desenvolvedor e secretaria de graduação
+        'Secretaria', # somente para secretaria de graduação
         [
             'text' => 'Busca',
             'url'  => 'busca',
-            'icon' => 'user',
-            'can'  => 'admins', 
+            'icon' => 'graduation-cap',
+            'can'  => 'secretaria', 
+        ],
+        [
+            'text' => 'Currículo',
+            'url'  => 'curriculo',
+            'icon' => 'institution',
+            'can'  => 'secretaria', 
         ],
     ],
 
