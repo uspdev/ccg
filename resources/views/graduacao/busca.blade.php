@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Buscar aluno')
+@section('title', env('APP_NAME') . ' - Buscar aluno')
 
 @section('content_header')
     <h1>Buscar aluno</h1>
