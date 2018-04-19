@@ -7,6 +7,8 @@ use App\User;
 use Socialite;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Uspdev\Replicado\Connection;
+use Uspdev\Replicado\Graduacao;
 
 class LoginController extends Controller
 {
@@ -54,12 +56,17 @@ class LoginController extends Controller
 		# busca o usuário local
         $user = User::find($userSenhaUnica->id);
         
-		# restrição só para admins
-        $admins = explode(',', trim(env('CODPES_ADMINS')));
+		# restrição só para admins/secretaria e aluno ativo de graduação na unidade
+        $secretaria = explode(',', trim(env('CODPES_ADMINS')));
+
+        $replicado = new Connection(env('REPLICADO_HOST'), env('REPLICADO_PORT'), env('REPLICADO_DATABASE'), env('REPLICADO_USERNAME'), env('REPLICADO_PASSWORD'));
+        env('REPLICADO_SGBD') == 'sybase' ? $replicado->setSybase() : $replicado->setMssql();
+        $graduacao = new Graduacao($replicado->conn);
         
-		if (!in_array($userSenhaUnica->id, $admins)) {
+		if ( (!in_array($userSenhaUnica->id, $secretaria)) && (!$graduacao->verifica($userSenhaUnica->id, env('REPLICADO_CODUND'))) ) {
             # exibir mensagem flash de restrição...
-            dd('ACESSO RESTRITO!');
+            $msg = "Acesso restrito a secretaria do Serviço de Graduação e alunos ativos de Graduação desta unidade."; 
+            dd('ACESSO RESTRITO');
             return redirect('/');
         }    
         

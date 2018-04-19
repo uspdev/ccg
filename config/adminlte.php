@@ -45,7 +45,7 @@ return [
     |
     */
 
-    'skin' => 'green',
+    'skin' => 'green-light',
 
     /*
     |--------------------------------------------------------------------------
@@ -113,14 +113,26 @@ return [
             'icon' => 'home',
             'icon_color' => 'yelow',
         ],
-        'Restrito',
+        'Aluno', # somente para aluno de graduação ativo na unidade
+        [
+            'text' => 'Meus créditos',
+            'url'  => 'creditos',
+            'icon' => 'credit-card',
+            'can'  => 'alunos', 
+        ],
+        'Secretaria', # somente para secretaria de graduação
         [
             'text' => 'Busca',
             'url'  => 'busca',
-            'icon' => 'user',
-            'can'  => 'admins', 
+            'icon' => 'graduation-cap',
+            'can'  => 'secretaria', 
         ],
-
+        [
+            'text' => 'Currículo',
+            'url'  => 'curriculo',
+            'icon' => 'institution',
+            'can'  => 'secretaria', 
+        ],
     ],
 
     /*
