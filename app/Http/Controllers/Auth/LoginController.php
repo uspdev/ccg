@@ -66,7 +66,6 @@ class LoginController extends Controller
 		if ( (!in_array($userSenhaUnica->id, $secretaria)) && (!$graduacao->verifica($userSenhaUnica->id, env('REPLICADO_CODUND'))) ) {
             # exibir mensagem flash de restrição...
             $msg = "Acesso restrito a secretaria do Serviço de Graduação e alunos ativos de Graduação desta unidade."; 
-            # dd('ACESSO RESTRITO');
             session()->flash('alert-danger', $msg);
             return redirect('/');
         }    
