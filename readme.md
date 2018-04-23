@@ -54,6 +54,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
     - php artisan migrate
     - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
     - php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets --force
+    - ainda quanto ao aluno de graduação, tem uma #desenvolvimento que pode ser comentada durante os testes
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
