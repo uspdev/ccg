@@ -47,6 +47,8 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
     - Editar o arquivo .env
         - Dados da conexão na base do sistema
         - Dados da conexão na base replicada
+        - Nº USP dos funcionários da secretaria / Serviço de Graduação da unidade que acessarão o sistema
+        - Nº USP do aluno (teste) para simular o acesso como aluno de Graduação
         - Código da unidade local
     - php artisan key:generate
     - php artisan migrate
