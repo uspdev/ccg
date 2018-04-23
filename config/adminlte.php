@@ -118,8 +118,8 @@ return [
             'text' => 'Meus créditos',
             'url'  => 'creditos',
             'icon' => 'credit-card',
-            'can'  => 'alunos', 
-            'can'  => 'secretaria', # apenas para teste como aluno de graduação ativo na unidade
+            'can'  => 'alunos', #produção
+            'can'  => 'secretaria', #desenvolvimento 
         ],
         'Secretaria', # somente para secretaria de graduação
         [

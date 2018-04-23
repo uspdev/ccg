@@ -47,4 +47,17 @@ class GraduacaoController extends Controller
 
         return view('graduacao.busca', compact('graduacaoCurso'));
     }
+
+    public function creditos()
+    {
+        $replicado = new Connection($this->repIp, $this->repPort, $this->repDb, $this->repUser, $this->repPass);
+        $this->repSgbd == 'sybase' ? $replicado->setSybase() : $replicado->setMssql();
+        
+        $graduacao = new Graduacao($replicado->conn);
+ 
+        $graduacaoCurso = $graduacao->curso(env('CODPES_ALUNO'), $this->repUnd); #desenvolvimento
+        # $graduacaoCurso = $graduacao->curso(Auth::user()->id, $this->repUnd); #produção
+        
+        return view('aluno.creditos', compact('graduacaoCurso'));
+    }
 }
