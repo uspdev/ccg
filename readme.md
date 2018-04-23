@@ -51,7 +51,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
     - php artisan key:generate
     - php artisan migrate
     - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
-    - php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets
+    - php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets --force
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
