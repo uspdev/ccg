@@ -119,6 +119,7 @@ return [
             'url'  => 'creditos',
             'icon' => 'credit-card',
             'can'  => 'alunos', 
+            'can'  => 'secretaria', # apenas para teste como aluno de graduação ativo na unidade
         ],
         'Secretaria', # somente para secretaria de graduação
         [
