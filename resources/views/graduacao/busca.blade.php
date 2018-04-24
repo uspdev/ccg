@@ -10,19 +10,71 @@
     
     @include('flash')
 
-    <form method="post" action"/buscaReplicado">
-        {{ csrf_field() }} 
-        <input name="codpes" type="text" pattern="[0-9]*" placeholder="Nº USP" required>
-
-        <button type="submit" class="btn btn-success">Buscar</button>
-    </form>
+    <div class="box box-primary">
+        <form role="form" method="post" action"/buscaReplicado">
+            {{ csrf_field() }} 
+            <div class="box-body">
+                <div class="form-group">
+                    <label for="codpes">Nº USP</label>
+                    <input type="text" class="form-control" id="codpes" name="codpes" pattern="[0-9]*" placeholder="Nº USP">
+                </div>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </div>
+        </form>
+    </div>
 
     @if (isset($graduacaoCurso))
 
-        <h3>{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h3>
-        Curso: <strong>{{ $graduacaoCurso['codcur'] }} - {{ $graduacaoCurso['nomcur'] }}</strong><br />
-        Habilitação: <strong>{{ $graduacaoCurso['codhab'] }} - {{ $graduacaoCurso['nomhab'] }}</strong><br />
-        Ano de ingresso: <strong>{{ Carbon\Carbon::parse($graduacaoCurso['dtainivin'])->format('Y') }}</strong>
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab_1" data-toggle="tab">Aluno</a></li>
+            <li><a href="#tab_2" data-toggle="tab">Créditos</a></li>
+            <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_1">
+          		<div class="box-primary">
+            		<div class="box-header">
+              			<h3 class="box-title">{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h3>
+            		</div>
+            		<div class="box-body table-responsive no-padding">
+              			<table class="table table-hover">
+                			<tr>
+                  				<th>Curso</th>
+                  				<td>{{ $graduacaoCurso['codcur'] }} - {{ $graduacaoCurso['nomcur'] }}</td>
+                			</tr>
+                			<tr>
+                  				<th>Habilitação</td>
+                  				<td>{{ $graduacaoCurso['codhab'] }} - {{ $graduacaoCurso['nomhab'] }}</td>
+                			</tr>
+                			<tr>
+                  				<th>Ano de ingresso</td>
+                  				<td>{{ Carbon\Carbon::parse($graduacaoCurso['dtainivin'])->format('Y') }}</td>
+                			</tr>
+              			</table>
+            		</div>
+          		</div>
+            </div>
+              
+            <div class="tab-pane" id="tab_2">
+          		<div class="box-primary">
+            		<div class="box-header">
+              			<h3 class="box-title">{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h3>
+            		</div>
+          		</div>
+            </div>
+              
+            <div class="tab-pane" id="tab_3">
+          		<div class="box-primary">
+            		<div class="box-header">
+              			<h3 class="box-title">{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h3>
+            		</div>
+          		</div>
+            </div>
+        </div>
+    </div>
 
     @endif
 
