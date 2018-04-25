@@ -8,8 +8,7 @@
 
 @section('content')
 
-    @can('secretaria') {{-- #desenvolvimento  --}}
-    {{-- @can('alunos') --}} {{-- #produção  --}}
+    @can($gate)
 
     @include('flash')
 
