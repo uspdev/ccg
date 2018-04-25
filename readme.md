@@ -48,7 +48,9 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
         - Dados da conexão na base do sistema
         - Dados da conexão na base replicada
         - Nº USP dos funcionários da secretaria / Serviço de Graduação da unidade que acessarão o sistema
-        - Nº USP do aluno (teste) para simular o acesso como aluno de Graduação
+        - Nº USP do aluno (desenvolvimento) para simular o acesso como aluno de Graduação
+            - Em desenvolvimento: setar APP_ENV como dev e setar COPES_ALUNO com o Nº USP do aluno
+            - Em produção: setar APP_ENV como prd e deixar CODPES_ALUNO em branco
         - Código da unidade local
     - php artisan key:generate
     - php artisan migrate
