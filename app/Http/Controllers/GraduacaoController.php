@@ -55,9 +55,26 @@ class GraduacaoController extends Controller
         
         $graduacao = new Graduacao($replicado->conn);
  
-        $graduacaoCurso = $graduacao->curso(env('CODPES_ALUNO'), $this->repUnd); #desenvolvimento
-        # $graduacaoCurso = $graduacao->curso(Auth::user()->id, $this->repUnd); #produção
+        $gate = $this->getGate();
+        if ($gate === 'secretaria') {
+            $graduacaoCurso = $graduacao->curso(env('CODPES_ALUNO'), $this->repUnd); #desenvolvimento
+        } else {
+            $graduacaoCurso = $graduacao->curso(Auth::user()->id, $this->repUnd); #produção
+        }
         
-        return view('aluno.creditos', compact('graduacaoCurso'));
+        return view('aluno.creditos', compact('graduacaoCurso', 'gate'));
+    }
+
+    # Retorna o Gate
+    public function getGate()
+    {
+        # Se APP_ENV = dev e CODPES_ALUNO não é vazio, desenvolvimento
+        if (env('APP_ENV') === 'dev' and !empty(env('CODPES_ALUNO'))) { 
+            $gate = 'secretaria';
+        } else {
+            $gate = 'alunos';  
+        }
+
+        return $gate;
     }
 }

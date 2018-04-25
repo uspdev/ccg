@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\GraduacaoController as Graduacao; 
+
 return [
 
     /*
@@ -118,8 +120,7 @@ return [
             'text' => 'Meus créditos',
             'url'  => 'creditos',
             'icon' => 'credit-card',
-            'can'  => 'alunos', #produção
-            'can'  => 'secretaria', #desenvolvimento 
+            'can'  => Graduacao::getGate(), 
         ],
         'Secretaria', # somente para secretaria de graduação
         [
