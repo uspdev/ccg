@@ -77,4 +77,19 @@ class GraduacaoController extends Controller
 
         return $gate;
     }
+
+    # Ajax Busca alunos ativos com parte do nome e preenche o campo Nº USP com o codpes
+    public function buscaAlunos($parteNome)
+    {
+        $strFiltro = "AND PESSOA.nompes LIKE '%$parteNome%'";
+        
+        $replicado = new Connection($this->repIp, $this->repPort, $this->repDb, $this->repUser, $this->repPass);
+        $this->repSgbd == 'sybase' ? $replicado->setSybase() : $replicado->setMssql();
+
+        $graduacao = new Graduacao($replicado->conn);
+        
+        $alunos = $graduacao->ativos($this->repUnd, $strFiltro);
+        
+        return response($alunos);
+    }
 }
