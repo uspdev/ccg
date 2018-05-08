@@ -11,12 +11,13 @@
     @include('flash')
 
     <div class="box box-primary">
-        <form role="form" method="post" action"/buscaReplicado">
+        <form id="busca" role="form" method="post" action"/buscaReplicado">
             {{ csrf_field() }} 
             <div class="box-body">
                 <div class="form-group">
                     <label for="codpes">Nº USP</label>
-                    <input type="text" class="form-control" id="codpes" name="codpes" pattern="[0-9]*" placeholder="Nº USP">
+                    <input type="text" class="form-control" id="codpes" name="codpes" placeholder="Nº USP ou Parte do Nome" required>
+                    <table class="table table-striped table-hover"><tbody id="alunos"></tbody></table>
                 </div>
             </div>
             <div class="box-footer">
@@ -77,5 +78,24 @@
     </div>
 
     @endif
+
+@stop
+
+@section('js')
+
+    <script type="text/javascript">
+        $('#codpes').on('keypress', function() {
+            $.get("busca/" + $('#codpes').val(), function(data) {
+                $('#alunos').empty();
+                $.each(data, function(i, value) {
+                    var tr = $("<tr onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
+                        tr.append($("<td/>", {
+                            text : value.nompes
+                        }))
+                    $('#alunos').append(tr);
+                });
+            })
+        })
+    </script>
 
 @stop
