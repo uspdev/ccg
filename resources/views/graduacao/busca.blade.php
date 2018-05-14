@@ -86,7 +86,7 @@
 <script type="text/javascript">
 
 $('#codpes').on('keypress', function() { 
-    if ($('#codpes').val().length > 8) {
+    if ($('#codpes').val().length > 5) {
         $.get("busca/" + $('#codpes').val(), function(data) {
             $('#alunos').empty();
             $.each(data, function(i, value) {
