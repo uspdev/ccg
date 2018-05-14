@@ -12,6 +12,7 @@ class GraduacaoController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index']);
+        $this->repUnd   = env('REPLICADO_CODUND');
     }
     
     public function busca()
@@ -21,16 +22,10 @@ class GraduacaoController extends Controller
     
     public function buscaReplicado(Request $request)
     {
-        
-        $replicado = new Connection($this->repIp, $this->repPort, $this->repDb, $this->repUser, $this->repPass);
-        $this->repSgbd == 'sybase' ? $replicado->setSybase() : $replicado->setMssql();
-        
-        $graduacao = new Graduacao($replicado->conn);
-
         // É aluno de graduação ATIVO da unidade? 
-        if ($graduacao->verifica($request->codpes, $this->repUnd)) {
+        if (Graduacao::verifica($request->codpes, $this->repUnd)) {
             // Retorna os dados acadêmicos
-            $graduacaoCurso = $graduacao->curso($request->codpes, $this->repUnd);
+            $graduacaoCurso = Graduacao::curso($request->codpes, $this->repUnd);
         } else {
             $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade."; 
             $request->session()->flash('alert-danger', $msg);
@@ -42,16 +37,11 @@ class GraduacaoController extends Controller
 
     public function creditos()
     {
-        $replicado = new Connection($this->repIp, $this->repPort, $this->repDb, $this->repUser, $this->repPass);
-        $this->repSgbd == 'sybase' ? $replicado->setSybase() : $replicado->setMssql();
-        
-        $graduacao = new Graduacao($replicado->conn);
- 
         $gate = $this->getGate();
         if ($gate === 'secretaria') {
-            $graduacaoCurso = $graduacao->curso(env('CODPES_ALUNO'), $this->repUnd); #desenvolvimento
+            $graduacaoCurso = Graduacao::curso(env('CODPES_ALUNO'), $this->repUnd); #desenvolvimento
         } else {
-            $graduacaoCurso = $graduacao->curso(Auth::user()->id, $this->repUnd); #produção
+            $graduacaoCurso = Graduacao::curso(Auth::user()->id, $this->repUnd); #produção
         }
         
         return view('aluno.creditos', compact('graduacaoCurso', 'gate'));
@@ -74,14 +64,7 @@ class GraduacaoController extends Controller
     public function buscaAlunos($parteNome)
     {
         $strFiltro = "AND PESSOA.nompes LIKE '%$parteNome%'";
-        
-        $replicado = new Connection($this->repIp, $this->repPort, $this->repDb, $this->repUser, $this->repPass);
-        $this->repSgbd == 'sybase' ? $replicado->setSybase() : $replicado->setMssql();
-
-        $graduacao = new Graduacao($replicado->conn);
-        
-        $alunos = $graduacao->ativos($this->repUnd, $strFiltro);
-        
+        $alunos = Graduacao::ativos($this->repUnd, $strFiltro);
         return response($alunos);
     }
 }
