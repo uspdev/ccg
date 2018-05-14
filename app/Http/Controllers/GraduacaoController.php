@@ -12,14 +12,6 @@ class GraduacaoController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index']);
-        
-        $this->repIp    = env('REPLICADO_HOST');
-        $this->repPort  = env('REPLICADO_PORT');
-        $this->repDb    = env('REPLICADO_DATABASE');
-        $this->repUser  = env('REPLICADO_USERNAME');
-        $this->repPass  = env('REPLICADO_PASSWORD');
-        $this->repUnd   = env('REPLICADO_CODUND');
-        $this->repSgbd  = env('REPLICADO_SGBD');
     }
     
     public function busca()
