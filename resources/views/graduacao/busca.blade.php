@@ -83,19 +83,23 @@
 
 @section('js')
 
-    <script type="text/javascript">
-        $('#codpes').on('keypress', function() {
-            $.get("busca/" + $('#codpes').val(), function(data) {
-                $('#alunos').empty();
-                $.each(data, function(i, value) {
-                    var tr = $("<tr onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
-                        tr.append($("<td/>", {
-                            text : value.nompes
-                        }))
-                    $('#alunos').append(tr);
-                });
-            })
-        })
-    </script>
+<script type="text/javascript">
 
+$('#codpes').on('keypress', function() { 
+    if ($('#codpes').val().length > 8) {
+        $.get("busca/" + $('#codpes').val(), function(data) {
+            $('#alunos').empty();
+            $.each(data, function(i, value) {
+                var tr = $("<tr onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
+                    tr.append($("<td/>", {
+                    text : value.nompes
+                }))
+                $('#alunos').append(tr);
+                console.log(tr);
+            });
+        })
+    }
+})
+
+</script>
 @stop

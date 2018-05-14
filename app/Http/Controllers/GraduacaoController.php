@@ -63,8 +63,7 @@ class GraduacaoController extends Controller
     # Ajax Busca alunos ativos com parte do nome e preenche o campo Nº USP com o codpes
     public function buscaAlunos($parteNome)
     {
-        $strFiltro = "AND PESSOA.nompes LIKE '%$parteNome%'";
-        $alunos = Graduacao::ativos($this->repUnd, $strFiltro);
+        $alunos = Graduacao::ativos($this->repUnd, $parteNome);
         return response($alunos);
     }
 }
