@@ -54,6 +54,10 @@
                   				<th>Ano de ingresso</td>
                   				<td>{{ Carbon\Carbon::parse($graduacaoCurso['dtainivin'])->format('Y') }}</td>
                 			</tr>
+                			<tr>
+                  				<th>Programa</td>
+                  				<td>{{ $graduacaoPrograma['codpgm'] }}</td>
+                			</tr>
               			</table>
             		</div>
           		</div>
