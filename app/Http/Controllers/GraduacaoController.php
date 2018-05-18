@@ -25,6 +25,7 @@ class GraduacaoController extends Controller
         // É aluno de graduação ATIVO da unidade? 
         if (Graduacao::verifica($request->codpes, $this->repUnd)) {
             // Retorna os dados acadêmicos
+	    $graduacaoPrograma = Graduacao::programa($request->codpes);
             $graduacaoCurso = Graduacao::curso($request->codpes, $this->repUnd);
         } else {
             $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade."; 
@@ -32,7 +33,7 @@ class GraduacaoController extends Controller
             return redirect('/busca');
         }
 
-        return view('graduacao.busca', compact('graduacaoCurso'));
+        return view('graduacao.busca', compact('graduacaoCurso'), compact('graduacaoPrograma'));
     }
 
     public function creditos()
