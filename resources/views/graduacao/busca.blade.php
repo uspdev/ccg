@@ -7,7 +7,16 @@
 @stop
 
 @section('content')
-    
+   
+    <style>
+        #alunos tr:hover {
+            background-color: #f39c12;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+
     @include('flash')
 
     <div class="box box-primary">
@@ -87,23 +96,19 @@
 
 @section('js')
 
-<script type="text/javascript">
-
-$('#codpes').on('keypress', function() { 
-    if ($('#codpes').val().length > 5) {
-        $.get("busca/" + $('#codpes').val(), function(data) {
-            $('#alunos').empty();
-            $.each(data, function(i, value) {
-                var tr = $("<tr onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
-                    tr.append($("<td/>", {
-                    text : value.nompes
-                }))
-                $('#alunos').append(tr);
-                console.log(tr);
-            });
+    <script type="text/javascript">
+        $('#codpes').on('keypress', function() {
+            $.get("busca/" + $('#codpes').val(), function(data) {
+                $('#alunos').empty();
+                $.each(data, function(i, value) {
+                    var tr = $("<tr title='Clique para ver as informações de " + value.nompes + "' onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
+                        tr.append($("<td/>", {
+                            text : value.nompes
+                        }))
+                    $('#alunos').append(tr);
+                });
+            })
         })
-    }
-})
+    </script>
 
-</script>
 @stop
