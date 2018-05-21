@@ -97,6 +97,15 @@
 @section('js')
 
     <script type="text/javascript">
+        $(document).ready(function() {
+                $(window).keydown(function(event){
+                if((event.keyCode == 13)) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+        
         $('#codpes').on('keypress', function() {
             if ($('#codpes').val().length >= 3) {
                 $.get("busca/" + $('#codpes').val(), function(data) {
