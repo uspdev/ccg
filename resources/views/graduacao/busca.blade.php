@@ -97,17 +97,28 @@
 @section('js')
 
     <script type="text/javascript">
+        $(document).ready(function() {
+                $(window).keydown(function(event){
+                if((event.keyCode == 13)) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+        });
+        
         $('#codpes').on('keypress', function() {
-            $.get("busca/" + $('#codpes').val(), function(data) {
-                $('#alunos').empty();
-                $.each(data, function(i, value) {
-                    var tr = $("<tr title='Clique para ver as informações de " + value.nompes + "' onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
-                        tr.append($("<td/>", {
-                            text : value.nompes
-                        }))
-                    $('#alunos').append(tr);
-                });
-            })
+            if ($('#codpes').val().length >= 3) {
+                $.get("busca/" + $('#codpes').val(), function(data) {
+                	$('#alunos').empty();
+                	$.each(data, function(i, value) {
+                    	var tr = $("<tr title='Clique para ver as informações de " + value.nompes + "' onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
+                        	tr.append($("<td/>", {
+                            	text : value.nompes
+                        	}))
+                    	$('#alunos').append(tr);
+                	});
+            	}) 
+            }
         })
     </script>
 
