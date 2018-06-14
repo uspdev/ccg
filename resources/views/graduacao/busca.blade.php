@@ -25,7 +25,11 @@
             <div class="box-body">
                 <div class="form-group">
                     <label for="codpes">Nº USP</label>
-                    <input type="text" class="form-control" id="codpes" name="codpes" placeholder="Nº USP ou Parte do Nome" required>
+                    <input type="text" class="form-control" id="codpes" name="codpes" placeholder="Nº USP" pattern="\d+" required>
+                </div>
+                <div class="form-group">
+                    <label for="parteNome">Nome</label>
+                    <input type="text" class="form-control" id="parteNome" name="parteNome" placeholder="Parte do Nome">
                     <table class="table table-striped table-hover"><tbody id="alunos"></tbody></table>
                 </div>
             </div>
@@ -47,6 +51,7 @@
             <div class="tab-pane active" id="tab_1">
           		<div class="box-primary">
             		<div class="box-header">
+                        <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ foto }}" alt="{{ $graduacaoCurso['nompes'] }}" />
               			<h3 class="box-title">{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h3>
             		</div>
             		<div class="box-body table-responsive no-padding">
@@ -106,9 +111,9 @@
             });
         });
         
-        $('#codpes').on('keypress', function() {
-            if ($('#codpes').val().length >= 3) {
-                $.get("busca/" + $('#codpes').val(), function(data) {
+        $('#parteNome').on('keypress', function() {
+            if ($('#parteNome').val().length >= 3) {
+                $.get("busca/" + $('#parteNome').val(), function(data) {
                 	$('#alunos').empty();
                 	$.each(data, function(i, value) {
                     	var tr = $("<tr title='Clique para ver as informações de " + value.nompes + "' onclick=$('#codpes').val(" + value.codpes + ");$('#alunos').empty();$('#busca').submit(); />");
