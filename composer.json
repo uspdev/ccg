@@ -59,10 +59,6 @@
         "sort-packages": true,
         "optimize-autoloader": true
     },
-    "repositories": {
-        "replicado": {
-            "type": "git",
-            "url": "https://github.com/uspdev/replicado.git"
-        }
-    }
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
