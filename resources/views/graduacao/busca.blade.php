@@ -51,6 +51,7 @@
             <div class="tab-pane active" id="tab_1">
           		<div class="box-primary">
             		<div class="box-header">
+                        <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ foto }}" alt="{{ $graduacaoCurso['nompes'] }}" />
               			<h3 class="box-title">{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h3>
             		</div>
             		<div class="box-body table-responsive no-padding">
