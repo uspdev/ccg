@@ -7,6 +7,7 @@ use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
 use Carbon;
 use Uspdev\Wsfoto;
+use Auth;
 
 class GraduacaoController extends Controller
 {
@@ -18,7 +19,9 @@ class GraduacaoController extends Controller
     
     public function busca()
     {
-        return view('graduacao.busca');
+        $wsFotoUser = array('foto' => Wsfoto::obter(Auth::user()->id));
+
+        return view('graduacao.busca', compact('wsFotoUser'));
     }
     
     public function buscaReplicado(Request $request)
@@ -28,14 +31,18 @@ class GraduacaoController extends Controller
             // Retorna os dados acadêmicos
 	        $graduacaoPrograma = Graduacao::programa($request->codpes);
             $graduacaoCurso = Graduacao::curso($request->codpes, $this->repUnd);
-            $wsFoto = array('foto' => Wsfoto::obter($request->codpes));    
+            $wsFoto = array('foto' => Wsfoto::obter($request->codpes)); 
+            $wsFotoUser = array('foto' => Wsfoto::obter(Auth::user()->id));
+            
+            return view('graduacao.busca', compact('wsFoto', 'graduacaoCurso', 'graduacaoPrograma', 'wsFotoUser'));
         } else {
             $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade."; 
             $request->session()->flash('alert-danger', $msg);
+            
             return redirect('/busca');
         }
 
-        return view('graduacao.busca', compact('wsFoto', 'graduacaoCurso', 'graduacaoPrograma'));
+        return view('graduacao.busca', compact('graduacaoCurso', 'graduacaoPrograma'));
     }
 
     public function creditos()
@@ -44,12 +51,14 @@ class GraduacaoController extends Controller
         if ($gate === 'secretaria') {
             $graduacaoCurso = Graduacao::curso(env('CODPES_ALUNO'), $this->repUnd); #desenvolvimento
             $wsFoto = array('foto' => Wsfoto::obter(env('CODPES_ALUNO')));
+            $wsFotoUser = array('foto' => Wsfoto::obter(Auth::user()->id));
         } else {
             $graduacaoCurso = Graduacao::curso(Auth::user()->id, $this->repUnd); #produção
             $wsFoto = array('foto' => Wsfoto::obter(Auth::user()->id));
+            $wsFotoUser = array('foto' => Wsfoto::obter(Auth::user()->id));
         }
         
-        return view('aluno.creditos', compact('graduacaoCurso', 'gate', 'wsFoto'));
+        return view('aluno.creditos', compact('graduacaoCurso', 'gate', 'wsFoto', 'wsFotoUser'));
     }
 
     # Retorna o Gate
