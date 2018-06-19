@@ -52,6 +52,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
             - Em desenvolvimento: setar APP_ENV como dev e setar COPES_ALUNO com o Nº USP do aluno
             - Em produção: setar APP_ENV como prd e deixar CODPES_ALUNO em branco
         - Código da unidade local
+        - Credenciais do wsfoto
     - php artisan key:generate
     - php artisan migrate
     - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
@@ -64,6 +65,7 @@ Caso falte alguma dependência, siga as instruções do `composer`.
     - github: uspdev/replicado
     - github: jeroennoten/Laravel-AdminLTE
     - github: uspdev/senhaunica-socialite
+    - github: uspdev/wsfoto
     - gitlab: uspdev/replicado_queries
 
 ## Contribuindo com o projeto

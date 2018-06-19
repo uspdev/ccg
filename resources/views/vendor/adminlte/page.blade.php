@@ -59,13 +59,14 @@
                     <ul class="nav navbar-nav">
                         <li>
                             @auth
-                                <a href="/logout"
-                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                >
-                                {{ Auth::user()->id }} - {{ Auth::user()->name }}
+                                <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <img class="img-circle" src="data: image/jpeg; base64, {{ $wsFotoUser['foto'] }}" 
+                                        alt="{{ Auth::user()->name }}" style="width: 13px;" />&nbsp;
+                                    {{ Auth::user()->id }} - {{ Auth::user()->name }}
                                     <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
                                 </a>
-                                <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" method="POST" style="display: none;">
+                                <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" 
+                                    method="POST" style="display: none;">
                                     @if(config('adminlte.logout_method'))
                                         {{ method_field(config('adminlte.logout_method')) }}
                                     @endif
@@ -91,6 +92,15 @@
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
+
+                @auth 
+                    <!-- User info -->
+                    <div class="box-body box-profile">
+                        <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ $wsFotoUser['foto'] }}" 
+                            alt="{{ Auth::user()->name }}" />
+                        <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
+                    </div>
+                @endauth
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu" data-widget="tree">
