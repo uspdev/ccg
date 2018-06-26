@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DisciplinasObrigatoria extends Model
 {
+    protected $table = 'DisciplinasObrigatorias';
+    
     public function curriculo()
     {
         return $this->belongsTo('App\Curriculo');

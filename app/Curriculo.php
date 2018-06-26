@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Curriculo extends Model
 {
+    protected $table = 'Curriculos';
+
     public function disciplinasOptativasEletivas()
     {
         return $this->hasMany('App\DisciplinasOptativasEletiva');
