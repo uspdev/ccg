@@ -131,7 +131,7 @@ return [
         ],
         [
             'text' => 'Currículo',
-            'url'  => 'curriculo',
+            'url'  => 'curriculos',
             'icon' => 'institution',
             'can'  => 'secretaria', 
         ],
