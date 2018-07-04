@@ -60,7 +60,7 @@
                         <li>
                             @auth
                                 <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <img class="img-circle" src="data: image/jpeg; base64, {{ $wsFotoUser['foto'] }}" 
+                                    <img class="img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
                                         alt="{{ Auth::user()->name }}" style="width: 13px;" />&nbsp;
                                     {{ Auth::user()->id }} - {{ Auth::user()->name }}
                                     <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
@@ -96,7 +96,7 @@
                 @auth 
                     <!-- User info -->
                     <div class="box-body box-profile">
-                        <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ $wsFotoUser['foto'] }}" 
+                        <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
                             alt="{{ Auth::user()->name }}" />
                         <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
                     </div>
