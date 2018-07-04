@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Curriculo;
 use Illuminate\Http\Request;
-use Uspdev\Wsfoto;
 use Auth;
 
 class CurriculoController extends Controller
@@ -21,10 +20,9 @@ class CurriculoController extends Controller
      */
     public function index()
     {
-        $wsFotoUser = array('foto' => Wsfoto::obter(Auth::user()->id));
         $curriculos = Curriculo::all();
         
-        return view('curriculos.index', compact('curriculos', 'wsFotoUser'));
+        return view('curriculos.index', compact('curriculos'));
     }
 
     /**
