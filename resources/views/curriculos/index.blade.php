@@ -37,18 +37,24 @@
                         <td>{{ $curriculo->codhab }} - {{ Uspdev\Replicado\Graduacao::nomeHabilitacao($curriculo->codhab, $curriculo->codcur) }}</td>
                         <td>{{ Carbon\Carbon::parse($curriculo->dtainicrl)->format('Y') }}</td>
                         <td>
-                            <button type="button" class="btn btn-info btn-xs" title="Ver Currículo">
+                            <form role="form" method="POST" action="/curriculos/{{ $curriculo->id }}">
+                            {{ csrf_field() }}
+                            {{ method_field('delete') }}
+                            <button type="button" class="btn btn-info btn-xs" 
+                                onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                            </button> 
-                            <button type="button" class="btn btn-primary btn-xs" title="Editar Currículo">
-                                <span class="glyphicon glyphicon-pencil"></span>
                             </button>
+                            <button type="button" class="btn btn-primary btn-xs" 
+                                onclick='location.href="#";' title="Editar Currículo">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>                            
                             <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
-                            <button type="button" class="btn btn-danger btn-xs" title="Apagar Currículo">
+                            <button type="submit" class="btn btn-danger btn-xs" title="Apagar Currículo">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
+                            </form>
                         </td>
                     </tr>
                 

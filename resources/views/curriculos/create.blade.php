@@ -11,11 +11,14 @@
     @include('flash')
 
     <div class="box box-primary">
-        <form role="form">
+        <form role="form" method="POST" action="/curriculos">
+
+            {{ csrf_field() }}
+
             <div class="box-body">
                 <div class="form-group">
                     <label>Curso</label>
-                    <select class="form-control select2" style="width: 100%;" id="codcur" required>
+                    <select class="form-control select2" style="width: 100%;" id="codcur" name="codcur" required>
                         <option></option>                      
                         @foreach ($cursos as $curso)
                             <option value="{{ $curso['codcur'] }}">{{ $curso['codcur'] }} - {{ $curso['nomcur'] }}</option>
@@ -24,7 +27,7 @@
                 </div>              
                 <div class="form-group">
                     <label>Habilitação</label>
-                    <select class="form-control select2" style="width: 100%;" id="codhab" required>
+                    <select class="form-control select2" style="width: 100%;" id="codhab" name="codhab" required>
                         <option></option>
                         @foreach ($habilitacoes as $habilitacao)
                             <option value="{{ $habilitacao['codhab'] }}">{{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
@@ -32,12 +35,14 @@
                     </select>
                 </div> 
                 <div class="form-group">
-                    <label for="numcrediselt">Nº de créditos exigidos em displinas optativas eletivas</label>
-                    <input class="form-control" id="numcrediselt" placeholder="Nº de créditos exigidos em displinas optativas eletivas" type="text" required>
+                    <label for="numcredisoptelt">Nº de créditos exigidos em displinas optativas eletivas</label>
+                    <input class="form-control" id="numcredisoptelt" name="numcredisoptelt" 
+                        placeholder="Nº de créditos exigidos em displinas optativas eletivas" type="text" required>
                 </div>
                 <div class="form-group">
                     <label for="numcredisoptliv">Nº de créditos exigidos em displinas optativas livres</label>
-                    <input class="form-control" id="numcredisoptliv" placeholder="Nº de créditos exigidos em displinas optativas livres" type="text" required>
+                    <input class="form-control" id="numcredisoptliv" name="numcredisoptliv" 
+                        placeholder="Nº de créditos exigidos em displinas optativas livres" type="text" required>
                 </div>
                 <div class="form-group">
                     <label for="dtainicrl">Ano de ingresso</label>
@@ -45,7 +50,8 @@
                         <div class="input-group-addon">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input class="form-control datepicker" data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" type="text" required>
+                        <input id="dtainicrl" name="dtainicrl" class="form-control datepicker" 
+                            data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" type="text" required>
                     </div>
                 </div>
 
