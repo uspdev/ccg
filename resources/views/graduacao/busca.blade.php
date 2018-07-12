@@ -7,15 +7,6 @@
 @stop
 
 @section('content')
-   
-    <style>
-        #alunos tr:hover {
-            background-color: #f39c12;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
 
     @include('flash')
 

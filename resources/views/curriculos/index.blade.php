@@ -8,15 +8,6 @@
 
 @section('content')
 
-    <style>
-        #curriculos tr:hover {
-            background-color: #f39c12;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-
     @include('flash')
 
     <div class="box box-primary">
@@ -25,7 +16,7 @@
                 <thead>
                     <tr>
                         <th colspan="4">
-                            <button type="button" class="btn btn-success" title="Adicionar Currículo">
+                            <button type="button" class="btn btn-success btn-sm" title="Adicionar Currículo" onclick="location.href='curriculos/create';">
                                 <span class="glyphicon glyphicon-plus"></span> Adicionar Currículo
                             </button>                             
                         </th>
@@ -67,7 +58,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="4">
-                            <button type="button" class="btn btn-success" title="Adicionar Currículo">
+                            <button type="button" class="btn btn-success btn-sm" title="Adicionar Currículo" onclick="location.href='curriculos/create';">
                                 <span class="glyphicon glyphicon-plus"></span> Adicionar Currículo
                             </button>                             
                         </th>
@@ -82,10 +73,6 @@
             </table>
         </div>  
     </div>
-
-    @if (isset($curriculos))
-
-    @endif
 
 @stop
 

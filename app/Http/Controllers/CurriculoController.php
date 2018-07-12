@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Curriculo;
 use Illuminate\Http\Request;
 use Auth;
+use Uspdev\Replicado\Connection;
+use Uspdev\Replicado\Graduacao;
 
 class CurriculoController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->repUnd = env('REPLICADO_CODUND');
     }
         
     /**
@@ -32,7 +35,23 @@ class CurriculoController extends Controller
      */
     public function create()
     {
-        //
+        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes($this->repUnd);
+        
+        $cursos = array();
+        foreach ($cursosHabilitacoes as $curso) {
+            if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
+                array_push($cursos, array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']));
+            }
+        }
+
+        $habilitacoes = array();
+        foreach ($cursosHabilitacoes as $habilitacao) {
+            if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
+                array_push($habilitacoes, array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']));
+            }    
+        }
+
+        return view('curriculos.create', compact('cursos', 'habilitacoes'));
     }
 
     /**
