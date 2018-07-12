@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use App\Curriculo;
 use Illuminate\Http\Request;
 use Auth;
+use Uspdev\Replicado\Connection;
+use Uspdev\Replicado\Graduacao;
+use Carbon\Carbon;
 
 class CurriculoController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
+        $this->repUnd = env('REPLICADO_CODUND');
     }
         
     /**
@@ -32,7 +36,23 @@ class CurriculoController extends Controller
      */
     public function create()
     {
-        //
+        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes($this->repUnd);
+        
+        $cursos = array();
+        foreach ($cursosHabilitacoes as $curso) {
+            if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
+                array_push($cursos, array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']));
+            }
+        }
+
+        $habilitacoes = array();
+        foreach ($cursosHabilitacoes as $habilitacao) {
+            if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
+                array_push($habilitacoes, array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']));
+            }    
+        }
+
+        return view('curriculos.create', compact('cursos', 'habilitacoes'));
     }
 
     /**
@@ -43,7 +63,17 @@ class CurriculoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $curriculo = new Curriculo;
+        $curriculo->codcur = $request->codcur;
+        $curriculo->codhab = $request->codhab;
+        $curriculo->numcredisoptelt = $request->numcredisoptelt;
+        $curriculo->numcredisoptliv = $request->numcredisoptliv;
+        $curriculo->dtainicrl = Carbon::parse($request->dtainicrl);
+        $curriculo->save();
+
+        $request->session()->flash('alert-success', 'Curriculo cadastrado com sucesso!');
+        return redirect('/curriculos');
     }
 
     /**
@@ -52,9 +82,9 @@ class CurriculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Curriculo $curriculo)
     {
-        //
+        return view('curriculos.show', compact('curriculo'));
     }
 
     /**
@@ -86,8 +116,10 @@ class CurriculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Curriculo $curriculo, Request $request)
     {
-        //
+        $curriculo->delete();
+        $request->session()->flash('alert-danger', 'Curriculo apagado!');
+        return redirect('/curriculos');
     }
 }

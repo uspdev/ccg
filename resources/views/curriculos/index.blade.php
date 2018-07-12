@@ -8,15 +8,6 @@
 
 @section('content')
 
-    <style>
-        #curriculos tr:hover {
-            background-color: #f39c12;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
-
     @include('flash')
 
     <div class="box box-primary">
@@ -25,7 +16,7 @@
                 <thead>
                     <tr>
                         <th colspan="4">
-                            <button type="button" class="btn btn-success" title="Adicionar Currículo">
+                            <button type="button" class="btn btn-success btn-sm" title="Adicionar Currículo" onclick="location.href='curriculos/create';">
                                 <span class="glyphicon glyphicon-plus"></span> Adicionar Currículo
                             </button>                             
                         </th>
@@ -46,18 +37,24 @@
                         <td>{{ $curriculo->codhab }} - {{ Uspdev\Replicado\Graduacao::nomeHabilitacao($curriculo->codhab, $curriculo->codcur) }}</td>
                         <td>{{ Carbon\Carbon::parse($curriculo->dtainicrl)->format('Y') }}</td>
                         <td>
-                            <button type="button" class="btn btn-info btn-xs" title="Ver Currículo">
+                            <form role="form" method="POST" action="/curriculos/{{ $curriculo->id }}">
+                            {{ csrf_field() }}
+                            {{ method_field('delete') }}
+                            <button type="button" class="btn btn-info btn-xs" 
+                                onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                            </button> 
-                            <button type="button" class="btn btn-primary btn-xs" title="Editar Currículo">
-                                <span class="glyphicon glyphicon-pencil"></span>
                             </button>
+                            <button type="button" class="btn btn-primary btn-xs" 
+                                onclick='location.href="#";' title="Editar Currículo">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </button>                            
                             <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </button>
-                            <button type="button" class="btn btn-danger btn-xs" title="Apagar Currículo">
+                            <button type="submit" class="btn btn-danger btn-xs" title="Apagar Currículo">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
+                            </form>
                         </td>
                     </tr>
                 
@@ -67,7 +64,7 @@
                 <tfoot>
                     <tr>
                         <th colspan="4">
-                            <button type="button" class="btn btn-success" title="Adicionar Currículo">
+                            <button type="button" class="btn btn-success btn-sm" title="Adicionar Currículo" onclick="location.href='curriculos/create';">
                                 <span class="glyphicon glyphicon-plus"></span> Adicionar Currículo
                             </button>                             
                         </th>
@@ -82,10 +79,6 @@
             </table>
         </div>  
     </div>
-
-    @if (isset($curriculos))
-
-    @endif
 
 @stop
 
