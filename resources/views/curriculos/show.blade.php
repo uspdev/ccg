@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Currículo - ' . $curriculo['id'])
+@section('title', env('APP_NAME') . ' - Currículo ' . $curriculo['id'])
 
 @section('content_header')
-<h1>Currículo - {{ $curriculo['id'] }}</h1>
+<h1>Currículo {{ $curriculo['id'] }}</h1>
 @stop
 
 @section('content')
@@ -44,7 +44,7 @@
                                         <tr>
                                             <th colspan="2">
                                                 <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" onclick="location.href='';">
-                                                    <span class="glyphicon glyphicon-plus"></span> Adicionar Disciplina Obrigatória
+                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória
                                                 </button>                             
                                             </th>
                                         </tr>                                 
@@ -70,7 +70,7 @@
                                         <tr>
                                             <th colspan="2">
                                                 <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" onclick="location.href='';">
-                                                    <span class="glyphicon glyphicon-plus"></span> Adicionar Disciplina Optativa Eletiva
+                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Optativa Eletiva
                                                 </button>                             
                                             </th>
                                         </tr>                                  
@@ -96,7 +96,7 @@
                                         <tr>
                                             <th colspan="2">
                                                 <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" onclick="location.href='';">
-                                                    <span class="glyphicon glyphicon-plus"></span> Adicionar Disciplina Licenciaturas (Faculdade de Educação)
+                                                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
                                                 </button>                             
                                             </th>
                                         </tr>                                  
@@ -117,6 +117,14 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td colspan="2">
+                        <button type="button" class="btn btn-primary btn-sm" title="Editar" 
+                            onclick="location.href='/curriculos/{{ $curriculo['id'] }}/edit';">
+                            <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;Editar Currículo
+                        </button>  
+                    </td>
+                </tr> 
             </table>
         </div>
     </div>

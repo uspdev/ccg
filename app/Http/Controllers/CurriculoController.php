@@ -52,7 +52,7 @@ class CurriculoController extends Controller
             }    
         }
 
-        return view('curriculos.create', compact('cursos', 'habilitacoes'));
+        return view('curriculos.create', compact('cursos', 'habilitacoes', 'cursosHabilitacoes'));
     }
 
     /**
@@ -93,9 +93,25 @@ class CurriculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Curriculo $curriculo)
     {
-        //
+        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes($this->repUnd);
+        
+        $cursos = array();
+        foreach ($cursosHabilitacoes as $curso) {
+            if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
+                array_push($cursos, array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']));
+            }
+        }
+
+        $habilitacoes = array();
+        foreach ($cursosHabilitacoes as $habilitacao) {
+            if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
+                array_push($habilitacoes, array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']));
+            }    
+        }
+
+        return view('curriculos.edit', compact('curriculo', 'cursos', 'habilitacoes', 'cursosHabilitacoes'));
     }
 
     /**
@@ -105,9 +121,17 @@ class CurriculoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Curriculo $curriculo)
     {
-        //
+        $curriculo->codcur = $request->codcur;
+        $curriculo->codhab = $request->codhab;
+        $curriculo->numcredisoptelt = $request->numcredisoptelt;
+        $curriculo->numcredisoptliv = $request->numcredisoptliv;
+        $curriculo->dtainicrl = Carbon::parse($request->dtainicrl);
+        $curriculo->save();
+
+        $request->session()->flash('alert-success', 'Curriculo salvo com sucesso!');
+        return redirect("/curriculos/$curriculo->id");
     }
 
     /**

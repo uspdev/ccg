@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Currículos - Adicionar Currículo')
+@section('title', env('APP_NAME') . ' - Currículos - Editar Currículo ' . $curriculo['id'])
 
 @section('content_header')
-    <h1>Adicionar Currículo</h1>
+    <h1>Editar Currículo {{ $curriculo['id'] }}</h1>
 @stop
 
 @section('content')
@@ -11,38 +11,47 @@
     @include('flash')
 
     <div class="box box-primary">
-        <form role="form" method="POST" action="/curriculos">
+        <form role="form" method="POST" action="/curriculos/{{ $curriculo['id'] }}">
 
             {{ csrf_field() }}
+            {{ method_field('patch') }}
 
             <div class="box-body">
                 <div class="form-group">
                     <label>Curso</label>
-                    <select class="form-control select2" style="width: 100%;" id="codcur" name="codcur" required>
-                        <option></option>                      
+                    <select class="form-control select2" style="width: 100%;" id="codcur" name="codcur" required>                   
                         @foreach ($cursos as $curso)
-                            <option value="{{ $curso['codcur'] }}">{{ $curso['codcur'] }} - {{ $curso['nomcur'] }}</option>
+                            @if ($curso['codcur'] === $curriculo['codcur'])
+                                <option value="{{ $curso['codcur'] }}" selected>{{ $curso['codcur'] }} - {{ $curso['nomcur'] }}</option>
+                            @else 
+                                <option value="{{ $curso['codcur'] }}">{{ $curso['codcur'] }} - {{ $curso['nomcur'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>              
                 <div class="form-group">
                     <label>Habilitação</label>
                     <select class="form-control select2" style="width: 100%;" id="codhab" name="codhab" required>
-                        <option></option>
-                        @foreach ($cursosHabilitacoes as $habilitacao)
-                            <option value="{{ $habilitacao['codhab'] }}">{{ $habilitacao['codcur'] }} - {{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
+                        @foreach ($habilitacoes as $habilitacao)
+                            @if ($habilitacao['codhab'] === $curriculo['codhab'] and $habilitacao['codcur'] === $curriculo['codcur'])
+                                <option value="{{ $habilitacao['codhab'] }}" selected>{{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
+                            @else 
+                                <option value="{{ $habilitacao['codhab'] }}">{{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div> 
                 <div class="form-group">
                     <label for="numcredisoptelt">Nº de créditos exigidos em displinas optativas eletivas</label>
-                    <input class="form-control" id="numcredisoptelt" name="numcredisoptelt" pattern="\d*"  
-                        placeholder="Nº de créditos exigidos em displinas optativas eletivas" type="text" required>
+                    <input class="form-control" id="numcredisoptelt" name="numcredisoptelt" pattern="\d*" 
+                        value="{{ $curriculo['numcredisoptelt'] }}" placeholder="Nº de créditos exigidos em displinas optativas eletivas" 
+                        type="text" required>
                 </div>
                 <div class="form-group">
                     <label for="numcredisoptliv">Nº de créditos exigidos em displinas optativas livres</label>
                     <input class="form-control" id="numcredisoptliv" name="numcredisoptliv"  pattern="\d*" 
-                        placeholder="Nº de créditos exigidos em displinas optativas livres" type="text" required>
+                        value="{{ $curriculo['numcredisoptliv'] }}" placeholder="Nº de créditos exigidos em displinas optativas livres" 
+                        type="text" required>
                 </div>
                 <div class="form-group">
                     <label for="dtainicrl">Ano de ingresso</label>
@@ -51,6 +60,7 @@
                             <i class="fa fa-calendar"></i>
                         </div>
                         <input id="dtainicrl" name="dtainicrl" class="form-control datepicker" 
+                            value="{{ Carbon\Carbon::parse($curriculo['dtainicrl'])->format('d/m/Y') }}"
                             data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" type="text" required>
                     </div>
                 </div>
