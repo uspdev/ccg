@@ -17,7 +17,7 @@
                     <tr>
                         <th colspan="4">
                             <button type="button" class="btn btn-success btn-sm" title="Adicionar Currículo" onclick="location.href='curriculos/create';">
-                                <span class="glyphicon glyphicon-plus"></span> Adicionar Currículo
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Currículo
                             </button>                             
                         </th>
                     </tr>                    
@@ -45,7 +45,7 @@
                                 <span class="glyphicon glyphicon-eye-open"></span>
                             </button>
                             <button type="button" class="btn btn-primary btn-xs" 
-                                onclick='location.href="#";' title="Editar Currículo">
+                                onclick='location.href="/curriculos/{{ $curriculo->id }}/edit";' title="Editar Currículo">
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </button>                            
                             <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
