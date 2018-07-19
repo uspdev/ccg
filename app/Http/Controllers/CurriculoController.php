@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Curriculo;
 use App\DisciplinasObrigatoria;
+use App\DisciplinasOptativasEletiva;
 use Illuminate\Http\Request;
 use Auth;
 use Uspdev\Replicado\Connection;
@@ -86,8 +87,13 @@ class CurriculoController extends Controller
     public function show(Curriculo $curriculo)
     {
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get();
         
-        return view('curriculos.show', compact('curriculo', 'disciplinasObrigatorias'));
+        return view('curriculos.show', compact(
+            'curriculo', 
+            'disciplinasObrigatorias', 
+            'disciplinasOptativasEletivas'
+        ));
     }
 
     /**
@@ -99,6 +105,7 @@ class CurriculoController extends Controller
     public function edit(Curriculo $curriculo)
     {
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get();
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes($this->repUnd);
         
         $cursos = array();
@@ -120,7 +127,8 @@ class CurriculoController extends Controller
             'cursos', 
             'habilitacoes', 
             'cursosHabilitacoes',
-            'disciplinasObrigatorias'
+            'disciplinasObrigatorias',
+            'disciplinasOptativasEletivas'
         ));
     }
 

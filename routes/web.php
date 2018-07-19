@@ -26,3 +26,9 @@ Route::resource('curriculos', 'CurriculoController');
 Route::get('disciplinasObrigatorias/create/{curriculo}', 'DisciplinasObrigatoriaController@create');
 Route::post('disciplinasObrigatorias/create/{curriculo}', 'DisciplinasObrigatoriaController@store');
 Route::delete('disciplinasObrigatorias/{disciplinasObrigatoria}', 'DisciplinasObrigatoriaController@destroy');
+
+# disciplinas optativas eletivas
+# Route::resource('disciplinasOptativasEletivas', 'DisciplinasOptativasEletivaController');
+Route::get('disciplinasOptativasEletivas/create/{curriculo}', 'DisciplinasOptativasEletivaController@create');
+Route::post('disciplinasOptativasEletivas/create/{curriculo}', 'DisciplinasOptativasEletivaController@store');
+Route::delete('disciplinasOptativasEletivas/{disciplinasOptativasEletiva}', 'DisciplinasOptativasEletivaController@destroy');
