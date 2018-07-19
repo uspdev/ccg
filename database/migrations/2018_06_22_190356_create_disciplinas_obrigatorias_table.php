@@ -17,6 +17,7 @@ class CreateDisciplinasObrigatoriasTable extends Migration
             $table->increments('id');
             $table->integer('id_crl')->unsigned();
             $table->string('coddis');
+            $table->unique(array('coddis', 'id_crl'));
             $table->timestamps();
 
             $table->foreign('id_crl')->references('id')->on('Curriculos')->onDelete('cascade');

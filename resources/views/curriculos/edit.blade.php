@@ -21,7 +21,7 @@
                     <label>Curso</label>
                     <select class="form-control select2" style="width: 100%;" id="codcur" name="codcur" required>                   
                         @foreach ($cursos as $curso)
-                            @if ($curso['codcur'] === $curriculo['codcur'])
+                            @if ($curso['codcur'] == $curriculo['codcur'])
                                 <option value="{{ $curso['codcur'] }}" selected>{{ $curso['codcur'] }} - {{ $curso['nomcur'] }}</option>
                             @else 
                                 <option value="{{ $curso['codcur'] }}">{{ $curso['codcur'] }} - {{ $curso['nomcur'] }}</option>
@@ -32,11 +32,11 @@
                 <div class="form-group">
                     <label>Habilitação</label>
                     <select class="form-control select2" style="width: 100%;" id="codhab" name="codhab" required>
-                        @foreach ($habilitacoes as $habilitacao)
-                            @if ($habilitacao['codhab'] === $curriculo['codhab'] and $habilitacao['codcur'] === $curriculo['codcur'])
-                                <option value="{{ $habilitacao['codhab'] }}" selected>{{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
+                        @foreach ($cursosHabilitacoes as $habilitacao)
+                            @if ($habilitacao['codhab'] == $curriculo['codhab'] and $habilitacao['codcur'] == $curriculo['codcur'])
+                                <option value="{{ $habilitacao['codhab'] }}" selected>{{ $habilitacao['codcur'] }} - {{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
                             @else 
-                                <option value="{{ $habilitacao['codhab'] }}">{{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
+                                <option value="{{ $habilitacao['codhab'] }}">{{ $habilitacao['codcur'] }} - {{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
                             @endif
                         @endforeach
                     </select>
@@ -65,6 +65,98 @@
                     </div>
                 </div>
             </div>
+            <div style="border: 1px solid #ccc; padding: 5px; margin-left: 10px; margin-right: 10px;" id="disciplinas">
+                <div class="box-body table-responsive no-padding">
+                    <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" 
+                        onclick="location.href='/disciplinasObrigatorias/create/{{ $curriculo['id'] }}';">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória
+                    </button>  
+                    <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" onclick="location.href='';">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Optativa Eletiva
+                    </button>  
+                    <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" onclick="location.href='';">
+                        <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
+                    </button>                      
+                    <table class="table table-hover table-striped datatable">
+                        <thead>
+                            <tr>
+                                <th colspan="2"></th>
+                            </tr>                                          
+                        </thead>                        
+                        <tbody>                                
+                            <tr>
+                                <td colspan="2"><label>Diciplinas Obrigatórias</label></td>
+                            </tr>                             
+                            @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
+                                <tr>
+                                    <td>{{ $disciplinasObrigatoria['coddis'] }} - 
+                                        {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
+                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" title="Apagar disciplina">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>                                        
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>                    
+                    </table>
+                    <table class="table table-hover table-striped datatable">
+                        <thead>
+                            <tr>
+                                <th colspan="2"></th>
+                            </tr>                                          
+                        </thead>                        
+                        <tbody>                                
+                            <tr>
+                                <td colspan="2"><label>Diciplinas Optativas Eletivas</label></td>
+                            </tr>                             
+                            @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
+                                <tr>
+                                    <td>{{ $disciplinasObrigatoria['coddis'] }} - 
+                                        {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
+                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" title="Apagar disciplina">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>                                        
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>                    
+                    </table>  
+                    <table class="table table-hover table-striped datatable">
+                        <thead>
+                            <tr>
+                                <th colspan="2"></th>
+                            </tr>                                          
+                        </thead>                        
+                        <tbody>                                
+                            <tr>
+                                <td colspan="2"><label>Diciplinas Licenciaturas (Faculdade de Educação)</label></td>
+                            </tr>                             
+                            @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
+                                <tr>
+                                    <td>{{ $disciplinasObrigatoria['coddis'] }} - 
+                                        {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
+                                            <span class="glyphicon glyphicon-list-alt"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" title="Apagar disciplina">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button>                                        
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>                    
+                    </table>                                       
+                </div>                    
+            </div>
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Salvar</button>
             </div>
@@ -74,23 +166,39 @@
 @stop
 
 @section('js')
-
+    
     <script type="text/javascript">
-    $(function () {
-        //Initialize Select2 Elements
-        $(".select2").select2({
-            placeholder:    "Selecione",
-            allowClear:     true
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2({
+                placeholder:    "Selecione",
+                allowClear:     true
+            });
+            
+            //Datepicker
+            $('.datepicker').datepicker({
+                format:         "dd/mm/yyyy",
+                viewMode:       "years", 
+                minViewMode:    "years",
+                autoclose:      true
+            });
+
+            // DataTables
+            $('.datatable').DataTable({
+                language    : {
+                    url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+                },  
+                paging      : true,
+                lengthChange: true,
+                searching   : true,
+                ordering    : true,
+                info        : true,
+                autoWidth   : true,
+                pageLength  : 10
+            });
+
         });
-        
-        //Datepicker
-        $(".datepicker").datepicker({
-            format:         "dd/mm/yyyy",
-            viewMode:       "years", 
-            minViewMode:    "years",
-            autoclose:      true
-        });
-    })
+
     </script>
 
 @stop

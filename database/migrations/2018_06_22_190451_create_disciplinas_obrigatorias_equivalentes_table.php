@@ -17,6 +17,7 @@ class CreateDisciplinasObrigatoriasEquivalentesTable extends Migration
             $table->increments('id');
             $table->integer('id_dis_obr')->unsigned();
             $table->string('coddis');
+            $table->unique(array('coddis', 'id_dis_obr'));
             $table->timestamps();
 
             $table->foreign('id_dis_obr')->references('id')->on('DisciplinasObrigatorias')->onDelete('cascade');

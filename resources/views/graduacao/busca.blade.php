@@ -114,9 +114,9 @@
                         	}))
                     	$('#alunos').append(tr);
                 	});
-            	}) 
+            	}); 
             }
-        })
+        });
     </script>
 
 @stop

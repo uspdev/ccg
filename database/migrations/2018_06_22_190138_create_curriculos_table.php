@@ -20,6 +20,7 @@ class CreateCurriculosTable extends Migration
             $table->date('dtainicrl');
             $table->integer('numcredisoptelt');
             $table->integer('numcredisoptliv');
+            $table->unique(array('codcur', 'codhab', 'dtainicrl'));
             $table->timestamps();
         });
     }

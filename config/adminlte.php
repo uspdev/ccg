@@ -172,5 +172,6 @@ return [
         'datatables' => true,
         'select2'    => true,
         'chartjs'    => true,
+        'datepicker' => true,        
     ],
 ];

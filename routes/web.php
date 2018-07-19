@@ -20,3 +20,9 @@ Route::get('creditos', 'GraduacaoController@creditos');
 
 # curriculo
 Route::resource('curriculos', 'CurriculoController');
+
+# disciplinas obrigatórias
+# Route::resource('disciplinasObrigatorias', 'DisciplinasObrigatoriaController');
+Route::get('disciplinasObrigatorias/create/{curriculo}', 'DisciplinasObrigatoriaController@create');
+Route::post('disciplinasObrigatorias/create/{curriculo}', 'DisciplinasObrigatoriaController@store');
+Route::delete('disciplinasObrigatorias/{disciplinasObrigatoria}', 'DisciplinasObrigatoriaController@destroy');

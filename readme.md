@@ -53,6 +53,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
             - Em produção: setar APP_ENV como prd e deixar CODPES_ALUNO em branco
         - Código da unidade local
         - Credenciais do wsfoto
+        - Prefixo dos códigos de disciplinas de graduação oferecidas da unidade
     - php artisan key:generate
     - php artisan migrate
     - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
