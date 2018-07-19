@@ -43,7 +43,7 @@
                 <table class="table table-bordered table-striped table-hover datatable">
                     <thead>
                         <tr>
-                            <th colspan="2"><label>Diciplinas Obrigatórias</label></th>
+                            <th colspan="2"><label>Disciplinas Obrigatórias</label></th>
                         </tr>                                          
                     </thead>                            
                     <tbody>                               
@@ -89,6 +89,10 @@
                     onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                     <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
                 </button>
+                <button type="button" class="btn btn-primary btn-sm" title="Editar" 
+                    onclick="location.href='/curriculos/{{ $curriculo['id'] }}/edit';">
+                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;Editar Currículo
+                </button>                   
             </div>   
         </form>
     </div>

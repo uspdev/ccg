@@ -32,3 +32,9 @@ Route::delete('disciplinasObrigatorias/{disciplinasObrigatoria}', 'DisciplinasOb
 Route::get('disciplinasOptativasEletivas/create/{curriculo}', 'DisciplinasOptativasEletivaController@create');
 Route::post('disciplinasOptativasEletivas/create/{curriculo}', 'DisciplinasOptativasEletivaController@store');
 Route::delete('disciplinasOptativasEletivas/{disciplinasOptativasEletiva}', 'DisciplinasOptativasEletivaController@destroy');
+
+# disciplinas obrigatórias
+# Route::resource('disciplinasLicenciaturas', 'DisciplinasLicenciaturaController');
+Route::get('disciplinasLicenciaturas/create/{curriculo}', 'DisciplinasLicenciaturaController@create');
+Route::post('disciplinasLicenciaturas/create/{curriculo}', 'DisciplinasLicenciaturaController@store');
+Route::delete('disciplinasLicenciaturas/{disciplinasLicenciatura}', 'DisciplinasLicenciaturaController@destroy');

@@ -83,9 +83,6 @@
                                 <form role="form" method="POST" action="/disciplinasOptativasEletivas/{{ $disciplinasOptativasEletiva->id }}">
                                 {{ csrf_field() }}
                                 {{ method_field('delete') }}      
-                                <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
-                                    <span class="glyphicon glyphicon-list-alt"></span>
-                                </button>
                                 <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>     
@@ -105,15 +102,15 @@
                     <tr>
                         <td colspan="2"><label>Diciplinas Licenciaturas (Faculdade de Educação)</label></td>
                     </tr>   
-                    @foreach ($disciplinasObrigatorias as $disciplinasObrigatoria)                   
+                    @foreach ($disciplinasLicenciaturas as $disciplinasLicenciatura)                   
                         <tr>
-                            <td style="width: 70%;">{{ $disciplinasObrigatoria['coddis'] }} - 
-                                {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
+                            <td style="width: 70%;">{{ $disciplinasLicenciatura['coddis'] }} - 
+                                {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}</td>
                             <td style="width: 30%;">
-                                <form role="form" method="POST" action="/disciplinasObrigatorias/{{ $disciplinasObrigatoria->id }}">
+                                <form role="form" method="POST" action="/disciplinasLicenciaturas/{{ $disciplinasLicenciatura->id }}">
                                 {{ csrf_field() }}
                                 {{ method_field('delete') }}      
-                                <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
+                                <button type="button" class="btn btn-info btn-xs" title="Disciplinas Licenciaturas Equivalentes">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                 </button>
                                 <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
@@ -138,7 +135,8 @@
                     onclick="location.href='/disciplinasOptativasEletivas/create/{{ $curriculo['id'] }}';">
                     <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Optativa Eletiva
                 </button>  
-                <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Licenciaturas (Faculdade de Educação)" onclick="location.href='';">
+                <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Licenciaturas (Faculdade de Educação)" 
+                    onclick="location.href='/disciplinasLicenciaturas/create/{{ $curriculo['id'] }}';">
                     <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
                 </button>
             </div>              
