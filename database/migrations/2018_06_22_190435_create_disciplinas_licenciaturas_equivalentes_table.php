@@ -17,6 +17,7 @@ class CreateDisciplinasLicenciaturasEquivalentesTable extends Migration
             $table->increments('id');
             $table->integer('id_dis_lic')->unsigned();
             $table->string('coddis');
+            $table->unique(array('coddis', 'id_dis_lic'));
             $table->timestamps();
 
             $table->foreign('id_dis_lic')->references('id')->on('DisciplinasLicenciaturas')->onDelete('cascade');

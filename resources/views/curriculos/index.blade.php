@@ -12,7 +12,7 @@
 
     <div class="box box-primary">
         <div class="box-body">
-            <table id="curriculos" class="table table-bordered table-striped table-hover">
+            <table class="table table-bordered table-striped table-hover datatable">
                 <thead>
                     <tr>
                         <th colspan="4">
@@ -61,21 +61,6 @@
                 @endforeach
                 
                 </tbody>
-                <tfoot>
-                    <tr>
-                        <th colspan="4">
-                            <button type="button" class="btn btn-success btn-sm" title="Adicionar Currículo" onclick="location.href='curriculos/create';">
-                                <span class="glyphicon glyphicon-plus"></span> Adicionar Currículo
-                            </button>                             
-                        </th>
-                    </tr>                        
-                    <tr>
-                        <th>Curso</th>
-                        <th>Habilitação</th>
-                        <th>Ingresso</th>
-                        <th>Ações</th>
-                    </tr>
-                </tfoot>
             </table>
         </div>  
     </div>
@@ -83,21 +68,37 @@
 @stop
 
 @section('js')
-
+    
     <script type="text/javascript">
-    $(function () {
-        $('#curriculos').DataTable({
-            'language'    : {
-                'url'     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-            },  
-            'paging'      : true,
-            'lengthChange': true,
-            'searching'   : true,
-            'ordering'    : true,
-            'info'        : true,
-            'autoWidth'   : true
+        $(function () {
+            //Initialize Select2 Elements
+            $('.select2').select2({
+                placeholder:    "Selecione",
+                allowClear:     true
+            });
+            
+            //Datepicker
+            $('.datepicker').datepicker({
+                format:         "dd/mm/yyyy",
+                viewMode:       "years", 
+                minViewMode:    "years",
+                autoclose:      true
+            });
+
+            // DataTables
+            $('.datatable').DataTable({
+                language    : {
+                    url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+                },  
+                paging      : true,
+                lengthChange: true,
+                searching   : true,
+                ordering    : true,
+                info        : true,
+                autoWidth   : true,
+                pageLength  : 10
+            });
         })
-    })
     </script>
 
 @stop

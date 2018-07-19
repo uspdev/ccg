@@ -8,18 +8,18 @@ class Curriculo extends Model
 {
     protected $table = 'Curriculos';
 
-    public function disciplinasOptativasEletivas()
-    {
-        return $this->hasMany('App\DisciplinasOptativasEletiva');
-    }
-
     public function disciplinasObrigatorias()
     {
-        return $this->hasMany('App\DisciplinasObrigatoria');
+        return $this->hasMany('App\DisciplinasObrigatoria', 'id', 'id_crl');
+    }
+
+    public function disciplinasOptativasEletivas()
+    {
+        return $this->hasMany('App\DisciplinasOptativasEletiva', 'id', 'id_crl');
     }
 
     public function disciplinasLicenciaturas()
     {
-        return $this->hasMany('App\DisciplinasLicenciatura');
+        return $this->hasMany('App\DisciplinasLicenciatura', 'id', 'id_crl');
     }
 }

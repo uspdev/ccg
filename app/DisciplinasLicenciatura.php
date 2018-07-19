@@ -15,6 +15,6 @@ class DisciplinasLicenciatura extends Model
 
     public function disciplinasLicenciaturasEquivalentes()
     {
-        return $this->hasMany('App\DisciplinasLicenciaturasEquivalente');
+        return $this->hasMany('App\DisciplinasLicenciaturasEquivalente', 'id', 'id_dis_lic');
     }
 }

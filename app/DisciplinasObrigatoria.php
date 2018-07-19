@@ -15,6 +15,6 @@ class DisciplinasObrigatoria extends Model
 
     public function disciplinasObrigatoriasEquivalentes()
     {
-        return $this->hasMany('App\DisciplinasObrigatoriasEquivalente');
+        return $this->hasMany('App\DisciplinasObrigatoriasEquivalente', 'id', 'id_dis_obr');
     }
 }
