@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Currículo ' . $curriculo['id'] . ' - Disciplinas Obrigatórias')
+@section('title', env('APP_NAME') . ' - Currículo ' . $curriculo['id'] . ' - Disciplinas Optativas Eletivas')
 
 @section('content_header')
-    <h1>Curriculo {{ $curriculo['id'] }} - Adicionar Disciplinas Obrigatórias</h1>
+    <h1>Curriculo {{ $curriculo['id'] }} - Adicionar Disciplinas Optativas Eletivas</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
     @include('flash')
 
     <div class="box box-primary">
-        <form role="form" method="POST" action="/disciplinasObrigatorias/create/{{ $curriculo['id'] }}">
+        <form role="form" method="POST" action="/disciplinasOptativasEletivas/create/{{ $curriculo['id'] }}">
                         
             {{ csrf_field() }}   
 
@@ -43,16 +43,16 @@
                 <table class="table table-bordered table-striped table-hover datatable">
                     <thead>
                         <tr>
-                            <th colspan="2"><label>Diciplinas Obrigatórias</label></th>
+                            <th colspan="2"><label>Diciplinas Optativas Eletivas</label></th>
                         </tr>                                          
                     </thead>                            
                     <tbody>                               
-                        @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
+                        @foreach($disciplinasOptativasEletivas as $disciplinasOptativasEletiva)
                             <tr>
-                                <td>{{ $disciplinasObrigatoria['coddis'] }} - 
-                                    {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
+                                <td>{{ $disciplinasOptativasEletiva['coddis'] }} - 
+                                    {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasOptativasEletiva['coddis']) }}</td>
                                 <td>
-{{--                                     <form role="form" method="POST" action="/disciplinasObrigatorias/create/{{ $curriculo->id }}">
+{{--                                     <form role="form" method="POST" action="/disciplinasOptativasEletivas/create/{{ $curriculo->id }}">
                                     {{ csrf_field() }}
                                     {{ method_field('delete') }}     --}}                                
                                     <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
@@ -70,7 +70,7 @@
                         <tr>
                             <th colspan="2">
                                 <div class="form-group">
-                                    <label>Adicionar Disciplina Obrigatória</label>
+                                    <label>Adicionar Disciplina Optativa Eletiva</label>
                                     <select class="form-control select2" style="width: 100%;" id="coddisobr" name="coddisobr" required>
                                         <option></option>                      
                                             @foreach ($disciplinas as $disciplina)

@@ -12,10 +12,8 @@
 
     <div class="box box-primary">
         <form role="form" method="POST" action="/curriculos/{{ $curriculo['id'] }}">
-
             {{ csrf_field() }}
             {{ method_field('patch') }}
-
             <div class="box-body">
                 <div class="form-group">
                     <label>Curso</label>
@@ -65,102 +63,109 @@
                     </div>
                 </div>
             </div>
-            <div style="border: 1px solid #ccc; padding: 5px; margin-left: 10px; margin-right: 10px;" id="disciplinas">
-                <div class="box-body table-responsive no-padding">
-                    <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" 
-                        onclick="location.href='/disciplinasObrigatorias/create/{{ $curriculo['id'] }}';">
-                        <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória
-                    </button>  
-                    <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" onclick="location.href='';">
-                        <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Optativa Eletiva
-                    </button>  
-                    <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" onclick="location.href='';">
-                        <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
-                    </button>                      
-                    <table class="table table-hover table-striped datatable">
-                        <thead>
-                            <tr>
-                                <th colspan="2"></th>
-                            </tr>                                          
-                        </thead>                        
-                        <tbody>                                
-                            <tr>
-                                <td colspan="2"><label>Diciplinas Obrigatórias</label></td>
-                            </tr>                             
-                            @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
-                                <tr>
-                                    <td>{{ $disciplinasObrigatoria['coddis'] }} - 
-                                        {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
-                                            <span class="glyphicon glyphicon-list-alt"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-xs" title="Apagar disciplina">
-                                            <span class="glyphicon glyphicon-trash"></span>
-                                        </button>                                        
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>                    
-                    </table>
-                    <table class="table table-hover table-striped datatable">
-                        <thead>
-                            <tr>
-                                <th colspan="2"></th>
-                            </tr>                                          
-                        </thead>                        
-                        <tbody>                                
-                            <tr>
-                                <td colspan="2"><label>Diciplinas Optativas Eletivas</label></td>
-                            </tr>                             
-                            @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
-                                <tr>
-                                    <td>{{ $disciplinasObrigatoria['coddis'] }} - 
-                                        {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
-                                            <span class="glyphicon glyphicon-list-alt"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-xs" title="Apagar disciplina">
-                                            <span class="glyphicon glyphicon-trash"></span>
-                                        </button>                                        
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>                    
-                    </table>  
-                    <table class="table table-hover table-striped datatable">
-                        <thead>
-                            <tr>
-                                <th colspan="2"></th>
-                            </tr>                                          
-                        </thead>                        
-                        <tbody>                                
-                            <tr>
-                                <td colspan="2"><label>Diciplinas Licenciaturas (Faculdade de Educação)</label></td>
-                            </tr>                             
-                            @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
-                                <tr>
-                                    <td>{{ $disciplinasObrigatoria['coddis'] }} - 
-                                        {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
-                                            <span class="glyphicon glyphicon-list-alt"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-danger btn-xs" title="Apagar disciplina">
-                                            <span class="glyphicon glyphicon-trash"></span>
-                                        </button>                                        
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>                    
-                    </table>                                       
-                </div>                    
-            </div>
             <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </div>
-          </form> 
+                <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+                <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" 
+                    onclick="location.href='/disciplinasObrigatorias/create/{{ $curriculo['id'] }}';">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória
+                </button>  
+                <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Optativa Eletiva" 
+                    onclick="location.href='/disciplinasOptativasEletivas/create/{{ $curriculo['id'] }}';">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Optativa Eletiva
+                </button>  
+                <button type="button" class="btn btn-success btn-sm" title="Adicionar Adicionar Disciplina Licenciaturas (Faculdade de Educação)" onclick="location.href='';">
+                    <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
+                </button>                 
+            </div>   
+        </form> 
+        <div class="box-body table-responsive no-padding">                     
+            <table class="table table-hover table-striped datatable">
+                <thead>
+                    <tr>
+                        <th colspan="2"></th>
+                    </tr>                                          
+                </thead>                        
+                <tbody>                                
+                    <tr>
+                        <td colspan="2"><label>Diciplinas Obrigatórias</label></td>
+                    </tr>                             
+                    @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
+                        <tr>
+                            <td style="width: 70%;">{{ $disciplinasObrigatoria['coddis'] }} - 
+                                {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
+                            <td style="width: 30%;">
+                                <form role="form" method="POST" action="/disciplinasObrigatorias/{{ $disciplinasObrigatoria->id }}">
+                                {{ csrf_field() }}
+                                {{ method_field('delete') }}                                       
+                                <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>   
+                                </form>                                     
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>                    
+            </table>
+            <table class="table table-hover table-striped datatable">
+                <thead>
+                    <tr>
+                        <th colspan="2"></th>
+                    </tr>                                          
+                </thead>                        
+                <tbody>                                
+                    <tr>
+                        <td colspan="2"><label>Diciplinas Optativas Eletivas</label></td>
+                    </tr>                             
+                    @foreach($disciplinasOptativasEletivas as $disciplinasOptativasEletiva)
+                        <tr>
+                            <td style="width: 70%;">{{ $disciplinasOptativasEletiva['coddis'] }} - 
+                                {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasOptativasEletiva['coddis']) }}</td>
+                            <td style="width: 30%;">
+                                <form role="form" method="POST" action="/disciplinasOptativasEletivas/{{ $disciplinasOptativasEletiva->id }}">
+                                {{ csrf_field() }}
+                                {{ method_field('delete') }}                                    
+                                <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>           
+                                </form>                             
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>                    
+            </table>  
+            <table class="table table-hover table-striped datatable">
+                <thead>
+                    <tr>
+                        <th colspan="2"></th>
+                    </tr>                                          
+                </thead>                        
+                <tbody>                                
+                    <tr>
+                        <td colspan="2"><label>Diciplinas Licenciaturas (Faculdade de Educação)</label></td>
+                    </tr>                             
+                    @foreach($disciplinasObrigatorias as $disciplinasObrigatoria)
+                        <tr>
+                            <td style="width: 70%;">{{ $disciplinasObrigatoria['coddis'] }} - 
+                                {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
+                            <td style="width: 30%;">
+                                <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </button>
+                                <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>                                        
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>                    
+            </table>                                       
+        </div>                    
     </div>
 
 @stop
