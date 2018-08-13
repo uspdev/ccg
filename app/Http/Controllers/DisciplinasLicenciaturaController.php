@@ -35,7 +35,7 @@ class DisciplinasLicenciaturaController extends Controller
      */
     public function create(Curriculo $curriculo)
     {
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $arrCoddis = config('app.arrCoddis');
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
 

@@ -87,9 +87,9 @@ class CurriculoController extends Controller
      */
     public function show(Curriculo $curriculo)
     {
-        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get();
-        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get();
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get();
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         
         return view('curriculos.show', compact(
             'curriculo', 
@@ -107,9 +107,9 @@ class CurriculoController extends Controller
      */
     public function edit(Curriculo $curriculo)
     {
-        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get();
-        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get();
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get();        
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();        
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes($this->repUnd);
         
         $cursos = array();

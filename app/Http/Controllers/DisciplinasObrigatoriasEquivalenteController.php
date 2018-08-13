@@ -37,7 +37,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
     public function create(DisciplinasObrigatoria $disciplinasObrigatoria)
     {
         $curriculo = Curriculo::find($disciplinasObrigatoria->id_crl);     
-        $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->get();
+        $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->orderBy('coddis', 'asc')->get();
         $arrCoddis = config('app.arrCoddis');
         array_push($arrCoddis, $disciplinasObrigatoria->coddis);
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
@@ -88,7 +88,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
     public function show(DisciplinasObrigatoria $disciplinasObrigatoria)
     {
         $curriculo = Curriculo::find($disciplinasObrigatoria->id_crl);     
-        $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->get();
+        $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->orderBy('coddis', 'asc')->get();
 
         return view('disciplinasObrEquivalentes.show', compact(
             'curriculo',

@@ -37,7 +37,7 @@ class DisciplinasLicenciaturasEquivalenteController extends Controller
     public function create(DisciplinasLicenciatura $disciplinasLicenciatura)
     {
         $curriculo = Curriculo::find($disciplinasLicenciatura->id_crl);     
-        $disciplinasLicenciaturasEquivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get();
+        $disciplinasLicenciaturasEquivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->orderBy('coddis', 'asc')->get();
         $arrCoddis = config('app.arrCoddis');
         array_push($arrCoddis, $disciplinasLicenciatura->coddis);
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
@@ -88,7 +88,7 @@ class DisciplinasLicenciaturasEquivalenteController extends Controller
     public function show(DisciplinasLicenciatura $disciplinasLicenciatura)
     {
         $curriculo = Curriculo::find($disciplinasLicenciatura->id_crl);     
-        $disciplinasLicenciaturasEquivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get();
+        $disciplinasLicenciaturasEquivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->orderBy('coddis', 'asc')->get();
 
         return view('disciplinasLicEquivalentes.show', compact(
             'curriculo',
