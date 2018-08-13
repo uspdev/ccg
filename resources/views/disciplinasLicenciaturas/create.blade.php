@@ -43,25 +43,23 @@
                 <table class="table table-bordered table-striped table-hover datatable">
                     <thead>
                         <tr>
-                            <th colspan="2"><label>Disciplinas Licenciaturas</label></th>
-                        </tr>                                          
+                            <th><label>Diciplinas Licenciaturas (Faculdade de Educação)</label></th>
+                            <th>&nbsp;</th>
+                        </tr>                     
+                        <tr>
+                            <th>Disciplinas</th>
+                            <th>Ações</th>
+                        </tr>                                        
                     </thead>                            
                     <tbody>                               
                         @foreach($disciplinasLicenciaturas as $disciplinasLicenciatura)
                             <tr>
                                 <td>{{ $disciplinasLicenciatura['coddis'] }} - 
                                     {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}</td>
-                                <td>
-{{--                                     <form role="form" method="POST" action="/disciplinasLicenciaturas/create/{{ $curriculo->id }}">
-                                    {{ csrf_field() }}
-                                    {{ method_field('delete') }}     --}}                                
+                                <td>                              
                                     <button type="button" class="btn btn-info btn-xs" title="Disciplinas Licenciaturas Equivalentes">
                                         <span class="glyphicon glyphicon-list-alt"></span>
-                                    </button>
-{{--                                     <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                    </button> --}}
-{{--                                     </form>    --}}                                     
+                                    </button>                                  
                                 </td>
                             </tr>
                         @endforeach
@@ -128,7 +126,7 @@
                 ordering    : true,
                 info        : true,
                 autoWidth   : true,
-                pageLength  : 10
+                pageLength  : 25
             });
         })
     </script>

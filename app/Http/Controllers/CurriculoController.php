@@ -164,7 +164,7 @@ class CurriculoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Curriculo $curriculo, Request $request)
-    {
+    {   
         $curriculo->delete();
         $request->session()->flash('alert-danger', 'Curriculo apagado!');
         return redirect('/curriculos');

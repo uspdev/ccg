@@ -114,8 +114,10 @@ class DisciplinasObrigatoriaController extends Controller
      */
     public function destroy(DisciplinasObrigatoria $disciplinasObrigatoria, Request $request)
     {
+        $curriculo = $disciplinasObrigatoria->id_crl;
         $disciplinasObrigatoria->delete();
         $request->session()->flash('alert-danger', 'Disciplina Obrigatória apagada!');
-        return redirect("/curriculos/" . $disciplinasObrigatoria['id_crl']);
+        
+        return redirect("/curriculos/" . $curriculo);
     }
 }

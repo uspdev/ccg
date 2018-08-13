@@ -90,19 +90,19 @@
                                                     Ingresso: {{ Carbon\Carbon::parse($curriculo->dtainicrl)->format('Y') }}
                                                 </p>
                                                 <p><strong>As Diciplinas abaixo serão automaticamente removidas junto com o Currículo</strong></p>
-                                                <p>Obrigatórias
+                                                <p><strong>Obrigatórias</strong>
                                                 @foreach (App\DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get() as $obrigatoria)
                                                     <br />{{ $obrigatoria['coddis'] }} - 
                                                         {{ Uspdev\Replicado\Graduacao::nomeDisciplina($obrigatoria['coddis']) }}
                                                 @endforeach
                                                 </p>
-                                                <p>Optativas Eletivas
+                                                <p><strong>Optativas Eletivas</strong>
                                                 @foreach (App\DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get() as $optativasEletiva)
                                                     <br />{{ $optativasEletiva['coddis'] }} - 
                                                         {{ Uspdev\Replicado\Graduacao::nomeDisciplina($optativasEletiva['coddis']) }}
                                                 @endforeach
                                                 </p>
-                                                <p>Licenciaturas
+                                                <p><strong>Licenciaturas</strong>
                                                 @foreach (App\DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get() as $licenciatura)
                                                     <br />{{ $licenciatura['coddis'] }} - 
                                                         {{ Uspdev\Replicado\Graduacao::nomeDisciplina($licenciatura['coddis']) }}
@@ -162,7 +162,7 @@
                 ordering    : true,
                 info        : true,
                 autoWidth   : true,
-                pageLength  : 10
+                pageLength  : 25
             });
         })
     </script>
