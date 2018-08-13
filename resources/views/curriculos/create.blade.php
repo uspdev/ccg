@@ -92,7 +92,7 @@
                 ordering    : true,
                 info        : true,
                 autoWidth   : true,
-                pageLength  : 10
+                pageLength  : 25
             });
         })
     </script>
