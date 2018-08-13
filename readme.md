@@ -56,7 +56,6 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
         - Prefixo dos códigos de disciplinas de graduação oferecidas da unidade
     - php artisan key:generate
     - php artisan migrate
-    - git clone git@git.uspdigital.usp.br:uspdev/replicado_queries vendor/uspdev/replicado/src/replicado_queries
     - php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets --force
 
 Caso falte alguma dependência, siga as instruções do `composer`.
@@ -67,7 +66,6 @@ Caso falte alguma dependência, siga as instruções do `composer`.
     - github: jeroennoten/Laravel-AdminLTE
     - github: uspdev/senhaunica-socialite
     - github: uspdev/wsfoto
-    - gitlab: uspdev/replicado_queries
 
 ## Contribuindo com o projeto
 
