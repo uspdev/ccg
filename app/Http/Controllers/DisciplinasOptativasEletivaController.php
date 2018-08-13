@@ -35,7 +35,7 @@ class DisciplinasOptativasEletivaController extends Controller
      */
     public function create(Curriculo $curriculo)
     {
-        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $arrCoddis = config('app.arrCoddis');
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
 

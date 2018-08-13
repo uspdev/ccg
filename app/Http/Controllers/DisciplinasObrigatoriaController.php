@@ -35,7 +35,7 @@ class DisciplinasObrigatoriaController extends Controller
      */
     public function create(Curriculo $curriculo)
     {      
-        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get();
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $arrCoddis = config('app.arrCoddis');
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
 
