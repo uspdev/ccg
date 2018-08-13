@@ -42,8 +42,12 @@
             <div class="tab-pane active" id="tab_1">
           		<div class="box-primary">
             		<div class="box-header">
+                        
+                        @if( env('WSFOTO') === true  )
                         <img style="margin-left: 0px; margin-bottom: 10px;" class="profile-user-img img-responsive img-circle" 
                             src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter($graduacaoCurso['codpes']) }}" alt="{{ $graduacaoCurso['nompes'] }}" />
+              			@endif
+              			
               			<h3 class="box-title">{{ $graduacaoCurso['codpes'] }} - {{ $graduacaoCurso['nompes'] }}</h3>
             		</div>
             		<div class="box-body table-responsive no-padding">

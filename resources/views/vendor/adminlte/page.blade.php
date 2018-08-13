@@ -61,8 +61,12 @@
                         <li>
                             @auth
                                 <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    
+                                    @if( env('WSFOTO') === true  )
                                     <img class="img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
                                         alt="{{ Auth::user()->name }}" style="width: 13px;" />&nbsp;
+                                    @endif
+                                    
                                     {{ Auth::user()->id }} - {{ Auth::user()->name }}
                                     <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
                                 </a>
@@ -97,8 +101,12 @@
                 @auth 
                     <!-- User info -->
                     <div class="box-body box-profile">
+                        
+                        @if( env('WSFOTO') === true  )
                         <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
                             alt="{{ Auth::user()->name }}" />
+                        @endif
+                        
                         <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
                     </div>
                 @endauth
