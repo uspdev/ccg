@@ -206,27 +206,72 @@
                     </tr>                                           
                 </thead>                        
                 <tbody>                                                            
-                    @foreach($disciplinasLicenciaturas as $disciplinasLicenciatura)
+                    @foreach ($disciplinasLicenciaturas as $disciplinasLicenciatura)                   
                         <tr>
                             <td style="width: 70%;">{{ $disciplinasLicenciatura['coddis'] }} - 
                                 {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}</td>
-                            <td style="width: 30%;">
-                                <form role="form" method="POST" action="/disciplinasLicenciaturas/{{ $disciplinasLicenciatura->id }}">
-                                {{ csrf_field() }}
-                                {{ method_field('delete') }}                                   
+                            <td style="width: 30%;">   
+                                {{-- Se existe disciplina equivalente cadastrada, mostra as equivalentes --}}
                                 @if (App\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get()->count() > 0)
-                                    <button type="button" class="btn btn-info btn-xs" title="Disciplinas Licenciaturas Equivalentes">
-                                        <span class="glyphicon glyphicon-list-alt"></span>
-                                    </button>
-                                @else
-                                    <button type="button" class="btn btn-success btn-xs" title="Adicionar Disciplinas Licenciaturas Equivalentes">
-                                        <span class="glyphicon glyphicon-plus"></span>
+                                    <button type="button" class="btn btn-info btn-xs" title="Disciplinas Licenciaturas Equivalentes" 
+                                        onclick="location.href='/disciplinasLicEquivalentes/{{ $disciplinasLicenciatura->id }}';">
+                                        <span class="glyphicon glyphicon-eye-open"></span>
                                     </button>
                                 @endif
-                                <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                </button>      
-                                </form>                                  
+                                <button style="float: left; margin-right: 3px; margin-top: 1px;" type="button" class="btn btn-success btn-xs" 
+                                    title="Adicionar Disciplinas Licenciaturas Equivalentes" 
+                                    onclick="location.href='/disciplinasLicEquivalentes/create/{{ $disciplinasLicenciatura->id }}';">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button>
+                                {{-- Se não existe disciplina equivalente cadastrada, pode apagar --}}
+                                @if (App\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get()->count() == 0) 
+                                    <form style="float: left; margin-right: 3px;" role="form" method="POST" action="/disciplinasLicenciaturas/{{ $disciplinasLicenciatura->id }}">
+                                        {{ csrf_field() }}
+                                        {{ method_field('delete') }}                                  
+                                        <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
+                                            <span class="glyphicon glyphicon-trash"></span>
+                                        </button> 
+                                    </form>
+                                {{-- Se não, exibe modal avisando --}} 
+                                @else                                                                         
+                                    <button type="button" class="btn btn-danger btn-xs" title="Apagar disciplina" 
+                                        data-toggle="modal" data-target="#diciplinas{{ $disciplinasLicenciatura->id }}">
+                                        <span class="glyphicon glyphicon-trash"></span>
+                                    </button> 
+                                    {{-- Modais com as disciplinas equivalentes --}}                                
+                                    <div class="modal modal-danger fade" id="diciplinas{{ $disciplinasLicenciatura->id }}">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span></button>
+                                                    <h4 class="modal-title">Esta Disciplina possui Equivalentes cadastradas!</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p>Disciplina Licenciatura: <strong>
+                                                        {{ $disciplinasLicenciatura->coddis }} - 
+                                                        {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura->coddis) }}
+                                                    </strong></p>
+                                                    <p><strong>As Diciplinas abaixo serão automaticamente removidas junto com a Disciplina Licenciatura</strong></p>
+                                                    <p><strong>Equivalentes</strong>                                                        
+                                                    @foreach (App\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get() as $licenciaturaEquivalente)
+                                                        <br />{{ $licenciaturaEquivalente['coddis'] }} - 
+                                                            {{ Uspdev\Replicado\Graduacao::nomeDisciplina($licenciaturaEquivalente['coddis']) }}
+                                                    @endforeach
+                                                    </p>                                                                                                  
+                                                </div>
+                                                <form role="form" method="POST" action="/disciplinasLicenciaturas/{{ $disciplinasLicenciatura->id }}">
+                                                    {{ csrf_field() }}
+                                                    {{ method_field('delete') }} 
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Cancelar</button>
+                                                    <button type="submit" class="btn btn-outline">Apagar</button>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>                                
+                                @endif
                             </td>
                         </tr>
                     @endforeach
