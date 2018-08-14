@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DisciplinasObrigatoria;
 use App\DisciplinasOptativasEletiva;
+use App\DisciplinasLicenciatura;
 use Illuminate\Http\Request;
 use App\Curriculo;
 use Auth;
@@ -35,17 +37,29 @@ class DisciplinasOptativasEletivaController extends Controller
      */
     public function create(Curriculo $curriculo)
     {
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        
         $arrCoddis = config('app.arrCoddis');
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
 
-        $disciplinasOferecidas = $disciplinas;
         foreach ($disciplinas as $key => $value) {
             foreach ($disciplinasOptativasEletivas as $disciplinaOptativasEletiva) {
                 if ($disciplinaOptativasEletiva['coddis'] === $value['coddis']) {
                     unset($disciplinas[$key]);                   
                 }
             }
+            foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
+                if ($disciplinaObrigatoria['coddis'] === $value['coddis']) {
+                    unset($disciplinas[$key]);                   
+                }
+            }
+            foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
+                if ($disciplinaLicenciatura['coddis'] === $value['coddis']) {
+                    unset($disciplinas[$key]);                   
+                }
+            }             
         }
 
         return view('disciplinasOptativasEletivas.create', compact(
