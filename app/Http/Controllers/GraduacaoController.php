@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
+use App\Curriculo;
+use App\DisciplinasObrigatoria;
+use App\DisciplinasOptativasEletiva;
+use App\DisciplinasLicenciatura;
 use Carbon;
 use Auth;
 
@@ -42,12 +46,86 @@ class GraduacaoController extends Controller
     {
         $gate = $this->getGate();
         if ($gate === 'secretaria') {
-            $graduacaoCurso = Graduacao::curso(env('CODPES_ALUNO'), $this->repUnd); #desenvolvimento
+            $aluno = env('CODPES_ALUNO');
+            $graduacaoCurso = Graduacao::curso($aluno, $this->repUnd); # desenvolvimento
         } else {
-            $graduacaoCurso = Graduacao::curso(Auth::user()->id, $this->repUnd); #produção
+            $aluno = Auth::user()->id;
+            $graduacaoCurso = Graduacao::curso($aluno, $this->repUnd); # produção
         }
+
+        # Currículo do aluno
+        $curriculo = Curriculo::where('codcur', $graduacaoCurso['codcur'])
+                                ->where('codhab', $graduacaoCurso['codhab'])
+                                ->whereYear('dtainicrl', substr($graduacaoCurso['dtainivin'], 0, 4))
+                                ->get();  
         
-        return view('aluno.creditos', compact('graduacaoCurso', 'gate'));
+        # Quantidade de Optativas Eletivas
+        $numcredisoptelt = $curriculo[0]['numcredisoptelt'];
+
+        # Quantidade de Optativas Livres
+        $numcredisoptliv = $curriculo[0]['numcredisoptliv'];
+
+        # Disciplinas que o currículo exige
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo[0]['id'])
+                                                            ->orderBy('coddis', 'asc')
+                                                            ->get(['coddis'])
+                                                            ->toArray();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo[0]['id'])
+                                                            ->orderBy('coddis', 'asc')
+                                                            ->get(['coddis'])
+                                                            ->toArray();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo[0]['id'])
+                                                            ->orderBy('coddis', 'asc')
+                                                            ->get(['coddis'])
+                                                            ->toArray();
+
+        # Junção das disciplinas que o currículo exige
+        $disciplinasJuntas = array_merge($disciplinasObrigatorias, $disciplinasOptativasEletivas, $disciplinasLicenciaturas);
+
+        # Ordena as disciplinas que o currículo exige
+        $disciplinasCurriculo = array();
+        foreach ($disciplinasJuntas as $disciplinaCurriculo) {
+            array_push($disciplinasCurriculo, $disciplinaCurriculo['coddis']);
+        }
+        sort($disciplinasCurriculo);
+
+        # Disciplinas já concluidas
+        $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, $this->repUnd);
+        $disciplinasConcluidasCoddis = array();
+        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
+            array_push($disciplinasConcluidasCoddis, $disciplinaConcluida['coddis']);
+        }
+        sort($disciplinasConcluidasCoddis);
+      
+        # Separa as disciplinas que faltam
+        $disciplinasFaltam = array_diff($disciplinasCurriculo, $disciplinasConcluidasCoddis);
+
+        # Disciplinas optativas livres 
+        $disciplinasOptativasLivres = array_diff($disciplinasConcluidasCoddis, $disciplinasCurriculo);
+
+        # Total de créditos de concluídos de Discplinas Optativas Livres
+        $totnumcredisoptliv = 0;
+        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
+            if (in_array($disciplinaConcluida['coddis'], $disciplinasOptativasLivres)) {
+                $totnumcredisoptliv += $disciplinaConcluida['creaul'];
+            }
+        }
+
+        # Programa
+        $graduacaoPrograma = Graduacao::programa($aluno);
+       
+        return view('aluno.creditos', 
+            compact('graduacaoCurso', 
+                'gate', 
+                'disciplinasCurriculo', 
+                'disciplinasConcluidas', 
+                'disciplinasOptativasLivres', 
+                'disciplinasFaltam',
+                'graduacaoPrograma',
+                'numcredisoptelt',
+                'numcredisoptliv',
+                'totnumcredisoptliv'
+        ));
     }
 
     # Retorna o Gate
