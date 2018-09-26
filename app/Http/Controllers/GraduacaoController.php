@@ -52,75 +52,21 @@ class GraduacaoController extends Controller
         }
 
         # Retorna a Situação do Aluno
-        // $situacaoAluno = self::situacaoAluno($aluno);
-
-        # Curso e Habilitação do aluno
-        $graduacaoCurso = Graduacao::curso($aluno, $this->repUnd);
-
-        # Currículo do aluno
-        $curriculo = Curriculo::where('codcur', $graduacaoCurso['codcur'])
-                                ->where('codhab', $graduacaoCurso['codhab'])
-                                ->whereYear('dtainicrl', substr($graduacaoCurso['dtainivin'], 0, 4))
-                                ->get();  
-        
-        # Quantidade de Optativas Eletivas
-        $numcredisoptelt = $curriculo[0]['numcredisoptelt'];
-
-        # Quantidade de Optativas Livres
-        $numcredisoptliv = $curriculo[0]['numcredisoptliv'];
-
-        # Disciplinas que o currículo exige
-        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo[0]['id'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get(['coddis'])
-                                                            ->toArray();
-        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo[0]['id'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get(['coddis'])
-                                                            ->toArray();
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo[0]['id'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get(['coddis'])
-                                                            ->toArray();
-
-        # Junção das disciplinas que o currículo exige
-        $disciplinasJuntas = array_merge($disciplinasObrigatorias, $disciplinasOptativasEletivas, $disciplinasLicenciaturas);
-
-        # Ordena as disciplinas que o currículo exige
-        $disciplinasCurriculo = array();
-        foreach ($disciplinasJuntas as $disciplinaCurriculo) {
-            array_push($disciplinasCurriculo, $disciplinaCurriculo['coddis']);
-        }
-        sort($disciplinasCurriculo);
-
-        # Disciplinas já concluidas
-        $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, $this->repUnd);
-        $disciplinasConcluidasCoddis = array();
-        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
-            array_push($disciplinasConcluidasCoddis, $disciplinaConcluida['coddis']);
-        }
-        sort($disciplinasConcluidasCoddis);
-      
-        # Separa as disciplinas que faltam
-        $disciplinasFaltam = array_diff($disciplinasCurriculo, $disciplinasConcluidasCoddis);
-
-        # Disciplinas optativas livres 
-        $disciplinasOptativasLivres = array_diff($disciplinasConcluidasCoddis, $disciplinasCurriculo);
-
-        # Total de créditos de concluídos de Discplinas Optativas Livres
-        $totnumcredisoptliv = 0;
-        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
-            if (in_array($disciplinaConcluida['coddis'], $disciplinasOptativasLivres)) {
-                $totnumcredisoptliv += $disciplinaConcluida['creaul'];
-            }
-        }
-
-        # Programa
-        $graduacaoPrograma = Graduacao::programa($aluno);
+        list(
+            $graduacaoCurso, 
+            $disciplinasCurriculo, 
+            $disciplinasConcluidas, 
+            $disciplinasOptativasLivres, 
+            $disciplinasFaltam,
+            $graduacaoPrograma,
+            $numcredisoptelt,
+            $numcredisoptliv,
+            $totnumcredisoptliv
+        ) = self::situacaoAluno($aluno);
        
         return view('aluno.creditos', 
-            compact('graduacaoCurso', 
-                'gate', 
+            compact('gate', 
+                'graduacaoCurso', 
                 'disciplinasCurriculo', 
                 'disciplinasConcluidas', 
                 'disciplinasOptativasLivres', 
@@ -221,8 +167,18 @@ class GraduacaoController extends Controller
         }
 
         # Programa
-        $graduacaoPrograma = Graduacao::programa($aluno);        
-
-        // return $arrSituacaoAluno;
+        $graduacaoPrograma = Graduacao::programa($aluno);
+        
+        return array(
+            $graduacaoCurso, 
+            $disciplinasCurriculo, 
+            $disciplinasConcluidas, 
+            $disciplinasOptativasLivres, 
+            $disciplinasFaltam,
+            $graduacaoPrograma,
+            $numcredisoptelt,
+            $numcredisoptliv,
+            $totnumcredisoptliv
+        );
     }
 }
