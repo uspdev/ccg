@@ -311,7 +311,7 @@
                 ordering    : true,
                 info        : true,
                 autoWidth   : true,
-                pageLength  : 25
+                pageLength  : 100
             });
 
         });

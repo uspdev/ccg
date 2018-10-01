@@ -215,7 +215,7 @@
                 ordering    	: true,
                 info        	: true,
                 autoWidth   	: true,
-                pageLength  	: 50
+                pageLength  	: 100
             });
 
 			// Total de créditos
@@ -233,7 +233,7 @@
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
                 },  
-				pageLength  	: 50
+				pageLength  	: 100
 			});
 
 			$('#disciplinasObrigatorias').dataTable( {
@@ -250,7 +250,7 @@
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
                 },  
-				pageLength  	: 50
+				pageLength  	: 100
 			});			
 
         });
