@@ -46,12 +46,13 @@ class GraduacaoController extends Controller
 
     public function creditos(Request $request, $codpes = null)
     {
+        # Gate para simular o acesso de aluno de graduação
         if ($codpes == null) {
             $gate = $this->getGate();
             if ($gate === 'secretaria') {
-                $aluno = env('CODPES_ALUNO');
+                $aluno = env('CODPES_ALUNO'); # desenvolvimento
             } else {
-                $aluno = Auth::user()->id;
+                $aluno = Auth::user()->id; # produção
             }
         } else {
             $aluno = $codpes;
@@ -98,12 +99,6 @@ class GraduacaoController extends Controller
                 
                 return view('curriculos.index', compact('curriculos'));
             }                                       
-
-            # Quantidade de Optativas Eletivas
-            $numcredisoptelt = $curriculo[0]['numcredisoptelt'];
-
-            # Quantidade de Optativas Livres
-            $numcredisoptliv = $curriculo[0]['numcredisoptliv'];
 
             # Dados do Currículo do Aluno
             $curriculoAluno = [
@@ -206,6 +201,7 @@ class GraduacaoController extends Controller
                 foreach ($disciplinasOptativasEletivas as $disciplinaOptativaEletiva) {
                     if ($disciplinaConcluida['coddis'] == $disciplinaOptativaEletiva['coddis']) {
                         array_push($disciplinasOptativasEletivasConcluidas, $disciplinaConcluida['coddis']);
+                        # Total de Créditos Concluídos Optativas Eletivas
                         $numcredisoptelt += $disciplinaConcluida['creaul'];
                     } 
                 }
@@ -224,36 +220,59 @@ class GraduacaoController extends Controller
             # Disciplinas Licenciaturas faltam
             $disciplinasLicenciaturasFaltam = array_diff($disciplinasLicenciaturasCoddis, $disciplinasLicenciaturasConcluidas);            
 
-            dd(
-                'Aluno', $dadosAluno,
-                'Currículo', $curriculoAluno,
-                # 'Obrigatórias', $disciplinasObrigatorias,
-                # 'Obrigatórias Equivalentes', $disciplinasObrigatoriasEquivalentes,
-                # 'Optativas Eletivas', $disciplinasOptativasEletivas,
-                # 'Licenciaturas', $disciplinasLicenciaturas,
-                # 'Licenciaturas Equivalentes', $disciplinasLicenciaturasEquivalentes,
-                'Concluídas', $disciplinasConcluidasCoddis,
-                'Obrigatórias Concluídas', $disciplinasObrigatoriasConcluidas,
-                'Obrigatóiras Faltam', $disciplinasObrigatoriasFaltam,
-                'Obrigatórias Equivalentes Concluídas',
-                'Optativas Eletivas Concluídas', $disciplinasOptativasEletivasConcluidas,
-                'Total de Optativas Eletivas', $numcredisoptelt,                
-                'Licenciaturas Concluídas', $disciplinasLicenciaturasConcluidas,
-                'Licenciaturas Faltam', $disciplinasLicenciaturasFaltam,
-                'Licenciaturas Equivalentes Concluídas'
-            ); 
+            # Disciplinas exigidas Currículo
+            $disciplinasCurriculo = array_merge($disciplinasObrigatoriasCoddis, $disciplinasOptativasEletivasConcluidas, $disciplinasLicenciaturasCoddis);
+
+            # Disciplinas Optativas Livres concluídas
+            $disciplinasOptativasLivresConcluidas = array_diff($disciplinasConcluidasCoddis, $disciplinasCurriculo);
+
+            # Total de Créditos Concluídos Optativas Livres
+            $numcredisoptliv = 0;
+            foreach ($disciplinasConcluidas as $disciplinaConcluida) {
+                foreach ($disciplinasOptativasLivresConcluidas as $disciplinaOptativaLivre) {
+                    if ($disciplinaConcluida['coddis'] == $disciplinaOptativaLivre) {
+                        # Total de Créditos Concluídos Optativas Livres
+                        $numcredisoptliv += $disciplinaConcluida['creaul'];
+                    } 
+                }
+            }
+
+            // dd(
+            //     'Aluno', $dadosAluno,
+            //     'Currículo', $curriculoAluno,
+            //     # 'Obrigatórias', $disciplinasObrigatorias,
+            //     # 'Obrigatórias Equivalentes', $disciplinasObrigatoriasEquivalentes,
+            //     # 'Optativas Eletivas', $disciplinasOptativasEletivas,
+            //     # 'Licenciaturas', $disciplinasLicenciaturas,
+            //     # 'Licenciaturas Equivalentes', $disciplinasLicenciaturasEquivalentes,
+            //     'Todas exigidas', $disciplinasCurriculo,
+            //     'Concluídas', $disciplinasConcluidasCoddis,
+            //     'Obrigatórias Concluídas', $disciplinasObrigatoriasConcluidas,
+            //     'Obrigatóiras Faltam', $disciplinasObrigatoriasFaltam,
+            //     'Obrigatórias Equivalentes Concluídas',
+            //     'Optativas Eletivas Concluídas', $disciplinasOptativasEletivasConcluidas,
+            //     'Total de Créditos Concluídos Optativas Eletivas', $numcredisoptelt,
+            //     'Total de Créditos Faltam Optativas Eletivas', ($curriculoAluno['numcredisoptelt'] - $numcredisoptelt),                
+            //     'Licenciaturas Concluídas', $disciplinasLicenciaturasConcluidas,
+            //     'Licenciaturas Faltam', $disciplinasLicenciaturasFaltam,
+            //     'Licenciaturas Equivalentes Concluídas',
+            //     'Optativas Livres Concluídas', $disciplinasOptativasLivresConcluidas,
+            //     'Total de Créditos Concluídos Optativas Livres', $numcredisoptliv
+            // ); 
        
             return view('aluno.creditos', 
                         compact('gate', 
-                                'graduacaoCurso', 
-                                'disciplinasCurriculo', 
-                                'disciplinasConcluidas', 
-                                'disciplinasOptativasLivres', 
-                                'disciplinasFaltam',
-                                'graduacaoPrograma',
-                                'numcredisoptelt',
-                                'numcredisoptliv',
-                                'totnumcredisoptliv'
+                                'dadosAluno', 
+                                'curriculoAluno', 
+                                'disciplinasConcluidas',
+                                'disciplinasObrigatoriasConcluidas', 
+                                'disciplinasObrigatoriasFaltam',
+                                'disciplinasOptativasEletivasConcluidas',
+                                'disciplinasOptativasLivresConcluidas',
+                                'numcredisoptelt',                                
+                                'disciplinasLicenciaturasConcluidas',
+                                'disciplinasLicenciaturasFaltam',
+                                'numcredisoptliv'
                         )
             );
         }  
