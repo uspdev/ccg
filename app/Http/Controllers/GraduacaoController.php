@@ -55,7 +55,7 @@ class GraduacaoController extends Controller
                 $aluno = Auth::user()->id; # produção
             }
         } else {
-            $aluno = $codpes;
+            $aluno = $codpes; # caso o método seja utilizado em /busca ou em /curriculos
         }
 
         # Verifica se é aluno ativo de graduação na unidade      
