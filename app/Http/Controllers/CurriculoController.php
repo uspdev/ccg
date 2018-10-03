@@ -169,4 +169,43 @@ class CurriculoController extends Controller
         $request->session()->flash('alert-danger', 'Curriculo apagado!');
         return redirect('/curriculos');
     }
+
+    /**
+     * Lista os alunos que pertencem ao Currículo
+     *
+     * @param  int  $id
+     * @return array  $alunosCurriculo
+     */
+    public function alunos(Curriculo $curriculo, Request $request)
+    {   
+        # Busca os alunos da unidade
+        $alunosUnidade = Graduacao::ativos($this->repUnd);
+        
+        # Traz somente os alunos do Currículo
+        $alunosCurriculo = array();
+        foreach ($alunosUnidade as $alunoUnidade) {
+            $dadosAluno = Graduacao::curso($alunoUnidade['codpes'], $this->repUnd);
+            if ( ($dadosAluno['codcurgrd'] == $curriculo['codcur']) and 
+                ($dadosAluno['codhab'] == $curriculo['codhab']) and 
+                (substr($dadosAluno['dtainivin'], 0, 4) == substr($curriculo['dtainicrl'], 0, 4))
+            ) {
+                array_push($alunosCurriculo, [
+                    'codpes' => $dadosAluno['codpes'],
+                    'nompes' => $dadosAluno['nompes']
+                ]);
+            }
+        }
+
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        
+        return view('curriculos.show', compact(
+            'curriculo', 
+            'disciplinasObrigatorias', 
+            'disciplinasOptativasEletivas',
+            'disciplinasLicenciaturas',
+            'alunosCurriculo'
+        ));        
+    }
 }
