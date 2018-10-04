@@ -193,13 +193,14 @@ class CurriculoController extends Controller
                     'codpes' => $dadosAluno['codpes'],
                     'nompes' => $dadosAluno['nompes']
                 ]);
-            }
+                $dadosAluno = '';
+            }                
         }
 
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
-        
+
         return view('curriculos.show', compact(
             'curriculo', 
             'disciplinasObrigatorias', 

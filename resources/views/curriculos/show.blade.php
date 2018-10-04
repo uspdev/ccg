@@ -289,7 +289,8 @@
                     <table class="table table-bordered table-striped table-hover datatable">
                         <thead>                  
                             <tr>
-                                <th>Nome</th>
+                                <th style="width: 70%;">Nome</th>
+                                <th style="width: 30%;">Ações</th>
                             </tr>                                          
                         </thead>
                         <tbody> 
@@ -297,6 +298,11 @@
                             @foreach ($alunosCurriculo as $alunoCurriculo)
                             <tr>
                                 <td>{{ $alunoCurriculo['nompes'] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </button>                                
+                                </td>
                             </tr> 
                             @endforeach
                         @endisset
