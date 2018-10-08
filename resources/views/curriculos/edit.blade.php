@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Currículos - Editar Currículo ' . $curriculo['id'])
+@section('title', config('app.name') . ' - Currículos - Editar Currículo ' . $curriculo['id'])
 
 @section('content_header')
     <h1>Editar Currículo {{ $curriculo['id'] }}</h1>

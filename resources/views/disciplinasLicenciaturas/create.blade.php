@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Currículo ' . $curriculo['id'] . ' - Disciplinas Licenciaturas ')
+@section('title', config('app.name') . ' - Currículo ' . $curriculo['id'] . ' - Disciplinas Licenciaturas ')
 
 @section('content_header')
     <h1>Curriculo {{ $curriculo['id'] }} - Adicionar Disciplinas Licenciaturas </h1>

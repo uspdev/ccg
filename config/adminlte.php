@@ -120,7 +120,8 @@ return [
             'text' => 'Meus créditos',
             'url'  => 'creditos',
             'icon' => 'credit-card',
-            'can'  => Graduacao::getGate(), 
+            # 'can'  => Graduacao::getGate(), 
+            'can'  => 'secretaria', 
         ],
         'Secretaria', # somente para secretaria de graduação
         [

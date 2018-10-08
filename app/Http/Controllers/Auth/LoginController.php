@@ -56,10 +56,10 @@ class LoginController extends Controller
         $user = User::find($userSenhaUnica->id);
         
 		# restrição só para admins/secretaria e aluno ativo de graduação na unidade
-        $secretaria = explode(',', trim(env('CODPES_ADMINS')));
+        $secretaria = explode(',', trim(config('app.codpesAdmins')));
 
         
-	if ( (!in_array($userSenhaUnica->id, $secretaria)) && (!Graduacao::verifica($userSenhaUnica->id, env('REPLICADO_CODUND'))) ) {
+	if ( (!in_array($userSenhaUnica->id, $secretaria)) && (!Graduacao::verifica($userSenhaUnica->id, config('app.codUnd'))) ) {
             # exibir mensagem flash de restrição...
             $msg = "Acesso restrito a secretaria do Serviço de Graduação e alunos ativos de Graduação desta unidade."; 
             session()->flash('alert-danger', $msg);

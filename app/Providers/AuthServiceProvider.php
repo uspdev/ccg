@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 
         # Verifica se id do usuário logado está na env CODPES_ADMINS
         Gate::define('secretaria', function ($secretaria) {
-            $codpesAdmins = explode(',', trim(env('CODPES_ADMINS')));
+            $codpesAdmins = explode(',', trim(config('app.codpesAdmins')));
             if (Auth::check() && in_array(Auth::user()->id, $codpesAdmins)) {
                 return true;
             }
@@ -38,7 +38,7 @@ class AuthServiceProvider extends ServiceProvider
 
         # Verifica se o usuário logado é aluno ativo de graduação na unidade
         Gate::define('alunos', function ($alunos) {
-            if (Graduacao::verifica(Auth::user()->id, env('REPLICADO_CODUND'))) {
+            if (Graduacao::verifica(Auth::user()->id, config('app.codUnd'))) {
                 return true;
             }
             return false;
