@@ -160,8 +160,8 @@ class CurriculoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  int  $id                
+     * @return \Illuminate\Http\Response                
      */
     public function destroy(Curriculo $curriculo, Request $request)
     {   
@@ -176,7 +176,7 @@ class CurriculoController extends Controller
      * @param  int  $id
      * @return array  $alunosCurriculo
      */
-    public function alunos(Curriculo $curriculo, Request $request)
+    public function alunos(Curriculo $curriculo)
     {   
         # Busca os alunos da unidade
         $alunosUnidade = Graduacao::ativos($this->repUnd);
@@ -193,20 +193,19 @@ class CurriculoController extends Controller
                     'codpes' => $dadosAluno['codpes'],
                     'nompes' => $dadosAluno['nompes']
                 ]);
-                $dadosAluno = '';
             }                
         }
 
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
-
+        
         return view('curriculos.show', compact(
             'curriculo', 
             'disciplinasObrigatorias', 
             'disciplinasOptativasEletivas',
             'disciplinasLicenciaturas',
             'alunosCurriculo'
-        ));        
+        ));       
     }
 }

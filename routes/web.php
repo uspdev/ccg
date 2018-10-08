@@ -20,6 +20,7 @@ Route::get('creditos', 'GraduacaoController@creditos');
 
 # curriculo
 Route::resource('curriculos', 'CurriculoController');
+Route::get('curriculos/{curriculo}', 'CurriculoController@alunos');
 Route::get('curriculos/{curriculo}/alunos', 'CurriculoController@alunos');
 
 # disciplinas obrigatórias

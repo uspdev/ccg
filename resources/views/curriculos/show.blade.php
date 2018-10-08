@@ -9,11 +9,15 @@
 @section('content')
 
     @include('flash')
-  
+    
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab_1" data-toggle="tab">Currículo</a></li>
-            <li><a href="#tab_2" data-toggle="tab">Alunos</a></li>
+            <li class="active">
+                <a href="#tab_1" data-toggle="tab">Currículo</a>
+            </li>
+            <li>
+                <a href="#tab_2" data-toggle="tab">Alunos</a>
+            </li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -60,7 +64,7 @@
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
                             </button>
                         </div>              
-                        <table class="table table-bordered table-striped table-hover datatable">
+                        <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th><label>Diciplinas Obrigatórias</label></th>
@@ -144,7 +148,7 @@
                             </tbody>
                         </table>
                         <br />
-                        <table class="table table-bordered table-striped table-hover datatable">
+                        <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th><label>Diciplinas Optativas Eletivas</label></th>
@@ -174,7 +178,7 @@
                             </tbody>
                         </table>  
                         <br />             
-                        <table class="table table-bordered table-striped table-hover datatable">
+                        <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
                             <thead>
                                 <tr>
                                     <th><label>Diciplinas Licenciaturas (Faculdade de Educação)</label></th>
@@ -286,18 +290,18 @@
                         </tr> 
                     </table> 	
                     <br />
-                    <table class="table table-bordered table-striped table-hover datatable">
+                    <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
                         <thead>                  
                             <tr>
                                 <th style="width: 70%;">Nome</th>
                                 <th style="width: 30%;">Ações</th>
                             </tr>                                          
                         </thead>
-                        <tbody> 
+                        <tbody>                         
                         @isset ($alunosCurriculo)
-                            @foreach ($alunosCurriculo as $alunoCurriculo)
+                            @foreach ($alunosCurriculo as $aluno)
                             <tr>
-                                <td>{{ $alunoCurriculo['nompes'] }}</td>
+                                <td>{{ $aluno['nompes'] }}</td>
                                 <td>
                                     <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
                                         <span class="glyphicon glyphicon-ok"></span>
@@ -348,6 +352,21 @@
             });
 
         });
+
+        @if (substr(request()->path(), -6, 6) == 'alunos')
+            /* Active tab-pane */ 
+            $(document).ready(function(){
+                activaTab('tab_2');
+            });
+        @else
+            $(document).ready(function(){
+                activaTab('tab_1');
+            });
+        @endif
+
+        function activaTab(tab){
+            $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+        };
 
     </script>
 
