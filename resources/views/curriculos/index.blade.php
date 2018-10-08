@@ -64,12 +64,20 @@
                                 (App\DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get()->count() == 0) and  
                                 (App\DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get()->count() == 0)                                 
                             )                             
+                                <button type="button" class="btn btn-info btn-xs" 
+                                    onclick='location.href="/curriculos/{{ $curriculo->id }}/alunos";' title="Listar Alunos">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </button>                                
                                 <button type="submit" class="btn btn-danger btn-xs" title="Apagar Currículo">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                                 </form>                                 
                             {{-- Se não, exibe modal avisando --}}
                             @else
+                                <button type="button" class="btn btn-info btn-xs" 
+                                    onclick='location.href="/curriculos/{{ $curriculo->id }}/alunos";' title="Listar Alunos">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                </button>                             
                                 <button type="button" class="btn btn-danger btn-xs" title="Apagar Currículo" 
                                     data-toggle="modal" data-target="#diciplinas{{ $curriculo->id }}">
                                     <span class="glyphicon glyphicon-trash"></span>
