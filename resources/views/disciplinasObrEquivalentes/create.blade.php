@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Currículo ' . $curriculo['id'] . 
+@section('title', config('app.name') . ' - Currículo ' . $curriculo['id'] . 
     ' - Disciplinas Obrigatórias Equivalentes - ' . $disciplinasObrigatoria['coddis'])
 
 @section('content_header')

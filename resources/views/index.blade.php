@@ -1,9 +1,9 @@
 @extends ('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Contagem de Créditos da Graduação')
+@section('title', config('app.name') . ' - Contagem de Créditos da Graduação')
 
 @section('content_header')
-    <h1>{{ env('APP_NAME') }} - Contagem de Créditos da Graduação</h1>
+    <h1>{{ config('app.name') }} - Contagem de Créditos da Graduação</h1>
 @stop
 
 @section('content')

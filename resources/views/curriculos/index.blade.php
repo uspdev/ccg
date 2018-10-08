@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Currículos')
+@section('title', config('app.name') . ' - Currículos')
 
 @section('content_header')
     <h1>Currículos</h1>

@@ -16,7 +16,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->repUnd = env('REPLICADO_CODUND');
+        $this->repUnd = config('app.codUnd');
     }
 
     /**

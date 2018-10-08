@@ -19,7 +19,7 @@ class GraduacaoController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index']);
-        $this->repUnd   = env('REPLICADO_CODUND');
+        $this->repUnd   = config('app.codUnd');
     }
     
     public function busca()
@@ -50,7 +50,7 @@ class GraduacaoController extends Controller
         if ($codpes == null) {
             $gate = $this->getGate();
             if ($gate === 'secretaria') {
-                $aluno = env('CODPES_ALUNO'); # desenvolvimento
+                $aluno = config('app.codpesAluno'); # desenvolvimento
             } else {
                 $aluno = Auth::user()->id; # produção
             }
@@ -282,7 +282,7 @@ class GraduacaoController extends Controller
     public function getGate()
     {
         # Se APP_ENV = dev e CODPES_ALUNO não é vazio, desenvolvimento
-        if (env('APP_ENV') === 'dev' and !empty(env('CODPES_ALUNO'))) { 
+        if (config('app.envDev') === 'dev' and !empty(config('app.codpesAluno'))) { 
             $gate = 'secretaria';
         } else {
             $gate = 'alunos';  

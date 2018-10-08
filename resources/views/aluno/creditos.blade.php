@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', env('APP_NAME') . ' - Meus créditos')
+@section('title', config('app.name') . ' - Meus créditos')
 
 @section('content_header')
     <h1>Meus créditos</h1>
@@ -23,7 +23,7 @@
           		<div class="box-primary">
             		<div class="box-header">
 						
-                        @if( env('WSFOTO') === true  )
+                        @if( config('app.wsFoto') === true  )
                         <img style="margin-left: 0px; margin-bottom: 10px;" class="profile-user-img img-responsive img-circle" 
                             src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter($dadosAluno['codpes']) }}" alt="{{ $dadosAluno['nompes'] }}" />
               			@endif
