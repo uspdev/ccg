@@ -78,10 +78,10 @@ Caso falte alguma dependência, siga as instruções do `composer`.
 
 ## Projetos utilizados
 
-    - github: uspdev/replicado 
-    - github: jeroennoten/Laravel-AdminLTE
-    - github: uspdev/senhaunica-socialite
-    - github: uspdev/wsfoto
+    - github: [uspdev/replicado](https://github.com/uspdev/replicado)
+    - github: [jeroennoten/Laravel-AdminLTE](https://github.com/jeroennoten/Laravel-AdminLTE)
+    - github: [uspdev/senhaunica-socialite](https://github.com/uspdev/senhaunica-socialite)
+    - github: [uspdev/wsfoto](https://github.com/uspdev/wsfoto)
 
 ## Contribuindo com o projeto
 
