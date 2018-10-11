@@ -16,7 +16,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->repUnd = config('app.codUnd');
+        $this->repUnd = config('ccg.codUnd');
     }
 
     /**
@@ -38,7 +38,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
     {
         $curriculo = Curriculo::find($disciplinasObrigatoria->id_crl);     
         $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->orderBy('coddis', 'asc')->get();
-        $arrCoddis = config('app.arrCoddis');
+        $arrCoddis = config('ccg.arrCoddis');
         array_push($arrCoddis, $disciplinasObrigatoria->coddis);
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
 
