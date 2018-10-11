@@ -40,7 +40,7 @@ return [
     |--------------------------------------------------------------------------
     |   Deve ser usado apenas em desenvolvimento
     */
-    'codpesAluno' => env('CODPES_ALUNO'),
+    'codpesAluno' => env('CODPES_ALUNO', false),
 
     /*
     |--------------------------------------------------------------------------
