@@ -48,8 +48,10 @@ class GraduacaoController extends Controller
     {
         # Gate para simular o acesso de aluno de graduação
         if ($codpes == null) {
-            $gate = $this->getGate();
-            if ($gate === 'secretaria') {
+
+            // Se o environment é local, popula o usuário de teste
+            // para secretaria
+            if (App::environment('local') && config('ccg.codpesAluno')) {
                 $aluno = config('ccg.codpesAluno'); # desenvolvimento
             } else {
                 $aluno = Auth::user()->id; # produção
