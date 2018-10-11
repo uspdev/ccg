@@ -1,16 +1,16 @@
-## Conceito:
+## Conceito
 
 Ferramenta para auxiliar na verificação das disciplinas cursadas pelos alunos e no levantamento das pendências para a conclusão do seu curso. A ferramenta deve ser acessada pelo navegador com acesso restrito aos servidores do Serviço de Graduação, consultar o resumo escolar dos alunos pela replicação do Júpiter e fazer a comparação com um currículo previamente cadastrado.
 
-## Justificativa:
+## Justificativa
 
 O sistema Júpiter não foi concebido para verificar as alterações que ocorrem dentro do mesmo currículo para anos diferentes de ingresso.
 
-## Tela inicial:
+## Tela inicial
 
 A ferramenta deve extrair dos dados do Júpiter de duas formas: individual, através do nº USP ou, por grupo de alunos, através da informação do ano de ingresso, curso e habilitação desejados. 
 
-## Dados Júpiter:
+## Dados Júpiter
 
 A Ferramenta deve coletar da replicação do Júpiter:
 
@@ -22,7 +22,7 @@ A Ferramenta deve coletar da replicação do Júpiter:
 - Disciplinas com aprovação, com o respectivo número de créditos aula e trabalho.
 
 
-## Currículo:
+## Currículo
 
 Esses dados devem ser comparados com o currículo previamente cadastrado na ferramenta pelo Serviço de Graduação, que conterá:
 
@@ -41,31 +41,51 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 
 ## Procedimentos de deploy
  
-    - Adicionar a biblioteca php referente ao sgbd da base replicada
-    - composer install
-    - cp .env.example .env
-    - Editar o arquivo .env
-        - Dados da conexão na base do sistema
-        - Dados da conexão na base replicada
-        - Nº USP dos funcionários da secretaria / Serviço de Graduação da unidade que acessarão o sistema
-        - Nº USP do aluno (desenvolvimento) para simular o acesso como aluno de Graduação
-            - Em desenvolvimento: setar APP_ENV como dev e setar COPES_ALUNO com o Nº USP do aluno
-            - Em produção: setar APP_ENV como prd e deixar CODPES_ALUNO em branco
-        - Código da unidade local
-        - Credenciais do wsfoto
-        - Prefixo dos códigos de disciplinas de graduação oferecidas da unidade
-    - php artisan key:generate
-    - php artisan migrate
-    - php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets --force
+- Adicionar a biblioteca PHP referente ao sgbd da base replicada
+
+```bash
+composer install
+cp .env.example .env
+```
+
+- Editar o arquivo .env
+    - Dados da conexão na base do sistema
+    - Dados da conexão na base replicada
+    - Nº USP dos funcionários da secretaria / Serviço de Graduação da unidade que acessarão o sistema
+    - Nº USP do aluno (desenvolvimento) para simular o acesso como aluno de Graduação
+        - Em desenvolvimento: setar APP_ENV como dev e setar COPES_ALUNO com o Nº USP do aluno
+        - Em produção: setar APP_ENV como prd e deixar CODPES_ALUNO em branco
+    - Código da unidade local
+    - Credenciais do wsfoto
+    - Prefixo dos códigos de disciplinas de graduação oferecidas da unidade
+
+As diretivas específicas do sistema `CCG` estão documentadas em `config/ccg.php`
+
+- Configurações finais do framework e do sistema:
+
+```bash
+php artisan key:generate
+php artisan migrate
+```
+
+- Publicando assets do AdminLTE
+
+```bash
+php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets --force
+```
 
 Caso falte alguma dependência, siga as instruções do `composer`.
 
 ## Projetos utilizados
 
-    - github: uspdev/replicado
-    - github: jeroennoten/Laravel-AdminLTE
-    - github: uspdev/senhaunica-socialite
-    - github: uspdev/wsfoto
+github: [uspdev/replicado](https://github.com/uspdev/replicado)
+
+github: [jeroennoten/Laravel-AdminLTE](https://github.com/jeroennoten/Laravel-AdminLTE)
+
+github: [uspdev/senhaunica-socialite](https://github.com/uspdev/senhaunica-socialite)
+
+github: [uspdev/wsfoto](https://github.com/uspdev/wsfoto)
+
 
 ## Contribuindo com o projeto
 

@@ -17,7 +17,7 @@ class CurriculoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->repUnd = config('app.codUnd');
+        $this->repUnd = config('ccg.codUnd');
     }
         
     /**

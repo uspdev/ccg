@@ -17,7 +17,7 @@ class DisciplinasLicenciaturaController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->repUnd = config('app.codUnd');
+        $this->repUnd = config('ccg.codUnd');
     }    
     
     /**
@@ -41,7 +41,7 @@ class DisciplinasLicenciaturaController extends Controller
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         
-        $arrCoddis = config('app.arrCoddis');
+        $arrCoddis = config('ccg.arrCoddis');
         $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
 
         foreach ($disciplinas as $key => $value) {

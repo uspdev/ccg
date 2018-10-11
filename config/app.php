@@ -26,8 +26,7 @@ return [
     |
     */
 
-    # 'env' => env('APP_ENV', 'production'),
-    'env' => env('APP_ENV'),
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -228,16 +227,4 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
     ],
-
-    'arrCoddis' => explode(',', env('CODDIS')),
-
-    'codpesAdmins' => env('CODPES_ADMINS'),
-
-    'codUnd' => env('REPLICADO_CODUND'),
-
-    'codpesAluno' => env('CODPES_ALUNO'),
-
-    'wsFoto' => env('WSFOTO'),
-
-    'envDev' => env('APP_ENV'),
 ];

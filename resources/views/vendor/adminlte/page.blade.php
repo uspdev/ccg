@@ -62,7 +62,7 @@
                             @auth
                                 <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     
-                                    @if( config('app.wsFoto') === true  )
+                                    @if( config('ccg.wsFoto') === true  )
                                     <img class="img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
                                         alt="{{ Auth::user()->name }}" style="width: 13px;" />&nbsp;
                                     @endif
@@ -102,7 +102,7 @@
                     <!-- User info -->
                     <div class="box-body box-profile">
                         
-                        @if( config('app.wsFoto') === true  )
+                        @if( config('ccg.wsFoto') === true  )
                         <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
                             alt="{{ Auth::user()->name }}" />
                         @endif
