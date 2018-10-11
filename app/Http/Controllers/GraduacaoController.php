@@ -19,25 +19,25 @@ class GraduacaoController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index']);
-        $this->repUnd   = config('ccg.codUnd');
+        $this->repUnd = config('ccg.codUnd');
     }
-    
+
     public function busca()
     {
         return view('graduacao.busca');
     }
-    
+
     public function buscaReplicado(Request $request)
     {
         // É aluno de graduação ATIVO da unidade? 
         if (Graduacao::verifica($request->codpes, $this->repUnd)) {
             // Retorna os dados acadêmicos
-	        $graduacaoPrograma = Graduacao::programa($request->codpes);
-            $graduacaoCurso = Graduacao::curso($request->codpes, $this->repUnd);  
+            $graduacaoPrograma = Graduacao::programa($request->codpes);
+            $graduacaoCurso = Graduacao::curso($request->codpes, $this->repUnd);
         } else {
-            $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade."; 
+            $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade.";
             $request->session()->flash('alert-danger', $msg);
-            
+
             return redirect('/busca');
         }
 
@@ -53,8 +53,10 @@ class GraduacaoController extends Controller
             // para secretaria
             if (App::environment('local') && config('ccg.codpesAluno')) {
                 $aluno = config('ccg.codpesAluno'); # desenvolvimento
+                $gate = 'secretaria';
             } else {
                 $aluno = Auth::user()->id; # produção
+                $gate = 'alunos';
             }
         } else {
             $aluno = $codpes; # caso o método seja utilizado em /busca ou em /curriculos
@@ -64,7 +66,7 @@ class GraduacaoController extends Controller
         if (Graduacao::verifica($aluno, $this->repUnd) == false) {
             $msg = "O nº USP $aluno não pertence a um aluno ativo de Graduação nesta unidade.";
             $request->session()->flash('alert-danger', $msg);
-            
+
             return view('graduacao.busca');
         } else {
             # Curso e Habilitação do aluno
@@ -75,30 +77,30 @@ class GraduacaoController extends Controller
 
             # Dados do aluno
             $dadosAluno = [
-                'codpes'    => $aluno,
-                'nompes'    => $graduacaoCurso['nompes'],
-                'codema'    => $graduacaoCurso['codema'],
-                'codcur'    => $graduacaoCurso['codcur'],
-                'nomcur'    => $graduacaoCurso['nomcur'],
-                'codhab'    => $graduacaoCurso['codhab'],
-                'nomhab'    => $graduacaoCurso['nomhab'],
+                'codpes' => $aluno,
+                'nompes' => $graduacaoCurso['nompes'],
+                'codema' => $graduacaoCurso['codema'],
+                'codcur' => $graduacaoCurso['codcur'],
+                'nomcur' => $graduacaoCurso['nomcur'],
+                'codhab' => $graduacaoCurso['codhab'],
+                'nomhab' => $graduacaoCurso['nomhab'],
                 'dtainivin' => substr($graduacaoCurso['dtainivin'], 0, 4),
-                'codpgm'    => $graduacaoPrograma['codpgm']
+                'codpgm' => $graduacaoPrograma['codpgm']
             ];
 
             # Currículo do aluno
             $curriculo = Curriculo::where('codcur', $dadosAluno['codcur'])
-                                    ->where('codhab', $dadosAluno['codhab'])
-                                    ->whereYear('dtainicrl', substr($dadosAluno['dtainivin'], 0, 4))
+                ->where('codhab', $dadosAluno['codhab'])
+                ->whereYear('dtainicrl', substr($dadosAluno['dtainivin'], 0, 4))
                                     # ->whereYear('dtainicrl', substr('2000-01-01', 0, 4)) # teste
-                                    ->get(); 
+                ->get(); 
 
             # Verifica se o aluno pertence a um currículo cadastrado
             if ($curriculo->isEmpty()) {
-                $msg  = "O aluno $aluno - {$dadosAluno['nompes']} não pertence a um currículo cadastrado neste sistema.";
+                $msg = "O aluno $aluno - {$dadosAluno['nompes']} não pertence a um currículo cadastrado neste sistema.";
                 $request->session()->flash('alert-danger', $msg);
                 $curriculos = Curriculo::all();
-                
+
                 return view('curriculos.index', compact('curriculos'));
             }                                       
 
@@ -112,27 +114,27 @@ class GraduacaoController extends Controller
 
             # Disciplinas que o currículo exige
             $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculoAluno['id_crl'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get()
-                                                            ->toArray();
+                ->orderBy('coddis', 'asc')
+                ->get()
+                ->toArray();
             $disciplinasObrigatoriasCoddis = array();
             foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
                 array_push($disciplinasObrigatoriasCoddis, $disciplinaObrigatoria['coddis']);
             }
             sort($disciplinasObrigatoriasCoddis);
             $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculoAluno['id_crl'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get()
-                                                            ->toArray();
+                ->orderBy('coddis', 'asc')
+                ->get()
+                ->toArray();
             $disciplinasOptativasEletivasCoddis = array();
             foreach ($disciplinasOptativasEletivas as $disciplinaOptativaEletiva) {
                 array_push($disciplinasOptativasEletivasCoddis, $disciplinaOptativaEletiva['coddis']);
             }
             sort($disciplinasOptativasEletivasCoddis);
             $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculoAluno['id_crl'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get()
-                                                            ->toArray();
+                ->orderBy('coddis', 'asc')
+                ->get()
+                ->toArray();
             $disciplinasLicenciaturasCoddis = array();
             foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
                 array_push($disciplinasLicenciaturasCoddis, $disciplinaLicenciatura['coddis']);
@@ -144,8 +146,8 @@ class GraduacaoController extends Controller
             foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
                 # Consulta se tem equivalente
                 $disciplinaObrigatoriaEquivalente = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinaObrigatoria['id'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get();
+                    ->orderBy('coddis', 'asc')
+                    ->get();
                 # Se tem equivalentes
                 if ($disciplinaObrigatoriaEquivalente->isEmpty() == false) {
                     # Monta array com as equivalentes
@@ -162,8 +164,8 @@ class GraduacaoController extends Controller
             foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
                 # Consulta se tem equivalente
                 $disciplinaLicenciaturaEquivalente = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinaLicenciatura['id'])
-                                                            ->orderBy('coddis', 'asc')
-                                                            ->get();
+                    ->orderBy('coddis', 'asc')
+                    ->get();
                 # Se tem equivalentes
                 if ($disciplinaLicenciaturaEquivalente->isEmpty() == false) {
                     # Monta array com as equivalentes
@@ -189,7 +191,7 @@ class GraduacaoController extends Controller
                 foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
                     if ($disciplinaConcluida['coddis'] == $disciplinaObrigatoria['coddis']) {
                         array_push($disciplinasObrigatoriasConcluidas, $disciplinaConcluida['coddis']);
-                    } 
+                    }
                 }
             }
 
@@ -205,7 +207,7 @@ class GraduacaoController extends Controller
                         array_push($disciplinasOptativasEletivasConcluidas, $disciplinaConcluida['coddis']);
                         # Total de Créditos Concluídos Optativas Eletivas
                         $numcredisoptelt += $disciplinaConcluida['creaul'];
-                    } 
+                    }
                 }
             }
 
@@ -215,7 +217,7 @@ class GraduacaoController extends Controller
                 foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
                     if ($disciplinaConcluida['coddis'] == $disciplinaLicenciatura['coddis']) {
                         array_push($disciplinasLicenciaturasConcluidas, $disciplinaLicenciatura['coddis']);
-                    } 
+                    }
                 }
             }
 
@@ -235,7 +237,7 @@ class GraduacaoController extends Controller
                     if ($disciplinaConcluida['coddis'] == $disciplinaOptativaLivre) {
                         # Total de Créditos Concluídos Optativas Livres
                         $numcredisoptliv += $disciplinaConcluida['creaul'];
-                    } 
+                    }
                 }
             }
 
@@ -261,33 +263,35 @@ class GraduacaoController extends Controller
             //     'Optativas Livres Concluídas', $disciplinasOptativasLivresConcluidas,
             //     'Total de Créditos Concluídos Optativas Livres', $numcredisoptliv
             // ); 
-       
-            return view('aluno.creditos', 
-                        compact('gate', 
-                                'dadosAluno', 
-                                'curriculoAluno', 
-                                'disciplinasConcluidas',
-                                'disciplinasObrigatoriasConcluidas', 
-                                'disciplinasObrigatoriasFaltam',
-                                'disciplinasOptativasEletivasConcluidas',
-                                'disciplinasOptativasLivresConcluidas',
-                                'numcredisoptelt',                                
-                                'disciplinasLicenciaturasConcluidas',
-                                'disciplinasLicenciaturasFaltam',
-                                'numcredisoptliv'
-                        )
+
+            return view(
+                'aluno.creditos',
+                compact(
+                    'gate',
+                    'dadosAluno',
+                    'curriculoAluno',
+                    'disciplinasConcluidas',
+                    'disciplinasObrigatoriasConcluidas',
+                    'disciplinasObrigatoriasFaltam',
+                    'disciplinasOptativasEletivasConcluidas',
+                    'disciplinasOptativasLivresConcluidas',
+                    'numcredisoptelt',
+                    'disciplinasLicenciaturasConcluidas',
+                    'disciplinasLicenciaturasFaltam',
+                    'numcredisoptliv'
+                )
             );
-        }  
+        }
     }
 
     # Retorna o Gate
     public function getGate()
     {
         # Se APP_ENV = dev e CODPES_ALUNO não é vazio, desenvolvimento
-        if (config('ccg.envDev') === 'dev' and !empty(config('ccg.codpesAluno'))) { 
+        if (config('ccg.envDev') === 'dev' and !empty(config('ccg.codpesAluno'))) {
             $gate = 'secretaria';
         } else {
-            $gate = 'alunos';  
+            $gate = 'alunos';
         }
 
         return $gate;
