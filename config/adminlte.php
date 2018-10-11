@@ -120,8 +120,7 @@ return [
             'text' => 'Meus créditos',
             'url'  => 'creditos',
             'icon' => 'credit-card',
-            # 'can'  => Graduacao::getGate(), 
-            'can'  => 'secretaria', 
+            'can'  => 'alunos', 
         ],
         'Secretaria', # somente para secretaria de graduação
         [
@@ -134,6 +133,12 @@ return [
             'text' => 'Currículo',
             'url'  => 'curriculos',
             'icon' => 'institution',
+            'can'  => 'secretaria', 
+        ],
+        [
+            'text' => 'Créditos Aluno',
+            'url'  => 'creditos',
+            'icon' => 'credit-card',
             'can'  => 'secretaria', 
         ],
     ],
