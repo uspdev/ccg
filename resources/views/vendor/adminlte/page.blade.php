@@ -60,7 +60,7 @@
                     <ul class="nav navbar-nav">
                         <li>
                             @auth
-                                <a href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a href="logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     
                                     @if( config('ccg.wsFoto') === true  )
                                     <img class="img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
@@ -78,7 +78,7 @@
                                     {{ csrf_field() }}
                                 </form>
                             @else
-                                <a href="/login">
+                                <a href="login">
                                     <i class="fa fa-fw fa-power-off"></i> Entrar
                                 </a>
                             @endauth

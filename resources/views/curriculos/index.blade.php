@@ -48,11 +48,11 @@
                                 {{ method_field('delete') }}                            
                             @endif                                
                                 <button type="button" class="btn btn-info btn-xs" 
-                                    onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
+                                    onclick='location.href="curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </button>
                                 <button type="button" class="btn btn-primary btn-xs" 
-                                    onclick='location.href="/curriculos/{{ $curriculo->id }}/edit";' title="Editar Currículo">
+                                    onclick='location.href="curriculos/{{ $curriculo->id }}/edit";' title="Editar Currículo">
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </button>                            
                                 <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
@@ -65,7 +65,7 @@
                                 (App\DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get()->count() == 0)                                 
                             )                             
                                 <button type="button" class="btn btn-info btn-xs" 
-                                    onclick='location.href="/curriculos/{{ $curriculo->id }}/alunos";' title="Listar Alunos">
+                                    onclick='location.href="curriculos/{{ $curriculo->id }}/alunos";' title="Listar Alunos">
                                     <span class="glyphicon glyphicon-user"></span>
                                 </button>                                
                                 <button type="submit" class="btn btn-danger btn-xs" title="Apagar Currículo">
@@ -75,7 +75,7 @@
                             {{-- Se não, exibe modal avisando --}}
                             @else
                                 <button type="button" class="btn btn-info btn-xs" 
-                                    onclick='location.href="/curriculos/{{ $curriculo->id }}/alunos";' title="Listar Alunos">
+                                    onclick='location.href="curriculos/{{ $curriculo->id }}/alunos";' title="Listar Alunos">
                                     <span class="glyphicon glyphicon-user"></span>
                                 </button>                             
                                 <button type="button" class="btn btn-danger btn-xs" title="Apagar Currículo" 
@@ -117,7 +117,7 @@
                                                 @endforeach
                                                 </p>                                                                                                  
                                             </div>
-                                            <form role="form" method="POST" action="/curriculos/{{ $curriculo->id }}">
+                                            <form role="form" method="POST" action="curriculos/{{ $curriculo->id }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('delete') }} 
                                             <div class="modal-footer">
