@@ -45,19 +45,20 @@ class GraduacaoController extends Controller
     }
 
     public function creditos(Request $request, $codpes = null)
-    {
+    {   
         # Gate para simular o acesso de aluno de graduação
-        if ($codpes == null) {
-
-            // Se o environment é local, popula o usuário de teste
+        if ($codpes === null) {
+            // Se é desenvolvimento, popula o usuário de teste
             // para secretaria
-            if (App::environment('local') && config('ccg.codpesAluno')) {
+            if (config('ccg.envDev') === 'dev' and config('ccg.codpesAluno')) {
                 $aluno = config('ccg.codpesAluno'); # desenvolvimento
                 $gate = 'secretaria';
+            // para o aluno logado
             } else {
                 $aluno = Auth::user()->id; # produção
                 $gate = 'alunos';
             }
+        // para busca e currículo
         } else {
             $aluno = $codpes; # caso o método seja utilizado em /busca ou em /curriculos
         }
