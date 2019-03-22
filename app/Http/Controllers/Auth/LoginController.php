@@ -53,13 +53,13 @@ class LoginController extends Controller
         // aqui vc pode inserir o usuário no banco de dados local, fazer o login etc.
         
 		# busca o usuário local
-        $user = User::find($userSenhaUnica->id);
+        $user = User::find($userSenhaUnica->codpes);
         
 		# restrição só para admins/secretaria e aluno ativo de graduação na unidade
         $secretaria = explode(',', trim(config('ccg.codpesAdmins')));
 
         
-	if ( (!in_array($userSenhaUnica->id, $secretaria)) && (!Graduacao::verifica($userSenhaUnica->id, config('ccg.codUnd'))) ) {
+	if ( (!in_array($userSenhaUnica->codpes, $secretaria)) && (!Graduacao::verifica($userSenhaUnica->codpes, config('ccg.codUnd'))) ) {
             # exibir mensagem flash de restrição...
             $msg = "Acesso restrito a secretaria do Serviço de Graduação e alunos ativos de Graduação desta unidade."; 
             session()->flash('alert-danger', $msg);
@@ -69,16 +69,16 @@ class LoginController extends Controller
 		# se o usuário local NÃO EXISTE, cadastra
         if (is_null($user)) {
             $user = new User;
-            $user->id = $userSenhaUnica->id;
+            $user->id = $userSenhaUnica->codpes;
             $user->email = $userSenhaUnica->email;
-            $user->name = $userSenhaUnica->name;
+            $user->name = $userSenhaUnica->nompes;
             $user->save();
         } else {
             # se o usuário EXISTE local
             # atualiza os dados
-            $user->id = $userSenhaUnica->id;
+            $user->id = $userSenhaUnica->codpes;
             $user->email = $userSenhaUnica->email;
-            $user->name = $userSenhaUnica->name;
+            $user->name = $userSenhaUnica->nompes;
             $user->save(); 
         }
         

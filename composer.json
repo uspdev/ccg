@@ -12,7 +12,7 @@
         "laravel/tinker": "~1.0",
         "uspdev/replicado": "dev-master",
         "uspdev/wsfoto": "dev-master",
-        "uspdev/senhaunica-socialite": "^1.0"
+        "uspdev/senhaunica-socialite": "^2.0"
     },
     "require-dev": {
         "filp/whoops": "~2.0",
