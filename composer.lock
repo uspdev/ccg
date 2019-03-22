@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e65a91b7da130d1459c7cb6c58738623",
+    "content-hash": "8cd56bdd31671ec1d4c8c1d3b44c03bf",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3093,16 +3093,16 @@
         },
         {
             "name": "uspdev/senhaunica-socialite",
-            "version": "v2.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/uspdev/senhaunica-socialite.git",
-                "reference": "875757afac2256015eb4f194468ef0bffa5f14b8"
+                "reference": "8eb5b9baa2982b215ea250a677744d423dd04f9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uspdev/senhaunica-socialite/zipball/875757afac2256015eb4f194468ef0bffa5f14b8",
-                "reference": "875757afac2256015eb4f194468ef0bffa5f14b8",
+                "url": "https://api.github.com/repos/uspdev/senhaunica-socialite/zipball/8eb5b9baa2982b215ea250a677744d423dd04f9e",
+                "reference": "8eb5b9baa2982b215ea250a677744d423dd04f9e",
                 "shasum": ""
             },
             "require": {
@@ -3128,8 +3128,8 @@
                 }
             ],
             "description": "Senhaunica OAuth1 Provider for Laravel Socialite",
-            "homepage": "https://github.com/uspdev/SenhaunicaSocialite",
-            "time": "2018-04-18T17:16:29+00:00"
+            "homepage": "https://github.com/uspdev/senhaunica-socialite",
+            "time": "2019-01-10T23:55:47+00:00"
         },
         {
             "name": "uspdev/wsfoto",
@@ -5009,7 +5009,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "uspdev/replicado": 20,
-        "uspdev/wsfoto": 20
+        "uspdev/wsfoto": 20,
+        "uspdev/senhaunica-socialite": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
