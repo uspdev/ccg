@@ -74,6 +74,8 @@ php artisan migrate
 php artisan vendor:publish --provider="JeroenNoten\LaravelAdminLte\ServiceProvider" --tag=assets --force
 ```
 
+- Adicione permissão de escrita na pasta storage
+
 Caso falte alguma dependência, siga as instruções do `composer`.
 
 ## Projetos utilizados
