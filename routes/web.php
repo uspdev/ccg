@@ -11,7 +11,7 @@ Route::post('logout', 'Auth\LoginController@logout');
 # secretaria
 # busca
 Route::get('busca', 'GraduacaoController@busca');
-Route::post('busca', 'GraduacaoController@buscaReplicado');
+Route::post('busca', 'GraduacaoController@dadosAcademicos');
 Route::get('busca/{parteNome}', 'GraduacaoController@buscaAlunos');
 
 # aluno

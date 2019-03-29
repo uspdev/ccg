@@ -27,11 +27,11 @@ class GraduacaoController extends Controller
         return view('graduacao.busca');
     }
 
-    public function buscaReplicado(Request $request)
+    public function dadosAcademicos(Request $request)
     {
         // É aluno de graduação ATIVO da unidade? 
         if (Graduacao::verifica($request->codpes, $this->repUnd)) {
-            $alunoGraduacao = [
+            $dadosAcademicos = [
                 'codpes'    => Graduacao::curso($request->codpes, $this->repUnd)['codpes'],
                 'nompes'    => Graduacao::curso($request->codpes, $this->repUnd)['nompes'],
                 'codcur'    => Graduacao::curso($request->codpes, $this->repUnd)['codcur'],
@@ -46,7 +46,7 @@ class GraduacaoController extends Controller
             $request->session()->flash('alert-danger', $msg);
             return redirect('/busca');
         }
-        return view('graduacao.busca', compact('alunoGraduacao'));
+        return view('graduacao.busca', compact('dadosAcademicos'));
     }
 
     public function creditos(Request $request, $codpes = null)
