@@ -1,3 +1,5 @@
+## Em desenvolvimento
+
 ## Conceito
 
 Ferramenta para auxiliar na verificação das disciplinas cursadas pelos alunos e no levantamento das pendências para a conclusão do seu curso. A ferramenta deve ser acessada pelo navegador com acesso restrito aos servidores do Serviço de Graduação, consultar o resumo escolar dos alunos pela replicação do Júpiter e fazer a comparação com um currículo previamente cadastrado.
@@ -21,7 +23,6 @@ A Ferramenta deve coletar da replicação do Júpiter:
 - Ano de ingresso
 - Disciplinas com aprovação, com o respectivo número de créditos aula e trabalho.
 
-
 ## Currículo
 
 Esses dados devem ser comparados com o currículo previamente cadastrado na ferramenta pelo Serviço de Graduação, que conterá:
@@ -34,6 +35,17 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 - Disciplinas da Faculdade de Educação (para cursos de licenciatura)
 - Nº de créditos-aula exigidos em disciplinas optativas eletivas
 - Nº de créditos-aula exigidos em disciplinas optativas livres
+
+## Funcionalidades
+
+- O aluno de Graduação pode acessar o sistema e ver as disciplinas que já cursou e as que faltam. 
+- O Serviço de Graduação pode: 
+    - Cadastrar os currículos de acordo com suas alterações ao longo dos anos.
+    - Cadastrar as equivalências entre as disciplinas.
+    - Buscar alunos pelo nº USP ou por parte do nome.
+    - Analisar a situação de todos alunos de um determinado currículo.
+    - Emitir um relatório a ser entregue ao aluno.
+    - Emitir um relatório com situação de todos os alunos de um currículo.
 
 ## Model
 
