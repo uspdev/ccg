@@ -31,27 +31,21 @@ class GraduacaoController extends Controller
     {
         // É aluno de graduação ATIVO da unidade? 
         if (Graduacao::verifica($request->codpes, $this->repUnd)) {
-            // Retorna os dados acadêmicos
-            $graduacaoPrograma = Graduacao::programa($request->codpes);
-            $graduacaoCurso = Graduacao::curso($request->codpes, $this->repUnd);
-
             $alunoGraduacao = [
-                'codpes'    => $graduacaoCurso['codpes'],
-                'nompes'    => $graduacaoCurso['nompes'],
-                'codcur'    => $graduacaoCurso['codcur'],
-                'nomcur'    => $graduacaoCurso['nomcur'],
-                'codhab'    => $graduacaoCurso['codhab'],
-                'nomhab'    => $graduacaoCurso['nomhab'],
-                'dtainivin' => $graduacaoCurso['dtainivin'],
-                'codpgm'    => $graduacaoPrograma['codpgm']
+                'codpes'    => Graduacao::curso($request->codpes, $this->repUnd)['codpes'],
+                'nompes'    => Graduacao::curso($request->codpes, $this->repUnd)['nompes'],
+                'codcur'    => Graduacao::curso($request->codpes, $this->repUnd)['codcur'],
+                'nomcur'    => Graduacao::curso($request->codpes, $this->repUnd)['nomcur'],
+                'codhab'    => Graduacao::curso($request->codpes, $this->repUnd)['codhab'],
+                'nomhab'    => Graduacao::curso($request->codpes, $this->repUnd)['nomhab'],
+                'dtainivin' => Graduacao::curso($request->codpes, $this->repUnd)['dtainivin'],
+                'codpgm'    => Graduacao::programa($request->codpes)['codpgm']
             ];
         } else {
             $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade.";
             $request->session()->flash('alert-danger', $msg);
-
             return redirect('/busca');
         }
-
         return view('graduacao.busca', compact('alunoGraduacao'));
     }
 
