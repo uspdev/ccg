@@ -34,6 +34,17 @@ class GraduacaoController extends Controller
             // Retorna os dados acadêmicos
             $graduacaoPrograma = Graduacao::programa($request->codpes);
             $graduacaoCurso = Graduacao::curso($request->codpes, $this->repUnd);
+
+            $alunoGraduacao = [
+                'codpes'    => $graduacaoCurso['codpes'],
+                'nompes'    => $graduacaoCurso['nompes'],
+                'codcur'    => $graduacaoCurso['codcur'],
+                'nomcur'    => $graduacaoCurso['nomcur'],
+                'codhab'    => $graduacaoCurso['codhab'],
+                'nomhab'    => $graduacaoCurso['nomhab'],
+                'dtainivin' => $graduacaoCurso['dtainivin'],
+                'codpgm'    => $graduacaoPrograma['codpgm']
+            ];
         } else {
             $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade.";
             $request->session()->flash('alert-danger', $msg);
@@ -41,7 +52,7 @@ class GraduacaoController extends Controller
             return redirect('/busca');
         }
 
-        return view('graduacao.busca', compact('graduacaoCurso', 'graduacaoPrograma'));
+        return view('graduacao.busca', compact('alunoGraduacao'));
     }
 
     public function creditos(Request $request, $codpes = null)
