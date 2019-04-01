@@ -20,7 +20,6 @@ class GraduacaoController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['index']);
-        $this->repUnd = config('ccg.codUnd');
     }
 
     # Retorna o Gate
@@ -51,7 +50,7 @@ class GraduacaoController extends Controller
          * @param string $parteNome
          * @return response $alunos
          */
-        $alunos = Graduacao::ativos($this->repUnd, $parteNome);
+        $alunos = Graduacao::ativos(config('ccg.codUnd'), $parteNome);
         return response($alunos);
     }    
 
@@ -86,14 +85,14 @@ class GraduacaoController extends Controller
         }
 
         # Verifica se é aluno ativo de graduação na unidade      
-        if (Graduacao::verifica($aluno, $this->repUnd) == false) {
+        if (Graduacao::verifica($aluno, config('ccg.codUnd')) == false) {
             $msg = "O nº USP $aluno não pertence a um aluno ativo de Graduação nesta unidade.";
             $request->session()->flash('alert-danger', $msg);
 
             return view('graduacao.busca');
         } else {
             # Curso e Habilitação do aluno
-            $graduacaoCurso = Graduacao::curso($aluno, $this->repUnd);
+            $graduacaoCurso = Graduacao::curso($aluno, config('ccg.codUnd'));
             
             # Programa
             $graduacaoPrograma = Graduacao::programa($aluno);
@@ -201,7 +200,7 @@ class GraduacaoController extends Controller
             }            
 
             # Disciplinas concluidas
-            $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, $this->repUnd);
+            $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
             $disciplinasConcluidasCoddis = array();
             foreach ($disciplinasConcluidas as $disciplinaConcluida) {
                 array_push($disciplinasConcluidasCoddis, $disciplinaConcluida['coddis']);
