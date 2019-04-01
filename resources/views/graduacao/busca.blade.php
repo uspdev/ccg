@@ -30,7 +30,7 @@
         </form>
     </div>
 
-    @if (isset($dadosAcademicos))
+    @if (isset($dadosAcademicos->codpes))
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">

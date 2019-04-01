@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Uspdev\Replicado\Connection;
-use Uspdev\Replicado\Graduacao;
+use Illuminate\Http\Request; # já está no Core
+use Uspdev\Replicado\Connection; # já está no Core
+use Uspdev\Replicado\Graduacao; # já está no Core
 use App\Curriculo;
 use App\DisciplinasObrigatoria;
 use App\DisciplinasOptativasEletiva;
@@ -13,6 +13,7 @@ use App\DisciplinasObrigatoriasEquivalente;
 use App\DisciplinasLicenciaturasEquivalente;
 use Carbon;
 use Auth;
+use App\Ccg\Aluno;
 
 class GraduacaoController extends Controller
 {
@@ -22,30 +23,46 @@ class GraduacaoController extends Controller
         $this->repUnd = config('ccg.codUnd');
     }
 
-    public function busca()
+    # Retorna o Gate
+    public function getGate()
     {
+        /**
+         * Médoto que retorna o gate
+         * @return string $gate
+         */
+        # Se APP_ENV = dev e CODPES_ALUNO não é vazio, desenvolvimento
+        $gate = (config('ccg.envDev') === 'dev' and !empty(config('ccg.codpesAluno'))) ? 'secretaria' : 'alunos';
+        return $gate;
+    }
+
+    public function search()
+    {
+        /**
+         * Médoto que retorna o formulário de busca de aluno
+         */
         return view('graduacao.busca');
     }
 
+    public function searchAlunos($parteNome)
+    {
+        /**
+         * Médoto que retorna o response/ajax com alunos ativos de graduação filtrando por parte do nome
+         * e preenche o campo Nº USP com o codpes
+         * @param string $parteNome
+         * @return response $alunos
+         */
+        $alunos = Graduacao::ativos($this->repUnd, $parteNome);
+        return response($alunos);
+    }    
+
     public function dadosAcademicos(Request $request)
     {       
-        // É aluno de graduação ATIVO da unidade? 
-        if (Graduacao::verifica($request->codpes, $this->repUnd)) {
-            $dadosAcademicos = (object) array(
-                'codpes'    => Graduacao::curso($request->codpes, $this->repUnd)['codpes'],
-                'nompes'    => Graduacao::curso($request->codpes, $this->repUnd)['nompes'],
-                'codcur'    => Graduacao::curso($request->codpes, $this->repUnd)['codcur'],
-                'nomcur'    => Graduacao::curso($request->codpes, $this->repUnd)['nomcur'],
-                'codhab'    => Graduacao::curso($request->codpes, $this->repUnd)['codhab'],
-                'nomhab'    => Graduacao::curso($request->codpes, $this->repUnd)['nomhab'],
-                'dtainivin' => Graduacao::curso($request->codpes, $this->repUnd)['dtainivin'],
-                'codpgm'    => Graduacao::programa($request->codpes)['codpgm'],
-            );
-        } else {
-            $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade.";
-            $request->session()->flash('alert-danger', $msg);
-            return redirect('/busca');
-        }
+        /**
+         * Médoto que retorna os dados acadêmicos do aluno
+         * @param object $request
+         * @return object $dadosAcademicos
+         */
+        $dadosAcademicos = Aluno::getDadosAcademicos($request->codpes, $request);
         return view('graduacao.busca', compact('dadosAcademicos'));
     }
 
@@ -289,25 +306,4 @@ class GraduacaoController extends Controller
             );
         }
     }
-
-    # Retorna o Gate
-    public function getGate()
-    {
-        # Se APP_ENV = dev e CODPES_ALUNO não é vazio, desenvolvimento
-        if (config('ccg.envDev') === 'dev' and !empty(config('ccg.codpesAluno'))) {
-            $gate = 'secretaria';
-        } else {
-            $gate = 'alunos';
-        }
-
-        return $gate;
-    }
-
-    # Ajax Busca alunos ativos com parte do nome e preenche o campo Nº USP com o codpes
-    public function buscaAlunos($parteNome)
-    {
-        $alunos = Graduacao::ativos($this->repUnd, $parteNome);
-        return response($alunos);
-    }
-
 }

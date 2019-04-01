@@ -10,9 +10,9 @@ Route::post('logout', 'Auth\LoginController@logout');
 
 # secretaria
 # busca
-Route::get('busca', 'GraduacaoController@busca');
+Route::get('busca', 'GraduacaoController@search');
 Route::post('busca', 'GraduacaoController@dadosAcademicos');
-Route::get('busca/{parteNome}', 'GraduacaoController@buscaAlunos');
+Route::get('busca/{parteNome}', 'GraduacaoController@searchAlunos');
 
 # aluno
 # meus créditos
