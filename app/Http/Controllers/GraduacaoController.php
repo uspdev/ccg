@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request; # já está no Core
-use Uspdev\Replicado\Connection; # já está no Core
-use Uspdev\Replicado\Graduacao; # já está no Core
+use Illuminate\Http\Request; 
+use Uspdev\Replicado\Connection; 
+use Uspdev\Replicado\Graduacao; 
 use App\Curriculo;
 use App\DisciplinasObrigatoria;
 use App\DisciplinasOptativasEletiva;
