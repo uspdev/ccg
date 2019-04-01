@@ -45,28 +45,28 @@
                         
                         @if( config('ccg.wsFoto') === true  )
                         <img style="margin-left: 0px; margin-bottom: 10px;" class="profile-user-img img-responsive img-circle" 
-                            src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter($dadosAcademicos['codpes']) }}" alt="{{ $dadosAcademicos['nompes'] }}" />
+                            src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter($dadosAcademicos->codpes) }}" alt="{{ $dadosAcademicos->nompes }}" />
               			@endif
               			
-              			<h3 class="box-title">{{ $dadosAcademicos['codpes'] }} - {{ $dadosAcademicos['nompes'] }}</h3>
+              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive no-padding">
               			<table class="table table-hover">
                 			<tr>
                   				<th>Curso</th>
-                  				<td>{{ $dadosAcademicos['codcur'] }} - {{ $dadosAcademicos['nomcur'] }}</td>
+                  				<td>{{ $dadosAcademicos->codcur }} - {{ $dadosAcademicos->nomcur }}</td>
                 			</tr>
                 			<tr>
                   				<th>Habilitação</td>
-                  				<td>{{ $dadosAcademicos['codhab'] }} - {{ $dadosAcademicos['nomhab'] }}</td>
+                  				<td>{{ $dadosAcademicos->codhab }} - {{ $dadosAcademicos->nomhab }}</td>
                 			</tr>
                 			<tr>
                   				<th>Ano de ingresso</td>
-                  				<td>{{ Carbon\Carbon::parse($dadosAcademicos['dtainivin'])->format('Y') }}</td>
+                  				<td>{{ Carbon\Carbon::parse($dadosAcademicos->dtainivin)->format('Y') }}</td>
                 			</tr>
                 			<tr>
                   				<th>Programa</td>
-                  				<td>{{ $dadosAcademicos['codpgm'] }}</td>
+                  				<td>{{ $dadosAcademicos->codpgm }}</td>
                 			</tr>
               			</table>
             		</div>
@@ -76,7 +76,7 @@
             <div class="tab-pane" id="tab_2">
           		<div class="box-primary">
             		<div class="box-header">
-              			<h3 class="box-title">{{ $dadosAcademicos['codpes'] }} - {{ $dadosAcademicos['nompes'] }}</h3>
+              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
           		</div>
             </div>
@@ -84,7 +84,7 @@
             <div class="tab-pane" id="tab_3">
           		<div class="box-primary">
             		<div class="box-header">
-              			<h3 class="box-title">{{ $dadosAcademicos['codpes'] }} - {{ $dadosAcademicos['nompes'] }}</h3>
+              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
           		</div>
             </div>

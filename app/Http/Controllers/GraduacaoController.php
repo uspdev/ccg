@@ -28,10 +28,10 @@ class GraduacaoController extends Controller
     }
 
     public function dadosAcademicos(Request $request)
-    {
+    {       
         // É aluno de graduação ATIVO da unidade? 
         if (Graduacao::verifica($request->codpes, $this->repUnd)) {
-            $dadosAcademicos = [
+            $dadosAcademicos = (object) array(
                 'codpes'    => Graduacao::curso($request->codpes, $this->repUnd)['codpes'],
                 'nompes'    => Graduacao::curso($request->codpes, $this->repUnd)['nompes'],
                 'codcur'    => Graduacao::curso($request->codpes, $this->repUnd)['codcur'],
@@ -39,8 +39,8 @@ class GraduacaoController extends Controller
                 'codhab'    => Graduacao::curso($request->codpes, $this->repUnd)['codhab'],
                 'nomhab'    => Graduacao::curso($request->codpes, $this->repUnd)['nomhab'],
                 'dtainivin' => Graduacao::curso($request->codpes, $this->repUnd)['dtainivin'],
-                'codpgm'    => Graduacao::programa($request->codpes)['codpgm']
-            ];
+                'codpgm'    => Graduacao::programa($request->codpes)['codpgm'],
+            );
         } else {
             $msg = "O nº USP $request->codpes não pertence a um aluno ativo de Graduação nesta unidade.";
             $request->session()->flash('alert-danger', $msg);
