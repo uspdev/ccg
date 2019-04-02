@@ -58,36 +58,13 @@ class GraduacaoController extends Controller
     {   
         # Obtem o nº USP do aluno a ser analisado 
         $aluno = Aluno::getAluno($request, $codpes);
-
         # Obtem os dados acadêmicos
         $dadosAcademicos = Aluno::getDadosAcademicos($request, $aluno);
-
-        # Currículo do aluno
-        $curriculo = Curriculo::where('codcur', $dadosAcademicos->codcur)
-            ->where('codhab', $dadosAcademicos->codhab)
-            ->whereYear('dtainicrl', substr($dadosAcademicos->dtainivin, 0, 4))
-                                # ->whereYear('dtainicrl', substr('2000-01-01', 0, 4)) # teste
-            ->get(); 
-
-        # Verifica se o aluno pertence a um currículo cadastrado
-        if ($curriculo->isEmpty()) {
-            $msg = "O aluno $aluno - {$dadosAcademicos->nompes} não pertence a um currículo cadastrado neste sistema.";
-            $request->session()->flash('alert-danger', $msg);
-            $curriculos = Curriculo::all();
-
-            return view('curriculos.index', compact('curriculos'));
-        }                                       
-
-        # Dados do Currículo do Aluno
-        $curriculoAluno = [
-            'id_crl' => $curriculo[0]['id'],
-            'numcredisoptelt' => $curriculo[0]['numcredisoptelt'],
-            'numcredisoptliv' => $curriculo[0]['numcredisoptliv'],
-            'dtainicrl' => substr($curriculo[0]['dtainicrl'], 0, 4)
-        ];
+        # Obtem o currículo do aluno
+        $curriculoAluno = Aluno::getCurriculo($request, $aluno);                                     
 
         # Disciplinas que o currículo exige
-        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculoAluno['id_crl'])
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculoAluno->id_crl)
             ->orderBy('coddis', 'asc')
             ->get()
             ->toArray();
@@ -96,7 +73,7 @@ class GraduacaoController extends Controller
             array_push($disciplinasObrigatoriasCoddis, $disciplinaObrigatoria['coddis']);
         }
         sort($disciplinasObrigatoriasCoddis);
-        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculoAluno['id_crl'])
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculoAluno->id_crl)
             ->orderBy('coddis', 'asc')
             ->get()
             ->toArray();
@@ -105,7 +82,7 @@ class GraduacaoController extends Controller
             array_push($disciplinasOptativasEletivasCoddis, $disciplinaOptativaEletiva['coddis']);
         }
         sort($disciplinasOptativasEletivasCoddis);
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculoAluno['id_crl'])
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculoAluno->id_crl)
             ->orderBy('coddis', 'asc')
             ->get()
             ->toArray();

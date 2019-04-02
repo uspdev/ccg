@@ -7,6 +7,7 @@ use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
 use Auth;
 use App\Ccg\Core;
+use App\Curriculo;
 
 class Aluno 
 {
@@ -47,8 +48,8 @@ class Aluno
     {
         /**
          * Médoto que retorna os dados acadêmicos dos alunos de graduação
+         * @param object $request 
          * @param int $codpes
-         * @param object $request
          * @return object $dadosAcademicos
          */
         // Verifica se o nº USP vem do formulário de busca ($request)
@@ -72,5 +73,35 @@ class Aluno
             return redirect('/busca');
         }
         return $dadosAcademicos;
+    }
+
+    public static function getCurriculo(Request $request, $codpes)
+    {
+        /**
+         * Médoto que retorna os dados curriculares dos alunos de graduação
+         * @param object $request 
+         * @param int $codpes
+         * @return object $dadosAcademicos
+         */
+        # Currículo do aluno
+        $curriculo = Curriculo::where('codcur', self::getDadosAcademicos($request, $codpes)->codcur)
+            ->where('codhab', self::getDadosAcademicos($request, $codpes)->codhab)
+            ->whereYear('dtainicrl', substr(self::getDadosAcademicos($request, $codpes)->dtainivin, 0, 4))
+            ->get(); 
+        # Verifica se o aluno pertence a um currículo cadastrado
+        if ($curriculo->isEmpty()) {
+            $msg = "O aluno $aluno - {self::getDadosAcademicos($request, $codpes)->nompes} não pertence a um currículo cadastrado neste sistema.";
+            $request->session()->flash('alert-danger', $msg);
+            $curriculos = Curriculo::all();
+            return view('curriculos.index', compact('curriculos'));
+        }        
+        # Dados do Currículo do Aluno
+        $curriculoAluno = (object) array(
+            'id_crl' => $curriculo[0]->id,
+            'numcredisoptelt' => $curriculo[0]->numcredisoptelt,
+            'numcredisoptliv' => $curriculo[0]->numcredisoptliv,
+            'dtainicrl' => substr($curriculo[0]->dtainicrl, 0, 4)
+        );
+        return $curriculoAluno;
     }
 }

@@ -62,15 +62,15 @@
 											@if ($numcredisoptelt > 0)
 											<tr>
 												<td>Disciplinas Optativas Eletivas</td>
-												<td>{{ $curriculoAluno['numcredisoptelt'] }}</td>
-												<td>{{ $curriculoAluno['numcredisoptelt'] - $numcredisoptelt }}</td>
+												<td>{{ $curriculoAluno->numcredisoptelt }}</td>
+												<td>{{ $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
 											</tr>	
 											@endif
-											@if ($curriculoAluno['numcredisoptliv'] > 0)
+											@if ($curriculoAluno->numcredisoptliv > 0)
 											<tr>
 												<td>Disciplinas Optativas Livres</td>
-												<td>{{ $curriculoAluno['numcredisoptliv'] }}</td>
-												<td>{{ $curriculoAluno['numcredisoptliv'] - $numcredisoptliv }}</td>
+												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
+												<td>{{ $curriculoAluno->numcredisoptliv - $numcredisoptliv }}</td>
 											</tr>
 											@endif																								
 										</tbody>
