@@ -54,161 +54,60 @@ class GraduacaoController extends Controller
         return view('graduacao.busca', compact('dadosAcademicos'));
     }
 
-    public function creditos(Request $request, $codpes = null)
+    public static function creditos(Request $request, $view = 'aluno.creditos', $codpes = null)
     {   
-        # Obtem o nº USP do aluno a ser analisado 
+        /**
+         * Médoto que retorna os creditos e disciplinas que faltam do aluno de graduação
+         * @param object $request
+         * @param string $view
+         * @param int $codpes
+         * @return view $view         
+         */
+        # Obtém o nº USP do aluno a ser analisado 
         $aluno = Aluno::getAluno($request, $codpes);
-        # Obtem os dados acadêmicos
+        # Obtém os dados acadêmicos
         $dadosAcademicos = Aluno::getDadosAcademicos($request, $aluno);
-        # Obtem o currículo do aluno
-        $curriculoAluno = Aluno::getCurriculo($request, $aluno);                                     
-
-        # Disciplinas que o currículo exige
-        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculoAluno->id_crl)
-            ->orderBy('coddis', 'asc')
-            ->get()
-            ->toArray();
-        $disciplinasObrigatoriasCoddis = array();
-        foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
-            array_push($disciplinasObrigatoriasCoddis, $disciplinaObrigatoria['coddis']);
-        }
-        sort($disciplinasObrigatoriasCoddis);
-        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculoAluno->id_crl)
-            ->orderBy('coddis', 'asc')
-            ->get()
-            ->toArray();
-        $disciplinasOptativasEletivasCoddis = array();
-        foreach ($disciplinasOptativasEletivas as $disciplinaOptativaEletiva) {
-            array_push($disciplinasOptativasEletivasCoddis, $disciplinaOptativaEletiva['coddis']);
-        }
-        sort($disciplinasOptativasEletivasCoddis);
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculoAluno->id_crl)
-            ->orderBy('coddis', 'asc')
-            ->get()
-            ->toArray();
-        $disciplinasLicenciaturasCoddis = array();
-        foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
-            array_push($disciplinasLicenciaturasCoddis, $disciplinaLicenciatura['coddis']);
-        }
-        sort($disciplinasLicenciaturasCoddis);
-
-        # Obrigatórias equivalentes
-        $disciplinasObrigatoriasEquivalentes = array();
-        foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
-            # Consulta se tem equivalente
-            $disciplinaObrigatoriaEquivalente = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinaObrigatoria['id'])
-                ->orderBy('coddis', 'asc')
-                ->get();
-            # Se tem equivalentes
-            if ($disciplinaObrigatoriaEquivalente->isEmpty() == false) {
-                # Monta array com as equivalentes
-                $y = 0;
-                foreach ($disciplinaObrigatoriaEquivalente as $obrigatoriaEquivalente) {
-                    $disciplinasObrigatoriasEquivalentes[$disciplinaObrigatoria['coddis']][$y] = $obrigatoriaEquivalente['coddis'];
-                    $y++;
-                }
-            }
-        }             
-
-        # Licenciaturas equivalentes
-        $disciplinasLicenciaturasEquivalentes = array();
-        foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
-            # Consulta se tem equivalente
-            $disciplinaLicenciaturaEquivalente = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinaLicenciatura['id'])
-                ->orderBy('coddis', 'asc')
-                ->get();
-            # Se tem equivalentes
-            if ($disciplinaLicenciaturaEquivalente->isEmpty() == false) {
-                # Monta array com as equivalentes
-                $y = 0;
-                foreach ($disciplinaLicenciaturaEquivalente as $licenciaturaEquivalente) {
-                    $disciplinasLicenciaturasEquivalentes[$disciplinaLicenciatura['coddis']][$y] = $licenciaturaEquivalente['coddis'];
-                    $y++;
-                }
-            }
-        }            
-
-        # Disciplinas concluidas
+        # Obtém o currículo do aluno
+        $curriculoAluno = Aluno::getCurriculo($request, $aluno);                
+        # Obtém as discplinas obrigatórias no currículo do aluno
+        $disciplinasObrigatorias = Aluno::getDisciplinasObrigatorias($curriculoAluno->id_crl);
+        # Obtém as discplinas optativas eletivas no currículo do aluno
+        $disciplinasOptativasEletivas = Aluno::getDisciplinasOptativasEletivas($curriculoAluno->id_crl);
+        # Obtém as discplinas licenciaturas no currículo do aluno
+        $disciplinasLicenciaturas = Aluno::getDisciplinasLicenciaturas($curriculoAluno->id_crl);
+        # Obtém as discplinas obrigatórias equivalentes no currículo do aluno       
+        $disciplinasObrigatoriasEquivalentes = Aluno::getDisciplinasObrigatoriasEquivalentes($curriculoAluno->id_crl);
+        # Obtém as discplinas licenciaturas equivalentes no currículo do aluno
+        $disciplinasLicenciaturasEquivalentes = Aluno::getDisciplinasLicenciaturasEquivalentes($curriculoAluno->id_crl);
+        # Obtém as discplinas concluídas do aluno
+        $disciplinasConcluidas = Aluno::getDisciplinasConcluidas($aluno);
+        # Obtém as discplinas obrigatórias concluídas do aluno
+        $disciplinasObrigatoriasConcluidas = Aluno::getDisciplinasObrigatoriasConcluidas($aluno, $curriculoAluno->id_crl);
+        # Obtém as disciplinas Obrigatórias que faltam
+        $disciplinasObrigatoriasFaltam = array_diff($disciplinasObrigatorias, $disciplinasObrigatoriasConcluidas);
+        # Obtém as discplinas optativas eletivas concluídas do aluno
+        $disciplinasOptativasEletivasConcluidas = Aluno::getDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);   
+        # Obtém o total de créditos nas disciplinas optativas eletivas concluídas
+        $numcredisoptelt = Aluno::getTotalCreditosDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);
+        # Obtém as discplinas licenciaturas concluídas do aluno
+        $disciplinasLicenciaturasConcluidas = Aluno::getDisciplinasLicenciaturasConcluidas($aluno, $curriculoAluno->id_crl);
+        # Obtém as disciplinas licenciaturas faltam
+        $disciplinasLicenciaturasFaltam = array_diff($disciplinasLicenciaturas, $disciplinasLicenciaturasConcluidas);            
+        # Obtém as disciplinas exigidas no currículo
+        $disciplinasCurriculo = array_merge($disciplinasObrigatorias, $disciplinasOptativasEletivasConcluidas, $disciplinasLicenciaturas);
+        # Obtém as disciplinas optativas livres concluídas
+        $disciplinasOptativasLivresConcluidas = array_diff($disciplinasConcluidas, $disciplinasCurriculo);
+        # Obtém o total de créditos nas disciplinas optativas livres concluídas
+        $numcredisoptliv = Aluno::getTotalCreditosDisciplinasOptativasLivresConcluidas($aluno, $curriculoAluno->id_crl, $disciplinasOptativasLivresConcluidas);
+        # Obtém as disciplinas concluídas diretamente do replicado
         $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
-        $disciplinasConcluidasCoddis = array();
-        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
-            array_push($disciplinasConcluidasCoddis, $disciplinaConcluida['coddis']);
-        }
-        sort($disciplinasConcluidasCoddis);
-
-        # Disciplinas Obrigatórias concluídas
-        $disciplinasObrigatoriasConcluidas = array();
-        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
-            foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
-                if ($disciplinaConcluida['coddis'] == $disciplinaObrigatoria['coddis']) {
-                    array_push($disciplinasObrigatoriasConcluidas, $disciplinaConcluida['coddis']);
-                }
-            }
-        }
-
-        # Disciplinas Obrigatórias faltam
-        $disciplinasObrigatoriasFaltam = array_diff($disciplinasObrigatoriasCoddis, $disciplinasObrigatoriasConcluidas);
-
-        # Disciplinas Optativas Eletivas concluídas
-        $disciplinasOptativasEletivasConcluidas = array();
-        $numcredisoptelt = 0;
-        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
-            foreach ($disciplinasOptativasEletivas as $disciplinaOptativaEletiva) {
-                if ($disciplinaConcluida['coddis'] == $disciplinaOptativaEletiva['coddis']) {
-                    array_push($disciplinasOptativasEletivasConcluidas, $disciplinaConcluida['coddis']);
-                    # Total de Créditos Concluídos Optativas Eletivas
-                    $numcredisoptelt += $disciplinaConcluida['creaul'];
-                }
-            }
-        }
-
-        # Disciplinas Licenciaturas concluídas
-        $disciplinasLicenciaturasConcluidas = array();
-        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
-            foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
-                if ($disciplinaConcluida['coddis'] == $disciplinaLicenciatura['coddis']) {
-                    array_push($disciplinasLicenciaturasConcluidas, $disciplinaLicenciatura['coddis']);
-                }
-            }
-        }
-
-        # Disciplinas Licenciaturas faltam
-        $disciplinasLicenciaturasFaltam = array_diff($disciplinasLicenciaturasCoddis, $disciplinasLicenciaturasConcluidas);            
-
-        # Disciplinas exigidas Currículo
-        $disciplinasCurriculo = array_merge($disciplinasObrigatoriasCoddis, $disciplinasOptativasEletivasConcluidas, $disciplinasLicenciaturasCoddis);
-
-        # Disciplinas Optativas Livres concluídas
-        $disciplinasOptativasLivresConcluidas = array_diff($disciplinasConcluidasCoddis, $disciplinasCurriculo);
-
-        # Total de Créditos Concluídos Optativas Livres
-        $numcredisoptliv = 0;
-        foreach ($disciplinasConcluidas as $disciplinaConcluida) {
-            foreach ($disciplinasOptativasLivresConcluidas as $disciplinaOptativaLivre) {
-                if ($disciplinaConcluida['coddis'] == $disciplinaOptativaLivre) {
-                    # Total de Créditos Concluídos Optativas Livres
-                    $numcredisoptliv += $disciplinaConcluida['creaul'];
-                }
-            }
-        }
-
+        # Obtém o gate para chavear o perfil entre secretaria e aluno
         $gate = Core::getGate();
         
-        return view(
-            'aluno.creditos',
-            compact(
-                'gate',
-                'dadosAcademicos',
-                'curriculoAluno',
-                'disciplinasConcluidas',
-                'disciplinasObrigatoriasConcluidas',
-                'disciplinasObrigatoriasFaltam',
-                'disciplinasOptativasEletivasConcluidas',
-                'disciplinasOptativasLivresConcluidas',
-                'numcredisoptelt',
-                'disciplinasLicenciaturasConcluidas',
-                'disciplinasLicenciaturasFaltam',
-                'numcredisoptliv'
+        return view($view, compact(
+                'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
+                'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
+                'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv'
             )
         );
     }
