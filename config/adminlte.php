@@ -136,7 +136,7 @@ return [
             'can'  => 'secretaria', 
         ],
         [
-            'text' => 'Créditos Aluno',
+            'text' => 'Créditos do Aluno',
             'url'  => 'creditos',
             'icon' => 'credit-card',
             'can'  => 'secretaria', 

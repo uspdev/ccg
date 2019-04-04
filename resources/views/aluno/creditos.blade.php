@@ -23,30 +23,30 @@
           		<div class="box-primary">
             		<div class="box-header">
 						
-                        @if( config('app.wsFoto') === true  )
+						@if( config('ccg.wsFoto') === true  )
                         <img style="margin-left: 0px; margin-bottom: 10px;" class="profile-user-img img-responsive img-circle" 
-                            src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter($dadosAluno['codpes']) }}" alt="{{ $dadosAluno['nompes'] }}" />
+                            src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter($dadosAcademicos->codpes) }}" alt="{{ $dadosAcademicos->nompes }}" />
               			@endif
               			
-              			<h3 class="box-title">{{ $dadosAluno['codpes'] }} - {{ $dadosAluno['nompes'] }}</h3>
+              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive no-padding">
               			<table class="table table-hover">
                 			<tr>
                   				<th>Curso</th>
-                  				<td>{{ $dadosAluno['codcur'] }} - {{ $dadosAluno['nomcur'] }}</td>
+                  				<td>{{ $dadosAcademicos->codcur }} - {{ $dadosAcademicos->nomcur }}</td>
                 			</tr>
                 			<tr>
                   				<th>Habilitação</td>
-                  				<td>{{ $dadosAluno['codhab'] }} - {{ $dadosAluno['nomhab'] }}</td>
+                  				<td>{{ $dadosAcademicos->codhab }} - {{ $dadosAcademicos->nomhab }}</td>
                 			</tr>
                 			<tr>
                   				<th>Ano de ingresso</td>
-                  				<td>{{ $dadosAluno['dtainivin'] }}</td>
+                  				<td>{{ Carbon\Carbon::parse($dadosAcademicos->dtainivin)->format('d/m/Y') }}</td>
                 			</tr>
                 			<tr>
                   				<th>Programa</td>
-                  				<td>{{ $dadosAluno['codpgm'] }}</td>
+                  				<td>{{ $dadosAcademicos->codpgm }}</td>
                 			</tr>
                 			<tr>
                   				<th colspan="2">
@@ -62,15 +62,15 @@
 											@if ($numcredisoptelt > 0)
 											<tr>
 												<td>Disciplinas Optativas Eletivas</td>
-												<td>{{ $curriculoAluno['numcredisoptelt'] }}</td>
-												<td>{{ $curriculoAluno['numcredisoptelt'] - $numcredisoptelt }}</td>
+												<td>{{ $curriculoAluno->numcredisoptelt }}</td>
+												<td>{{ $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
 											</tr>	
 											@endif
-											@if ($curriculoAluno['numcredisoptliv'] > 0)
+											@if ($curriculoAluno->numcredisoptliv > 0)
 											<tr>
 												<td>Disciplinas Optativas Livres</td>
-												<td>{{ $curriculoAluno['numcredisoptliv'] }}</td>
-												<td>{{ $curriculoAluno['numcredisoptliv'] - $numcredisoptliv }}</td>
+												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
+												<td>{{ $curriculoAluno->numcredisoptliv - $numcredisoptliv }}</td>
 											</tr>
 											@endif																								
 										</tbody>
@@ -85,7 +85,7 @@
             <div class="tab-pane" id="tab_2">
           		<div class="box-primary">
             		<div class="box-header">
-              			<h3 class="box-title">{{ $dadosAluno['codpes'] }} - {{ $dadosAluno['nompes'] }}</h3> 
+              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3> 
             		</div>
             		<div class="box-body table-responsive">
 						<h4>Disciplinas Concluídas</h4> 
@@ -215,7 +215,7 @@
             <div class="tab-pane" id="tab_3">
           		<div class="box-primary">
             		<div class="box-header">
-              			<h3 class="box-title">{{ $dadosAluno['codpes'] }} - {{ $dadosAluno['nompes'] }}</h3>
+              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive">
 					<h4>Disciplinas que Faltam</h4>

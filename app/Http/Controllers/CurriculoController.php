@@ -17,7 +17,6 @@ class CurriculoController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->repUnd = config('ccg.codUnd');
     }
         
     /**
@@ -39,7 +38,7 @@ class CurriculoController extends Controller
      */
     public function create()
     {
-        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes($this->repUnd);
+        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
         
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
@@ -110,7 +109,7 @@ class CurriculoController extends Controller
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();        
-        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes($this->repUnd);
+        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
         
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
@@ -179,12 +178,12 @@ class CurriculoController extends Controller
     public function alunos(Curriculo $curriculo)
     {   
         # Busca os alunos da unidade
-        $alunosUnidade = Graduacao::ativos($this->repUnd);
+        $alunosUnidade = Graduacao::ativos(config('ccg.codUnd'));
         
         # Traz somente os alunos do Currículo
         $alunosCurriculo = array();
         foreach ($alunosUnidade as $alunoUnidade) {
-            $dadosAluno = Graduacao::curso($alunoUnidade['codpes'], $this->repUnd);
+            $dadosAluno = Graduacao::curso($alunoUnidade['codpes'], config('ccg.codUnd'));
             if ( ($dadosAluno['codcurgrd'] == $curriculo['codcur']) and 
                 ($dadosAluno['codhab'] == $curriculo['codhab']) and 
                 (substr($dadosAluno['dtainivin'], 0, 4) == substr($curriculo['dtainicrl'], 0, 4))

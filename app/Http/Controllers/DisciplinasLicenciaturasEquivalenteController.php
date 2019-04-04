@@ -13,10 +13,9 @@ use Carbon\Carbon;
 
 class DisciplinasLicenciaturasEquivalenteController extends Controller
 {
-        public function __construct()
+    public function __construct()
     {
         $this->middleware('auth');
-        $this->repUnd = config('ccg.codUnd');
     }
     
     /**
