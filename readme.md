@@ -70,6 +70,7 @@ cp .env.example .env
     - Código da unidade local
     - Credenciais do wsfoto
     - Prefixo dos códigos de disciplinas de graduação oferecidas da unidade
+    - Quantidade mínima de caracteres digitados para busca por parte do nome
 
 As diretivas específicas do sistema `CCG` estão documentadas em `config/ccg.php`
 
