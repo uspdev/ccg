@@ -51,6 +51,24 @@ return [
     */
     'wsFoto' => env('WSFOTO', false),
 
-    /* Pra que serve essa diretiva? */
+    /*
+    |--------------------------------------------------------------------------
+    |  Em produção ou desenvolvimento?
+    |  Quando em produção, o valor deve ser prd e o CODPES_ALUNO deve ser vazio
+    |  Quando em desenvolvimento, o valor deve ser dev e o CODPES_ALUNO deve estar preenchido
+    |  com o nº USP de um aluno ativo da graduação para simular o link Créditos do Aluno
+    |--------------------------------------------------------------------------
+    |   Valores: dev | prd
+    |   Default: dev
+    */
     'envDev' => env('APP_ENV'),
+
+    /*
+    |--------------------------------------------------------------------------
+    |  Quantidade mínina de caracteres a serem digitados na busca por parte do nome
+    |--------------------------------------------------------------------------
+    |   Valores: int
+    |   Default: 5
+    */
+    'parteNomeLength' => env('PARTE_NOME_LENGTH'),
 ];

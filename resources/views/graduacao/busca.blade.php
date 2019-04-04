@@ -108,7 +108,7 @@
         });
         
         $('#parteNome').on('keypress', function() {
-            if ($('#parteNome').val().length >= 3) {
+            if ($('#parteNome').val().length >= {{ config('ccg.parteNomeLength') }} ) {
                 $.get("busca/" + $('#parteNome').val(), function(data) {
                 	$('#alunos').empty();
                 	$.each(data, function(i, value) {
