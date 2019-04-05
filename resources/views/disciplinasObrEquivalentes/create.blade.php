@@ -46,10 +46,13 @@
                                             @foreach ($disciplinas as $disciplina)
                                                 <option value="{{ $disciplina['coddis'] }}">{{ $disciplina['coddis'] }} - {{ $disciplina['nomdis'] }}</option>
                                             @endforeach
-                                    </select>
-                                </div>                                 
+                                    </select><br /><br />
+                                    <label>Equivalência</label><br />
+                                    <input type="radio" name="tipeqv" id="tipeqv" value="E" required>&nbsp;&nbsp;E<br />
+                                    <input type="radio" name="tipeqv" id="tipeqv" value="OU">&nbsp;&nbsp;OU
+                                </div>                                        
                             </th>
-                        </tr>         
+                        </tr>      
                         <tr>
                             <th><label>Diciplinas Obrigatórias Equivalentes</label></th>
                         </tr>                                                            
