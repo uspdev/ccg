@@ -51,7 +51,9 @@
                     @foreach($disciplinasObrigatoriasEquivalentes as $disciplinasObrigatoriasEquivalente)
                         <tr>
                             <td>{{ $disciplinasObrigatoriasEquivalente['coddis'] }} - 
-                                {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoriasEquivalente['coddis']) }}</td>
+                                {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoriasEquivalente['coddis']) }}
+                                &nbsp;&nbsp;<strong>{{ $disciplinasObrigatoriasEquivalente['tipeqv'] }}</strong>
+                            </td>
                             <td>    
                                 <form role="form" method="POST" action="/disciplinasObrEquivalentes/{{ $disciplinasObrigatoriasEquivalente->id }}">
                                     {{ csrf_field() }}
@@ -68,7 +70,7 @@
         </div>
         <div class="box-footer">
             <button type="button" class="btn btn-info btn-sm" 
-                onclick='location.href="curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
+                onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                 <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
             </button>                 
         </div>   

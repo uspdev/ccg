@@ -72,6 +72,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
         $disciplinasObrigatoriasEquivalente = new DisciplinasObrigatoriasEquivalente;
         $disciplinasObrigatoriasEquivalente->id_dis_obr = $disciplinasObrigatoria->id;
         $disciplinasObrigatoriasEquivalente->coddis = $request->coddisobreqv;
+        $disciplinasObrigatoriasEquivalente->tipeqv = $request->tipeqv;
         $disciplinasObrigatoriasEquivalente->save();
 
         $request->session()->flash('alert-success', 'Disciplina Obrigatória Equivalente cadastrada com sucesso!');

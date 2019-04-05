@@ -46,7 +46,10 @@
                                             @foreach ($disciplinas as $disciplina)
                                                 <option value="{{ $disciplina['coddis'] }}">{{ $disciplina['coddis'] }} - {{ $disciplina['nomdis'] }}</option>
                                             @endforeach
-                                    </select>
+                                    </select><br /><br />
+                                    <label>Equivalência</label><br />
+                                    <input type="radio" name="tipeqv" id="tipeqv" value="E">&nbsp;&nbsp;E<br />
+                                    <input type="radio" name="tipeqv" id="tipeqv" value="OU">&nbsp;&nbsp;OU
                                 </div>                                 
                             </th>
                         </tr>         
@@ -61,7 +64,9 @@
                         @foreach($disciplinasLicenciaturasEquivalentes as $disciplinasLicenciaturasEquivalente)
                             <tr>
                                 <td>{{ $disciplinasLicenciaturasEquivalente['coddis'] }} - 
-                                    {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciaturasEquivalente['coddis']) }}</td>
+                                    {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciaturasEquivalente['coddis']) }}
+                                &nbsp;&nbsp;<strong>{{ $disciplinasLicenciaturasEquivalente['tipeqv'] }}</strong>
+                            </td>
                             </tr>
                         @endforeach
                     </tbody>                          
@@ -70,7 +75,7 @@
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
                 <button type="button" class="btn btn-info btn-sm" 
-                    onclick='location.href="curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
+                    onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                     <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
                 </button>                 
             </div>   

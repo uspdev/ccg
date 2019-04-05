@@ -48,7 +48,7 @@
                                             @endforeach
                                     </select><br /><br />
                                     <label>Equivalência</label><br />
-                                    <input type="radio" name="tipeqv" id="tipeqv" value="E" required>&nbsp;&nbsp;E<br />
+                                    <input type="radio" name="tipeqv" id="tipeqv" value="E">&nbsp;&nbsp;E<br />
                                     <input type="radio" name="tipeqv" id="tipeqv" value="OU">&nbsp;&nbsp;OU
                                 </div>                                        
                             </th>
@@ -64,7 +64,9 @@
                         @foreach($disciplinasObrigatoriasEquivalentes as $disciplinasObrigatoriasEquivalente)
                             <tr>
                                 <td>{{ $disciplinasObrigatoriasEquivalente['coddis'] }} - 
-                                    {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoriasEquivalente['coddis']) }}</td>
+                                    {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoriasEquivalente['coddis']) }}
+                                &nbsp;&nbsp;<strong>{{ $disciplinasObrigatoriasEquivalentes['tipeqv'] }}</strong>
+                            </td>
                             </tr>
                         @endforeach
                     </tbody>                          
@@ -73,7 +75,7 @@
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
                 <button type="button" class="btn btn-info btn-sm" 
-                    onclick='location.href="curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
+                    onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                     <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
                 </button>                 
             </div>   
