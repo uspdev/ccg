@@ -72,6 +72,7 @@ class DisciplinasLicenciaturasEquivalenteController extends Controller
         $disciplinasLicenciaturasEquivalente = new DisciplinasLicenciaturasEquivalente;
         $disciplinasLicenciaturasEquivalente->id_dis_lic = $disciplinasLicenciatura->id;
         $disciplinasLicenciaturasEquivalente->coddis = $request->coddisliceqv;
+        $disciplinasLicenciaturasEquivalente->tipeqv = $request->tipeqv;
         $disciplinasLicenciaturasEquivalente->save();
 
         $request->session()->flash('alert-success', 'Disciplina Licenciatura Equivalente cadastrada com sucesso!');
