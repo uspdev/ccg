@@ -16,7 +16,7 @@ class AddTipeqvToDisciplinasLicenciaturasEquivalentesTable extends Migration
         Schema::table('DisciplinasLicenciaturasEquivalentes', function($table) {
             # Tipo de equivalência de disciplina
             # 'E' ou 'OU'
-            $table->string('tipeqv')->nullable();
+            $table->string('tipeqv');
         });
     }
 

@@ -14,3 +14,4 @@ yarn-error.log
 *.swp
 public/vendor/adminlte
 composer.lock
+/teste
