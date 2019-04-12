@@ -48,7 +48,7 @@
                                             @endforeach
                                     </select><br /><br />
                                     <label>Equivalência</label><br />
-                                    <input type="radio" name="tipeqv" id="tipeqv" value="E">&nbsp;&nbsp;E<br />
+                                    <input type="radio" name="tipeqv" id="tipeqv" value="E" required>&nbsp;&nbsp;E<br />
                                     <input type="radio" name="tipeqv" id="tipeqv" value="OU">&nbsp;&nbsp;OU
                                 </div>                                 
                             </th>

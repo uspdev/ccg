@@ -48,7 +48,7 @@
                                             @endforeach
                                     </select><br /><br />
                                     <label>Equivalência</label><br />
-                                    <input type="radio" name="tipeqv" id="tipeqv" value="E">&nbsp;&nbsp;E<br />
+                                    <input type="radio" name="tipeqv" id="tipeqv" value="E" required>&nbsp;&nbsp;E<br />
                                     <input type="radio" name="tipeqv" id="tipeqv" value="OU">&nbsp;&nbsp;OU
                                 </div>                                        
                             </th>
@@ -65,7 +65,7 @@
                             <tr>
                                 <td>{{ $disciplinasObrigatoriasEquivalente['coddis'] }} - 
                                     {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoriasEquivalente['coddis']) }}
-                                &nbsp;&nbsp;<strong>{{ $disciplinasObrigatoriasEquivalentes['tipeqv'] }}</strong>
+                                &nbsp;&nbsp;<strong>{{ $disciplinasObrigatoriasEquivalente['tipeqv'] }}</strong>
                             </td>
                             </tr>
                         @endforeach
