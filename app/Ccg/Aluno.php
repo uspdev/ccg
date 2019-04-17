@@ -252,19 +252,67 @@ class Aluno
          * @return array $disciplinasObrigatoriasConcluidas
          */ 
         $disciplinasObrigatoriasRs = DisciplinasObrigatoria::where('id_crl', $id_crl)
-            ->orderBy('coddis', 'asc')
-            ->get()
-            ->toArray();
-        $disciplinasObrigatoriasConcluidas = array();
+             ->orderBy('coddis', 'asc')
+             ->get()
+             ->toArray();
         $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
-        foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
-            foreach ($disciplinasObrigatoriasRs as $disciplinaObrigatoria) {
-                if ($disciplinaConcluida['coddis'] == $disciplinaObrigatoria['coddis']) {
-                    array_push($disciplinasObrigatoriasConcluidas, $disciplinaConcluida['coddis']);
+        $disObr = array();
+        $disCon = array();
+        $disObrCon = array();
+        foreach ($disciplinasObrigatoriasRs as $disciplinaObrigatoriaRs) {
+            array_push($disObr, $disciplinaObrigatoriaRs['coddis']);
+        }
+        $lin = 1;
+        foreach ($disciplinasConcluidasRs as $disciplinaConcluidaRs) {
+            array_push($disCon, $disciplinaConcluidaRs['coddis']);
+            foreach ($disObr as $dObr) {
+                if ($disciplinaConcluidaRs['coddis'] == $dObr) {
+                    array_push($disObrCon, $dObr);
+                    // echo "$lin $dObr concluida<br />";
+                    $lin ++;
                 }
             }
         }
-        return $disciplinasObrigatoriasConcluidas;
+        $disObrFal = array_diff($disObr, $disObrCon);
+        foreach ($disObrFal as $dObrFal) {
+            $disObrFalId = DisciplinasObrigatoria::select('id')
+                ->where(['id_crl' => 5, 'coddis' => $dObrFal])
+                ->get()
+                ->toArray();
+            $dObrFalId = $disObrFalId[0]['id'];
+            $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $dObrFalId)
+                ->with('disciplinasObrigatorias')
+                ->get()
+                ->toArray();
+            if (count($disciplinasObrigatoriasEquivalentes) > 0) {
+                $eqvTip = '';
+                $eqvDis = '';
+                $eqvSts = 'não';
+                foreach ($disciplinasObrigatoriasEquivalentes as $disciplinaEquivalente) {
+                    if ($disciplinaEquivalente['tipeqv'] == 'OU') {
+                        $eqvTip = 'OU';
+                    } else {
+                        $eqvTip = 'E';    
+                    }
+                    $eqvDis .= $disciplinaEquivalente['coddis'];
+                    if (in_array($disciplinaEquivalente['coddis'], $disCon)) {
+                        $eqvDis .= "<strong><<</strong>";
+                        $eqvSts = '';
+                        array_push($disObrCon, $dObrFal);
+                        unset($disObrFal[array_search($dObrFal, $disObrFal)]);
+                    } 
+                }
+                if ($eqvSts == '') {
+                    // echo "$lin $dObrFal $eqvSts concluida através de equivalência do tipo $eqvTip com $eqvDis<br />";
+                } else {
+                    // echo "$lin $dObrFal <strong>$eqvSts concluida</strong> e tem equivalência do tipo $eqvTip com $eqvDis<br />";
+                } 
+            } else {
+                // echo "$lin $dObrFal <strong>não concluida</strong> e não tem equivalência<br />";
+            }  
+            $lin ++; 
+        }
+        return $disObrCon;
     }
 
     public static function getDisciplinasOptativasEletivasConcluidas($aluno, $id_crl)
@@ -325,19 +373,67 @@ class Aluno
          * @return array $disciplinasLicenciaturasConcluidas
          */ 
         $disciplinasLicenciaturasRs = DisciplinasLicenciatura::where('id_crl', $id_crl)
-            ->orderBy('coddis', 'asc')
-            ->get()
-            ->toArray();
-        $disciplinasLicenciaturasConcluidas = array();
+             ->orderBy('coddis', 'asc')
+             ->get()
+             ->toArray();
         $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
-        foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
-            foreach ($disciplinasLicenciaturasRs as $disciplinaLicenciatura) {
-                if ($disciplinaConcluida['coddis'] == $disciplinaLicenciatura['coddis']) {
-                    array_push($disciplinasLicenciaturasConcluidas, $disciplinaLicenciatura['coddis']);
+        $disLic = array();
+        $disCon = array();
+        $disLicCon = array();
+        foreach ($disciplinasLicenciaturasRs as $disciplinaLicenciaturaRs) {
+            array_push($disLic, $disciplinaLicenciaturaRs['coddis']);
+        }
+        $lin = 1;
+        foreach ($disciplinasConcluidasRs as $disciplinaConcluidaRs) {
+            array_push($disCon, $disciplinaConcluidaRs['coddis']);
+            foreach ($disLic as $dLic) {
+                if ($disciplinaConcluidaRs['coddis'] == $dLic) {
+                    array_push($disLicCon, $dLic);
+                    // echo "$lin $dLic concluida<br />";
+                    $lin ++;
                 }
             }
         }
-        return $disciplinasLicenciaturasConcluidas;
+        $disLicFal = array_diff($disLic, $disLicCon);
+        foreach ($disLicFal as $dLicFal) {
+            $disLicFalId = DisciplinasLicenciatura::select('id')
+                ->where(['id_crl' => 5, 'coddis' => $dLicFal])
+                ->get()
+                ->toArray();
+            $dLicFalId = $disLicFalId[0]['id'];
+            $disciplinasLicenciaturasEquivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $dLicFalId)
+                ->with('disciplinasLicenciaturas')
+                ->get()
+                ->toArray();
+            if (count($disciplinasLicenciaturasEquivalentes) > 0) {
+                $eqvTip = '';
+                $eqvDis = '';
+                $eqvSts = 'não';
+                foreach ($disciplinasLicenciaturasEquivalentes as $disciplinaEquivalente) {
+                    if ($disciplinaEquivalente['tipeqv'] == 'OU') {
+                        $eqvTip = 'OU';
+                    } else {
+                        $eqvTip = 'E';    
+                    }
+                    $eqvDis .= $disciplinaEquivalente['coddis'];
+                    if (in_array($disciplinaEquivalente['coddis'], $disCon)) {
+                        $eqvDis .= "<strong><<</strong>";
+                        $eqvSts = '';
+                        array_push($disLicCon, $dLicFal);
+                        unset($disLicFal[array_search($dLicFal, $disLicFal)]);
+                    } 
+                }
+                if ($eqvSts == '') {
+                    // echo "$lin $dLicFal $eqvSts concluida através de equivalência do tipo $eqvTip com $eqvDis<br />";
+                } else {
+                    // echo "$lin $dLicFal <strong>$eqvSts concluida</strong> e tem equivalência do tipo $eqvTip com $eqvDis<br />";
+                } 
+            } else {
+                // echo "$lin $dLicFal <strong>não concluida</strong> e não tem equivalência<br />";
+            }  
+            $lin ++; 
+        }
+        return $disLicCon;
     }
 
     public static function getTotalCreditosDisciplinasOptativasLivresConcluidas($aluno, $id_crl, $disciplinasOptativasLivresConcluidas)
