@@ -20,7 +20,7 @@ class Aluno
      * Classe para obter informações sobre alunos de graduação
      */
     
-    public static function getAluno(Request $request, $codpes = null)
+    public static function getAluno(Request $request, $codpes)
     {
         /**
          * Médoto que retorna o nº USP do aluno a ser anlisado
@@ -31,7 +31,7 @@ class Aluno
         if ($codpes === null and $gate == 'alunos') {
             // Se o aluno logou no sistema
             $aluno = Auth::user()->id;
-        } elseif ($gate == 'secretaria') { 
+        } elseif ($gate == 'secretaria' and $codpes === null) { 
             // Se a secretaria logou no sistema e clicou em Créditos do Aluno
             // Esta situação serve somente para simular o link Meus Créditos
             // que aparece somente para o aluno de graduação logado
@@ -40,7 +40,7 @@ class Aluno
             // Quando recebe um nº USP
             $aluno = $codpes;
         }
-        if (Graduacao::verifica($aluno, config('ccg.codUnd')) == false) {
+        if (Graduacao::verifica($aluno, config('ccg.codUnd')) === false) {
             // Se não for aluno ativo de graduação na unidade
             $msg = "O nº USP $aluno não pertence a um aluno ativo de Graduação nesta unidade.";
             $request->session()->flash('alert-danger', $msg);
@@ -49,7 +49,7 @@ class Aluno
         return $aluno;
     }    
     
-    public static function getDadosAcademicos(Request $request, $codpes = null) 
+    public static function getDadosAcademicos(Request $request, $codpes) 
     {
         /**
          * Médoto que retorna os dados acadêmicos dos alunos de graduação
@@ -460,6 +460,11 @@ class Aluno
 
     public static function getAlunosCurriculo($curriculo) 
     {
+        /**
+         * Médoto que retorna os alunos de um currículo
+         * @param array $curriculo
+         * @return array $alunosCurriculo
+         */
         $alunosCurriculo = Array();
         # Busca os alunos da unidade
         $alunosUnidade = Graduacao::ativos(config('ccg.codUnd'));

@@ -50,8 +50,7 @@ class GraduacaoController extends Controller
          * @param object $request
          * @return object $dadosAcademicos
          */
-        $dadosAcademicos = Aluno::getDadosAcademicos($request, $request->codpes);
-        return view('graduacao.busca', compact('dadosAcademicos'));
+        return self::creditos($request, 'graduacao.busca', $request->codpes);
     }
 
     public static function creditos(Request $request, $view = 'aluno.creditos', $codpes = null)
