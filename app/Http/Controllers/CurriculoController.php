@@ -11,6 +11,7 @@ use Auth;
 use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
 use Carbon\Carbon;
+use App\Ccg\Aluno;
 
 class CurriculoController extends Controller
 {
@@ -177,23 +178,8 @@ class CurriculoController extends Controller
      */
     public function alunos(Curriculo $curriculo)
     {   
-        # Busca os alunos da unidade
-        $alunosUnidade = Graduacao::ativos(config('ccg.codUnd'));
-        
         # Traz somente os alunos do Currículo
-        $alunosCurriculo = array();
-        foreach ($alunosUnidade as $alunoUnidade) {
-            $dadosAluno = Graduacao::curso($alunoUnidade['codpes'], config('ccg.codUnd'));
-            if ( ($dadosAluno['codcurgrd'] == $curriculo['codcur']) and 
-                ($dadosAluno['codhab'] == $curriculo['codhab']) and 
-                (substr($dadosAluno['dtainivin'], 0, 4) == substr($curriculo['dtainicrl'], 0, 4))
-            ) {
-                array_push($alunosCurriculo, [
-                    'codpes' => $dadosAluno['codpes'],
-                    'nompes' => $dadosAluno['nompes']
-                ]);
-            }                
-        }
+        $alunosCurriculo = Aluno::getAlunosCurriculo($curriculo);
 
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();

@@ -16,7 +16,7 @@
                 <a href="#tab_1" data-toggle="tab">Currículo</a>
             </li>
             <li>
-                <a href="#tab_2" data-toggle="tab">Alunos</a>
+                <a href="#tab_2" data-toggle="tab" onclick="location.href='/curriculos/{{ $curriculo['id'] }}/alunos';">Alunos</a>
             </li>
         </ul>
         <div class="tab-content">
