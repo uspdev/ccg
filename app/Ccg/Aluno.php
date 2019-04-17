@@ -276,7 +276,7 @@ class Aluno
         $disObrFal = array_diff($disObr, $disObrCon);
         foreach ($disObrFal as $dObrFal) {
             $disObrFalId = DisciplinasObrigatoria::select('id')
-                ->where(['id_crl' => 5, 'coddis' => $dObrFal])
+                ->where(['id_crl' => $id_crl, 'coddis' => $dObrFal])
                 ->get()
                 ->toArray();
             $dObrFalId = $disObrFalId[0]['id'];
@@ -397,7 +397,7 @@ class Aluno
         $disLicFal = array_diff($disLic, $disLicCon);
         foreach ($disLicFal as $dLicFal) {
             $disLicFalId = DisciplinasLicenciatura::select('id')
-                ->where(['id_crl' => 5, 'coddis' => $dLicFal])
+                ->where(['id_crl' => $id_crl, 'coddis' => $dLicFal])
                 ->get()
                 ->toArray();
             $dLicFalId = $disLicFalId[0]['id'];
