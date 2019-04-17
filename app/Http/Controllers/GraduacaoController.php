@@ -88,22 +88,32 @@ class GraduacaoController extends Controller
         # Obtém as discplinas optativas eletivas concluídas do aluno
         $disciplinasOptativasEletivasConcluidas = Aluno::getDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);   
         # Obtém o total de créditos nas disciplinas optativas eletivas concluídas
-        $numcredisoptelt = Aluno::getTotalCreditosDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);
+        $numcredisoptelt = Aluno::getTotalCreditosDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);;
         # Obtém as discplinas licenciaturas concluídas do aluno
         $disciplinasLicenciaturasConcluidas = Aluno::getDisciplinasLicenciaturasConcluidas($aluno, $curriculoAluno->id_crl);
         # Obtém as disciplinas licenciaturas faltam
         $disciplinasLicenciaturasFaltam = array_diff($disciplinasLicenciaturas, $disciplinasLicenciaturasConcluidas);            
         # Obtém as disciplinas exigidas no currículo
         $disciplinasCurriculo = array_merge($disciplinasObrigatorias, $disciplinasOptativasEletivasConcluidas, $disciplinasLicenciaturas);
-        # Obtém as disciplinas optativas livres concluídas
-        $disciplinasOptativasLivresConcluidas = array_diff($disciplinasConcluidas, $disciplinasCurriculo);
+        # Adiciona as disciplinas concluídas por equivalência em disciplinas obrigatórias ou licenciaturas concluídas
+        $disciplinasConcluidasPorEquivalencia = array_diff($disciplinasConcluidas, $disciplinasCurriculo);
+        foreach ($disciplinasConcluidasPorEquivalencia as $disciplinaConcluidaPorEquivalencia) {
+            // descobrir se é obrigatoria ou licenciatura
+            // adicionar em obrigatória concluida ou licenciatura concluida
+        }
+        # Obtém as disciplinas optativas livres concluídas                
+        if ($curriculoAluno->numcredisoptliv == 0) {
+            $disciplinasOptativasLivresConcluidas = Array();
+        } else {
+            $disciplinasOptativasLivresConcluidas = array_diff($disciplinasConcluidas, $disciplinasCurriculo);
+        }
         # Obtém o total de créditos nas disciplinas optativas livres concluídas
         $numcredisoptliv = Aluno::getTotalCreditosDisciplinasOptativasLivresConcluidas($aluno, $curriculoAluno->id_crl, $disciplinasOptativasLivresConcluidas);
         # Obtém as disciplinas concluídas diretamente do replicado
         $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
         # Obtém o gate para chavear o perfil entre secretaria e aluno
         $gate = Core::getGate();
-        
+
         return view($view, compact(
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',

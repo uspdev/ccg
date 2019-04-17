@@ -15,7 +15,7 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">Aluno</a></li>
-            <li><a href="#tab_2" data-toggle="tab">Créditos</a></li>
+            <!-- <li><a href="#tab_2" data-toggle="tab">Créditos</a></li> -->
             <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
         </ul>
         <div class="tab-content">
@@ -59,14 +59,14 @@
 											</tr>
 										</thead>
 										<tbody>
-											@if ($numcredisoptelt > 0)
+											@if ($numcredisoptelt >= 0)
 											<tr>
 												<td>Disciplinas Optativas Eletivas</td>
 												<td>{{ $curriculoAluno->numcredisoptelt }}</td>
 												<td>{{ $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
 											</tr>	
 											@endif
-											@if ($curriculoAluno->numcredisoptliv > 0)
+											@if ($curriculoAluno->numcredisoptliv >= 0)
 											<tr>
 												<td>Disciplinas Optativas Livres</td>
 												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
