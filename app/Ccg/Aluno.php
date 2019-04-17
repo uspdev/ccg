@@ -457,4 +457,24 @@ class Aluno
         }
         return $numcredisoptliv;
     }
+
+    public static function getAlunosCurriculo($curriculo) 
+    {
+        $alunosCurriculo = Array();
+        # Busca os alunos da unidade
+        $alunosUnidade = Graduacao::ativos(config('ccg.codUnd'));
+        foreach ($alunosUnidade as $alunoUnidade) {
+            $dadosAluno = Graduacao::curso($alunoUnidade['codpes'], config('ccg.codUnd'));
+            if ( ($dadosAluno['codcurgrd'] == $curriculo['codcur']) and 
+                ($dadosAluno['codhab'] == $curriculo['codhab']) and 
+                (substr($dadosAluno['dtainivin'], 0, 4) == substr($curriculo['dtainicrl'], 0, 4))
+            ) {
+                array_push($alunosCurriculo, [
+                    'codpes' => $dadosAluno['codpes'],
+                    'nompes' => $dadosAluno['nompes']
+                ]);
+            }                
+        }
+        return $alunosCurriculo;
+    }
 }
