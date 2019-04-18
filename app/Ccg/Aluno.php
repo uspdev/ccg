@@ -40,12 +40,6 @@ class Aluno
             // Quando recebe um nº USP
             $aluno = $codpes;
         }
-        if (Graduacao::verifica($aluno, config('ccg.codUnd')) === false) {
-            // Se não for aluno ativo de graduação na unidade
-            $msg = "O nº USP $aluno não pertence a um aluno ativo de Graduação nesta unidade.";
-            $request->session()->flash('alert-danger', $msg);
-            return view('index');
-        }
         return $aluno;
     }    
     
@@ -95,19 +89,17 @@ class Aluno
             ->get(); 
         # Verifica se o aluno pertence a um currículo cadastrado
         if ($curriculo->isEmpty()) {
-            $msg = "O aluno $codpes - {self::getDadosAcademicos($request, $codpes)->nompes} não pertence a um currículo cadastrado neste sistema.";
-            $request->session()->flash('alert-danger', $msg);
-            $curriculos = Curriculo::all();
-            return view('curriculos.index', compact('curriculos'));
-        }        
-        # Dados do Currículo do Aluno
-        $curriculoAluno = (object) array(
-            'id_crl' => $curriculo[0]->id,
-            'numcredisoptelt' => $curriculo[0]->numcredisoptelt,
-            'numcredisoptliv' => $curriculo[0]->numcredisoptliv,
-            'dtainicrl' => substr($curriculo[0]->dtainicrl, 0, 4)
-        );
-        return $curriculoAluno;
+            $curriculoAluno = Array();
+        } else {
+            # Dados do Currículo do Aluno
+            $curriculoAluno = (object) array(
+                'id_crl' => $curriculo[0]->id,
+                'numcredisoptelt' => $curriculo[0]->numcredisoptelt,
+                'numcredisoptliv' => $curriculo[0]->numcredisoptliv,
+                'dtainicrl' => substr($curriculo[0]->dtainicrl, 0, 4)
+            );
+        }
+        return $curriculoAluno;       
     }
 
     public static function getDisciplinasObrigatorias($id_crl)

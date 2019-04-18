@@ -64,10 +64,24 @@ class GraduacaoController extends Controller
          */
         # Obtém o nº USP do aluno a ser analisado 
         $aluno = Aluno::getAluno($request, $codpes);
+        # Verifica se o aluno está ativo na unidade
+        if (Graduacao::verifica($aluno, config('ccg.codUnd')) === false) {
+            // Se não for aluno ativo de graduação na unidade
+            $msg = "O nº USP $aluno não pertence a um aluno ativo de Graduação nesta unidade.";
+            $request->session()->flash('alert-danger', $msg);
+            return redirect('/busca');
+        }
         # Obtém os dados acadêmicos
         $dadosAcademicos = Aluno::getDadosAcademicos($request, $aluno);
         # Obtém o currículo do aluno
         $curriculoAluno = Aluno::getCurriculo($request, $aluno);                
+        # Verifica se o aluno pertence a um currículo cadastrado
+        if (empty($curriculoAluno)) {
+            $nompes = Aluno::getDadosAcademicos($request, $aluno)->nompes;
+            $msg = "O aluno $aluno - $nompes não pertence a um currículo cadastrado neste sistema.";
+            $request->session()->flash('alert-danger', $msg);
+            return redirect('/busca');
+        }          
         # Obtém as discplinas obrigatórias no currículo do aluno
         $disciplinasObrigatorias = Aluno::getDisciplinasObrigatorias($curriculoAluno->id_crl);
         # Obtém as discplinas optativas eletivas no currículo do aluno

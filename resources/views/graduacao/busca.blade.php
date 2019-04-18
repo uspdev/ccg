@@ -30,7 +30,7 @@
         </form>
     </div>
 
-    @if (isset($dadosAcademicos->codpes))
+    @if (isset($dadosAcademicos))
 
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
@@ -68,7 +68,8 @@
                   				<th>Programa</td>
                   				<td>{{ $dadosAcademicos->codpgm }}</td>
                 			</tr>
-                			<tr>
+                			@if (isset($curriculoAluno->id_crl))
+							<tr>
                   				<th colspan="2">
 									<table class="table table-hover">
 										<thead>
@@ -96,7 +97,8 @@
 										</tbody>
 									</table>
 								</td>
-                			</tr>															
+                			</tr>
+							@endif															
               			</table>
             		</div>
           		</div>
