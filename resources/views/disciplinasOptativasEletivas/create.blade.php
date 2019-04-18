@@ -67,13 +67,18 @@
                             <th colspan="2">
                                 <div class="form-group">
                                     <label>Adicionar Disciplina Optativa Eletiva</label>
-                                    <select class="form-control select2" style="width: 100%;" id="coddisobr" name="coddisobr" required>
+                                    <select class="form-control select2" style="width: 100%;" id="coddiselt" name="coddiselt">
                                         <option></option>                      
                                             @foreach ($disciplinas as $disciplina)
                                                 <option value="{{ $disciplina['coddis'] }}">{{ $disciplina['coddis'] }} - {{ $disciplina['nomdis'] }}</option>
                                             @endforeach
                                     </select>
-                                </div>                                 
+                                </div> 
+                                <div class="form-group">
+                                    <label>Adicionar Disciplinas</label>
+                                    <textarea id="lstcoddis" name="lstcoddis" class="form-control" rows="3" 
+                                        placeholder="Digite ou cole aqui os códigos das disciplinas separados por vírgula"></textarea>
+                                </div>                                  
                             </th>
                         </tr>                                          
                     </tfoot>                            
