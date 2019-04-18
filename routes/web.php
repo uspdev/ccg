@@ -17,6 +17,7 @@ Route::get('/busca/{parteNome}', 'GraduacaoController@searchAlunos');
 # aluno
 # meus créditos
 Route::get('/creditos', 'GraduacaoController@creditos');
+Route::get('/creditos/{aluno}', 'GraduacaoController@aluno');
 
 # curriculo
 Route::resource('/curriculos', 'CurriculoController');
