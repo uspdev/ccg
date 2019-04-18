@@ -38,11 +38,11 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 
 ## Funcionalidades
 
-- O aluno de Graduação pode acessar o sistema e ver as disciplinas que já cursou e as que faltam. 
+- O aluno de Graduação pode acessar o sistema e ver as disciplinas <strike>que já cursou e as</strike> que faltam. :heavy_check_mark: 
 - O Serviço de Graduação pode: 
-    - Cadastrar os currículos de acordo com suas alterações ao longo dos anos.
-    - Cadastrar as equivalências entre as disciplinas.
-    - Buscar alunos pelo nº USP ou por parte do nome.
+    - Cadastrar os currículos de acordo com suas alterações ao longo dos anos. :heavy_check_mark: 
+    - Cadastrar as equivalências entre as disciplinas. :heavy_check_mark: 
+    - Buscar alunos pelo nº USP ou por parte do nome. :heavy_check_mark: 
     - Analisar a situação de todos alunos de um determinado currículo.
     - Emitir um relatório a ser entregue ao aluno.
     - Emitir um relatório com situação de todos os alunos de um currículo.
