@@ -39,9 +39,8 @@ class DisciplinasLicenciaturaController extends Controller
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
-        
-        $arrCoddis = config('ccg.arrCoddis');
-        $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
+
+        $disciplinas = Graduacao::obterDisciplinas(config('ccg.arrCoddis'));  
 
         foreach ($disciplinas as $key => $value) {
             foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
@@ -76,13 +75,45 @@ class DisciplinasLicenciaturaController extends Controller
      */
     public function store(Request $request, Curriculo $curriculo)
     {
-        $disciplinasLicenciatura = new DisciplinasLicenciatura;
-        $disciplinasLicenciatura->id_crl = $curriculo->id;
-        $disciplinasLicenciatura->coddis = $request->coddisobr;
-        $disciplinasLicenciatura->save();
-
-        $request->session()->flash('alert-success', 'Disciplina Licenciatura cadastrada com sucesso!');
-        return redirect("/disciplinasLicenciaturas/create/" . $curriculo->id);
+        # verifica se preencheu campo com várias disciplinas
+        if (!$request->coddislic) {
+            if (!$request->lstcoddis) {
+                $request->session()->flash('alert-danger', 'Selecione uma disciplina ou preencha a lista de disciplinas!');
+                return redirect("/disciplinasLicenciaturas/create/" . $curriculo->id);
+            } else {
+                # salva várias diciplinas
+                $lstcoddis = rtrim(ltrim(str_replace(' ', '', strtoupper($request->lstcoddis))));
+                $lstcoddis = preg_replace('/\r|\n/', '', $lstcoddis);
+                $arrlstcoddis = explode(',', $lstcoddis);
+                $arrlstcoddis = array_filter($arrlstcoddis);
+                $disciplinas = Graduacao::obterDisciplinas(config('ccg.arrCoddis'));
+                $arrdis = Array();
+                foreach ($disciplinas as $disciplina) {
+                    array_push($arrdis, $disciplina['coddis']);
+                }
+                foreach ($arrlstcoddis as $coddis) {
+                    # verifica se a disciplina existe para a unidade
+                    if (in_array($coddis, $arrdis)) {
+                        # verifica se a disciplina não está salva
+                        if (DisciplinasLicenciatura::where(['id_crl' => $curriculo->id, 'coddis' => $coddis])->count() == 0) {
+                            # salva a disciplina
+                            $disciplinasObrigatoria = new DisciplinasLicenciatura;
+                            $disciplinasObrigatoria->id_crl = $curriculo->id;
+                            $disciplinasObrigatoria->coddis = $coddis;
+                            $disciplinasObrigatoria->save();
+                        } 
+                    } 
+                }  
+            }
+        } else {
+            # salva uma disciplina
+            $disciplinasObrigatoria = new DisciplinasLicenciatura;
+            $disciplinasObrigatoria->id_crl = $curriculo->id;
+            $disciplinasObrigatoria->coddis = $request->coddislic;
+            $disciplinasObrigatoria->save();
+        }
+        $request->session()->flash('alert-success', 'Disciplina(s) Licenciatura(s) cadastrada(s) com sucesso!');
+        return redirect("/disciplinasLicenciaturas/create/" . $curriculo->id);        
     }
 
     /**
