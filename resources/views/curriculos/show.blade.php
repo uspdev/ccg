@@ -303,7 +303,8 @@
                             <tr>
                                 <td>{{ $aluno['nompes'] }}</td>
                                 <td>
-                                    <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
+                                    <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo"
+                                        onclick="location.href='/creditos/{{ $aluno['codpes'] }}';">
                                         <span class="glyphicon glyphicon-ok"></span>
                                     </button>                                
                                 </td>

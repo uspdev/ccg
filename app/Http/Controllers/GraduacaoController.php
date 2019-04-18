@@ -53,6 +53,16 @@ class GraduacaoController extends Controller
         return self::creditos($request, 'graduacao.busca', $request->codpes);
     }
 
+    public function aluno(Request $request) {
+        /**
+         * Médoto que retorna os créditos do aluno dada uma rota creditos/nº usp
+         * @param object $request
+         * @return view 'graduacao.busca'
+         */
+        $codpes = $request->route()->aluno;
+        return self::creditos($request, 'graduacao.busca', $codpes);
+    }
+
     public static function creditos(Request $request, $view = 'aluno.creditos', $codpes = null)
     {   
         /**
