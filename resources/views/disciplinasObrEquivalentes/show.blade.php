@@ -34,14 +34,19 @@
                         <th>
                             <label>Disciplina Obrigatória - 
                             {{ $disciplinasObrigatoria['coddis'] }} - 
-                            {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</label>                               
+                            {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</label>    
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória Equivalente" 
+                                onclick="location.href='/disciplinasObrEquivalentes/create/{{ $disciplinasObrigatoria->id }}';">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória Equivalente
+                            </button>                             
                         </th>
                         <th>&nbsp;</th>
                     </tr>         
                     <tr>
                         <th><label>Diciplinas Obrigatórias Equivalentes</label></th>
                         <th>&nbsp;</th>
-                    </tr>                                                            
+                    </tr>                                                          
                     <tr>
                         <th>Disciplinas</th>
                         <th>Ações</th>

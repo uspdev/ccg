@@ -34,7 +34,12 @@
                         <th>
                             <label>Disciplina Licenciatura - 
                             {{ $disciplinasLicenciatura['coddis'] }} - 
-                            {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}</label>                               
+                            {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}</label>   
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Licenciatura Equivalente" 
+                                onclick="location.href='/disciplinasLicEquivalentes/create/{{ $disciplinasLicenciatura->id }}';">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciatura Equivalente
+                            </button>                                                          
                         </th>
                         <th>&nbsp;</th>
                     </tr>         

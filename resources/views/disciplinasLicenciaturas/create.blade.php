@@ -57,9 +57,18 @@
                                 <td>{{ $disciplinasLicenciatura['coddis'] }} - 
                                     {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}</td>
                                 <td>                              
-                                    <button type="button" class="btn btn-info btn-xs" title="Disciplinas Licenciaturas Equivalentes">
-                                        <span class="glyphicon glyphicon-list-alt"></span>
-                                    </button>                                  
+                                    {{-- Se existe disciplina equivalente cadastrada, mostra as equivalentes --}}
+                                    @if (App\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get()->count() > 0)
+                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Licenciaturas Equivalentes" 
+                                            onclick="location.href='/disciplinasLicEquivalentes/{{ $disciplinasLicenciatura->id }}';">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </button>
+                                    @endif  
+                                        <button style="float: left; margin-right: 3px; margin-top: 1px;" type="button" class="btn btn-success btn-xs" 
+                                            title="Adicionar Disciplinas Licenciaturas Equivalentes" 
+                                            onclick="location.href='/disciplinasLicEquivalentes/create/{{ $disciplinasLicenciatura->id }}';">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>                                     
                                 </td>
                             </tr>
                         @endforeach

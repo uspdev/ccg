@@ -57,9 +57,18 @@
                                 <td>{{ $disciplinasObrigatoria['coddis'] }} - 
                                     {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</td>
                                 <td>                           
-                                    <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes">
-                                        <span class="glyphicon glyphicon-list-alt"></span>
-                                    </button>                                
+                                    {{-- Se existe disciplina equivalente cadastrada, mostra as equivalentes --}}
+                                    @if (App\DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->get()->count() > 0)
+                                        <button type="button" class="btn btn-info btn-xs" title="Disciplinas Obrigatórias Equivalentes" 
+                                            onclick="location.href='/disciplinasObrEquivalentes/{{ $disciplinasObrigatoria->id }}';">
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </button>
+                                    @endif  
+                                        <button style="float: left; margin-right: 3px; margin-top: 1px;" type="button" class="btn btn-success btn-xs" 
+                                            title="Adicionar Disciplinas Obrigatórias Equivalentes" 
+                                            onclick="location.href='/disciplinasObrEquivalentes/create/{{ $disciplinasObrigatoria->id }}';">
+                                            <span class="glyphicon glyphicon-plus"></span>
+                                        </button>                                                                 
                                 </td>
                             </tr>
                         @endforeach
