@@ -110,6 +110,8 @@ class GraduacaoController extends Controller
         $disciplinasObrigatoriasFaltam = array_diff($disciplinasObrigatorias, $disciplinasObrigatoriasConcluidas);
         # Obtém as discplinas optativas eletivas concluídas do aluno
         $disciplinasOptativasEletivasConcluidas = Aluno::getDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);   
+        # Obtém as discplinas optativas eletivas que faltam/disponíveis do aluno
+        $disciplinasOptativasEletivasFaltam = array_diff($disciplinasOptativasEletivas, $disciplinasOptativasEletivasConcluidas);
         # Obtém o total de créditos nas disciplinas optativas eletivas concluídas
         $numcredisoptelt = Aluno::getTotalCreditosDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);;
         # Obtém as discplinas licenciaturas concluídas do aluno
@@ -120,10 +122,6 @@ class GraduacaoController extends Controller
         $disciplinasCurriculo = array_merge($disciplinasObrigatorias, $disciplinasOptativasEletivasConcluidas, $disciplinasLicenciaturas);
         # Adiciona as disciplinas concluídas por equivalência em disciplinas obrigatórias ou licenciaturas concluídas
         $disciplinasConcluidasPorEquivalencia = array_diff($disciplinasConcluidas, $disciplinasCurriculo);
-        foreach ($disciplinasConcluidasPorEquivalencia as $disciplinaConcluidaPorEquivalencia) {
-            // descobrir se é obrigatoria ou licenciatura
-            // adicionar em obrigatória concluida ou licenciatura concluida
-        }
         # Obtém as disciplinas optativas livres concluídas                
         if ($curriculoAluno->numcredisoptliv == 0) {
             $disciplinasOptativasLivresConcluidas = Array();
@@ -140,7 +138,8 @@ class GraduacaoController extends Controller
         return view($view, compact(
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
-                'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv'
+                'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
+                'disciplinasOptativasEletivasFaltam'
             )
         );
     }
