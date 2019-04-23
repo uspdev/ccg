@@ -277,7 +277,26 @@
 									</tr>
 								@endforeach
 							</tbody>
-						</table>												
+						</table>
+						<br />
+						<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
+							<thead>
+								<tr>
+									<th><label>Disciplinas Optativas Eletivas disponíveis</label></th>
+								</tr>                     
+								<tr>
+									<th>Disciplinas</th>
+								</tr>                                          
+							</thead>
+							<tbody>                                                     
+								@foreach ($disciplinasOptativasEletivasFaltam as $disciplinaOptativaEletivaFalta)                  
+									<tr>
+										<td style="width: 100%;">{{ $disciplinaOptativaEletivaFalta }} - 
+											{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaOptativaEletivaFalta) }}</td>
+									</tr>
+								@endforeach
+							</tbody>
+						</table>																		
             		</div>					
           		</div>
             </div>
