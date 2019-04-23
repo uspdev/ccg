@@ -48,6 +48,8 @@ Route::get('/disciplinasObrEquivalentes/create/{disciplinasObrigatoria}', 'Disci
 Route::post('/disciplinasObrEquivalentes/create/{disciplinasObrigatoria}', 'DisciplinasObrigatoriasEquivalenteController@store');
 Route::delete('/disciplinasObrEquivalentes/{disciplinasObrEquivalente}', 'DisciplinasObrigatoriasEquivalenteController@destroy');
 Route::get('/disciplinasObrEquivalentes/{disciplinasObrigatoria}', 'DisciplinasObrigatoriasEquivalenteController@show');
+Route::get('/disciplinasObrEquivalentes/{disciplinasObrEquivalente}/edit', 'DisciplinasObrigatoriasEquivalenteController@edit');
+Route::post('/disciplinasObrEquivalentes/{disciplinasObrEquivalente}', 'DisciplinasObrigatoriasEquivalenteController@update');
 
 # disciplinas licenciaturas equivalentes
 # Route::resource('disciplinasLicEquivalentes', 'DisciplinasLicenciaturasEquivalenteController');
@@ -55,3 +57,6 @@ Route::get('/disciplinasLicEquivalentes/create/{disciplinasLicenciatura}', 'Disc
 Route::post('/disciplinasLicEquivalentes/create/{disciplinasLicenciatura}', 'DisciplinasLicenciaturasEquivalenteController@store');
 Route::delete('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}', 'DisciplinasLicenciaturasEquivalenteController@destroy');
 Route::get('/disciplinasLicEquivalentes/{disciplinasLicenciatura}', 'DisciplinasLicenciaturasEquivalenteController@show');
+Route::get('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}/edit', 'DisciplinasLicenciaturasEquivalenteController@edit');
+Route::get('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}/edit', 'DisciplinasLicenciaturasEquivalenteController@edit');
+Route::post('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}', 'DisciplinasLicenciaturasEquivalenteController@update');

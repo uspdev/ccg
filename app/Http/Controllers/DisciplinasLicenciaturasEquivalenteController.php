@@ -105,7 +105,15 @@ class DisciplinasLicenciaturasEquivalenteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $disciplinaLicenciaturaEquivalente = DisciplinasLicenciaturasEquivalente::where('id', $id)->get();
+        $disciplinaLicenciatura = DisciplinasLicenciatura::where('id', $disciplinaLicenciaturaEquivalente[0]->id_dis_lic)->get();;
+        $curriculo = Curriculo::find($disciplinaLicenciatura[0]->id_crl); 
+
+        return view('disciplinasLicEquivalentes.edit', compact(
+            'curriculo',
+            'disciplinaLicenciatura', 
+            'disciplinaLicenciaturaEquivalente'
+        ));
     }
 
     /**
@@ -117,7 +125,14 @@ class DisciplinasLicenciaturasEquivalenteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $disciplinasLicenciaturasEquivalente = DisciplinasLicenciaturasEquivalente::find($id);        
+        $disciplinasLicenciaturasEquivalente->id_dis_lic = $request->id_dis_lic;
+        $disciplinasLicenciaturasEquivalente->coddis = $request->coddis;
+        $disciplinasLicenciaturasEquivalente->tipeqv = $request->tipeqv;
+        $disciplinasLicenciaturasEquivalente->save();
+
+        $request->session()->flash('alert-success', 'Disciplina Licenciatura Equivalente salva com sucesso!');
+        return redirect("/disciplinasLicEquivalentes/" . $request->id_dis_lic);  
     }
 
     /**
