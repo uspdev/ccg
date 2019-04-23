@@ -193,4 +193,25 @@ class CurriculoController extends Controller
             'alunosCurriculo'
         ));       
     }
+
+    /**
+     * Lista os alunos que pertencem ao Currículo
+     *
+     * @param  int  $curriculo
+     * @return view
+     */
+    public function print($id_crl)
+    {   
+        $curriculo = Curriculo::find($id_crl);     
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $id_crl)->orderBy('coddis', 'asc')->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $id_crl)->orderBy('coddis', 'asc')->get();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $id_crl)->orderBy('coddis', 'asc')->get();
+
+        return view('curriculos.print', compact(
+            'curriculo', 
+            'disciplinasObrigatorias',
+            'disciplinasOptativasEletivas',
+            'disciplinasLicenciaturas'
+        ));     
+    }
 }

@@ -51,6 +51,10 @@
                                     onclick='location.href="curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </button>
+                                <button type="button" class="btn btn-warning btn-xs" 
+                                    onclick='window.open("curriculos/{{ $curriculo->id }}/print");' title="Versão de impressão do Currículo">
+                                    <span class="glyphicon glyphicon-print"></span>
+                                </button>                                
                                 <button type="button" class="btn btn-primary btn-xs" 
                                     onclick='location.href="curriculos/{{ $curriculo->id }}/edit";' title="Editar Currículo">
                                     <span class="glyphicon glyphicon-pencil"></span>
