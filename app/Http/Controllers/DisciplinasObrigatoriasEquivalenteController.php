@@ -105,7 +105,15 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
      */
     public function edit($id)
     {
-        //
+        $disciplinaObrigatoriaEquivalente = DisciplinasObrigatoriasEquivalente::where('id', $id)->get();
+        $disciplinaObrigatoria = DisciplinasObrigatoria::where('id', $disciplinaObrigatoriaEquivalente[0]->id_dis_obr)->get();;
+        $curriculo = Curriculo::find($disciplinaObrigatoria[0]->id_crl); 
+
+        return view('disciplinasObrEquivalentes.edit', compact(
+            'curriculo',
+            'disciplinaObrigatoria', 
+            'disciplinaObrigatoriaEquivalente'
+        ));
     }
 
     /**
@@ -116,8 +124,15 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
-        //
+    {   
+        $disciplinasObrigatoriasEquivalente = DisciplinasObrigatoriasEquivalente::find($id);        
+        $disciplinasObrigatoriasEquivalente->id_dis_obr = $request->id_dis_obr;
+        $disciplinasObrigatoriasEquivalente->coddis = $request->coddis;
+        $disciplinasObrigatoriasEquivalente->tipeqv = $request->tipeqv;
+        $disciplinasObrigatoriasEquivalente->save();
+
+        $request->session()->flash('alert-success', 'Disciplina Obrigatória Equivalente salva com sucesso!');
+        return redirect("/disciplinasObrEquivalentes/" . $request->id_dis_obr);  
     }
 
     /**

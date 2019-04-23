@@ -63,6 +63,10 @@
                                 <form role="form" method="POST" action="/disciplinasObrEquivalentes/{{ $disciplinasObrigatoriasEquivalente->id }}">
                                     {{ csrf_field() }}
                                     {{ method_field('delete') }}                                  
+                                    <button type="button" class="btn btn-primary btn-xs" title="Editar" 
+                                        onclick="location.href='/disciplinasObrEquivalentes/{{ $disciplinasObrigatoriasEquivalente->id }}/edit';">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </button>                                    
                                     <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button> 
