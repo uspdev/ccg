@@ -283,9 +283,11 @@
 							<thead>
 								<tr>
 									<th><label>Disciplinas Optativas Eletivas disponíveis</label></th>
+									<th>&nbsp;</th>									
 								</tr>                     
 								<tr>
 									<th>Disciplinas</th>
+									<th>Créditos/Aula</th>									
 								</tr>                                          
 							</thead>
 							<tbody>                                                     
@@ -293,6 +295,8 @@
 									<tr>
 										<td style="width: 100%;">{{ $disciplinaOptativaEletivaFalta }} - 
 											{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaOptativaEletivaFalta) }}</td>
+										<td>
+											{{ Uspdev\Replicado\Graduacao::creditosDisciplina($disciplinaOptativaEletivaFalta) }}</td>											
 									</tr>
 								@endforeach
 							</tbody>
