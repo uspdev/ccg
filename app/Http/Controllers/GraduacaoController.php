@@ -60,10 +60,10 @@ class GraduacaoController extends Controller
          * @return view 'graduacao.busca'
          */
         $codpes = $request->route()->aluno;
-        return self::creditos($request, 'graduacao.busca', $codpes);
+        return self::creditos($request, 'graduacao.busca', false, $codpes);
     }
 
-    public static function creditos(Request $request, $view = 'aluno.creditos', $codpes = null)
+    public static function creditos(Request $request, $view = 'aluno.creditos', $verPdf = false, $codpes = null)
     {   
         /**
          * Médoto que retorna os creditos e disciplinas que faltam do aluno de graduação
@@ -131,16 +131,37 @@ class GraduacaoController extends Controller
         # Obtém o total de créditos nas disciplinas optativas livres concluídas
         $numcredisoptliv = Aluno::getTotalCreditosDisciplinasOptativasLivresConcluidas($aluno, $curriculoAluno->id_crl, $disciplinasOptativasLivresConcluidas);
         # Obtém as disciplinas concluídas diretamente do replicado
-        $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
+        $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));      
         # Obtém o gate para chavear o perfil entre secretaria e aluno
         $gate = Core::getGate();
 
-        return view($view, compact(
+        if ($verPdf == true) {
+            $pdf = \PDF::loadView($view, compact(
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
                 'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
                 'disciplinasOptativasEletivasFaltam'
-            )
-        );
+                )
+            );
+            //dd($pdf->html);
+            return $pdf->download(config('app.name') . $codpes . '.pdf');
+        } else {
+            return view($view, compact(
+                'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
+                'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
+                'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
+                'disciplinasOptativasEletivasFaltam'
+                )
+            );
+        }
+    }
+
+    public function pdf(Request $request) {
+        /**
+         * @param object $request
+         * @return view $view         
+         */
+        $codpes = $request->route()->aluno;
+        return self::creditos($request, 'aluno.pdf', true, $codpes);
     }
 }

@@ -1,0 +1,1 @@
+{{ $dadosAcademicos->codpes }}
