@@ -6,6 +6,7 @@
     "type": "project",
     "require": {
         "php": ">=7.1.0",
+        "barryvdh/laravel-snappy": "^0.4.4",
         "fideloper/proxy": "~4.0",
         "h4cc/wkhtmltoimage-amd64": "0.12.x",
         "h4cc/wkhtmltopdf-amd64": "0.12.x",
