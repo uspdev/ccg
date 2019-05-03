@@ -50,7 +50,7 @@ class GraduacaoController extends Controller
          * @param object $request
          * @return object $dadosAcademicos
          */
-        return self::creditos($request, 'graduacao.busca', $request->codpes);
+        return self::creditos($request, 'graduacao.busca', false, $request->codpes);
     }
 
     public function aluno(Request $request) {
@@ -143,7 +143,6 @@ class GraduacaoController extends Controller
                 'disciplinasOptativasEletivasFaltam'
                 )
             );
-            //dd($pdf->html);
             return $pdf->download(config('app.name') . $codpes . '.pdf');
         } else {
             return view($view, compact(
