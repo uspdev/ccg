@@ -132,6 +132,55 @@ class GraduacaoController extends Controller
         $numcredisoptliv = Aluno::getTotalCreditosDisciplinasOptativasLivresConcluidas($aluno, $curriculoAluno->id_crl, $disciplinasOptativasLivresConcluidas);
         # Obtém as disciplinas concluídas diretamente do replicado
         $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));      
+
+        # Disciplinas obrigatórias equivalentes que faltam
+        $disciplinasObrigatoriasEquivalentesFaltam = array();       
+        foreach ($disciplinasObrigatoriasFaltam as $disciplinaObrigatoriaFalta) {
+            # verificar se $disciplinaObrigatoriaFalta tem equivalente
+            $id_dis_obr = DisciplinasObrigatoria::where([
+                    'id_crl' => $curriculoAluno->id_crl,
+                    'coddis' => $disciplinaObrigatoriaFalta
+                ])->get()->toArray();
+            $equivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $id_dis_obr[0]['id'])
+                ->orderBy('coddis', 'asc')
+                ->get();
+            if ($equivalentes->isEmpty() == false) {
+                # Monta array com as equivalentes
+                $y = 0;
+                foreach ($equivalentes as $equivalente) {
+                    $disciplinasObrigatoriasEquivalentesFaltam[$disciplinaObrigatoriaFalta][$y] = [
+                        $equivalente['coddis'],
+                        $equivalente['tipeqv']   
+                    ];
+                    $y++;
+                }
+            }    
+        }
+
+        # Disciplinas licenciaturas equivalentes que faltam
+        $disciplinasLicenciaturasEquivalentesFaltam = array();       
+        foreach ($disciplinasLicenciaturasFaltam as $disciplinaLicenciaturaFalta) {
+            # verificar se $disciplinaLicenciaturaFalta tem equivalente
+            $id_dis_lic = DisciplinasLicenciatura::where([
+                    'id_crl' => $curriculoAluno->id_crl,
+                    'coddis' => $disciplinaLicenciaturaFalta
+                ])->get()->toArray();
+            $equivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $id_dis_lic[0]['id'])
+                ->orderBy('coddis', 'asc')
+                ->get();
+            if ($equivalentes->isEmpty() == false) {
+                # Monta array com as equivalentes
+                $y = 0;
+                foreach ($equivalentes as $equivalente) {
+                    $disciplinasLicenciaturasEquivalentesFaltam[$disciplinaLicenciaturaFalta][$y] = [
+                        $equivalente['coddis'],
+                        $equivalente['tipeqv']   
+                    ];
+                    $y++;
+                }
+            }    
+        }
+        
         # Obtém o gate para chavear o perfil entre secretaria e aluno
         $gate = Core::getGate();
 
@@ -140,7 +189,7 @@ class GraduacaoController extends Controller
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
                 'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
-                'disciplinasOptativasEletivasFaltam'
+                'disciplinasOptativasEletivasFaltam', 'disciplinasObrigatoriasEquivalentesFaltam', 'disciplinasLicenciaturasEquivalentesFaltam'
                 )
             );
             return $pdf->download(config('app.name') . $codpes . '.pdf');
