@@ -41,6 +41,11 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
+// class_alias('Barryvdh\Snappy\Facades\SnappyPdf', 'PDF');
+// $app->register(
+//     Barryvdh\Snappy\LumenServiceProvider::class
+// );
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

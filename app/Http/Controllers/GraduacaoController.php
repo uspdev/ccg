@@ -50,7 +50,7 @@ class GraduacaoController extends Controller
          * @param object $request
          * @return object $dadosAcademicos
          */
-        return self::creditos($request, 'graduacao.busca', $request->codpes);
+        return self::creditos($request, 'graduacao.busca', false, $request->codpes);
     }
 
     public function aluno(Request $request) {
@@ -60,10 +60,10 @@ class GraduacaoController extends Controller
          * @return view 'graduacao.busca'
          */
         $codpes = $request->route()->aluno;
-        return self::creditos($request, 'graduacao.busca', $codpes);
+        return self::creditos($request, 'graduacao.busca', false, $codpes);
     }
 
-    public static function creditos(Request $request, $view = 'aluno.creditos', $codpes = null)
+    public static function creditos(Request $request, $view = 'aluno.creditos', $verPdf = false, $codpes = null)
     {   
         /**
          * Médoto que retorna os creditos e disciplinas que faltam do aluno de graduação
@@ -131,16 +131,85 @@ class GraduacaoController extends Controller
         # Obtém o total de créditos nas disciplinas optativas livres concluídas
         $numcredisoptliv = Aluno::getTotalCreditosDisciplinasOptativasLivresConcluidas($aluno, $curriculoAluno->id_crl, $disciplinasOptativasLivresConcluidas);
         # Obtém as disciplinas concluídas diretamente do replicado
-        $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
+        $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));      
+
+        # Disciplinas obrigatórias equivalentes que faltam
+        $disciplinasObrigatoriasEquivalentesFaltam = array();       
+        foreach ($disciplinasObrigatoriasFaltam as $disciplinaObrigatoriaFalta) {
+            # verificar se $disciplinaObrigatoriaFalta tem equivalente
+            $id_dis_obr = DisciplinasObrigatoria::where([
+                    'id_crl' => $curriculoAluno->id_crl,
+                    'coddis' => $disciplinaObrigatoriaFalta
+                ])->get()->toArray();
+            $equivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $id_dis_obr[0]['id'])
+                ->orderBy('coddis', 'asc')
+                ->get();
+            if ($equivalentes->isEmpty() == false) {
+                # Monta array com as equivalentes
+                $y = 0;
+                foreach ($equivalentes as $equivalente) {
+                    $disciplinasObrigatoriasEquivalentesFaltam[$disciplinaObrigatoriaFalta][$y] = [
+                        $equivalente['coddis'],
+                        $equivalente['tipeqv']   
+                    ];
+                    $y++;
+                }
+            }    
+        }
+
+        # Disciplinas licenciaturas equivalentes que faltam
+        $disciplinasLicenciaturasEquivalentesFaltam = array();       
+        foreach ($disciplinasLicenciaturasFaltam as $disciplinaLicenciaturaFalta) {
+            # verificar se $disciplinaLicenciaturaFalta tem equivalente
+            $id_dis_lic = DisciplinasLicenciatura::where([
+                    'id_crl' => $curriculoAluno->id_crl,
+                    'coddis' => $disciplinaLicenciaturaFalta
+                ])->get()->toArray();
+            $equivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $id_dis_lic[0]['id'])
+                ->orderBy('coddis', 'asc')
+                ->get();
+            if ($equivalentes->isEmpty() == false) {
+                # Monta array com as equivalentes
+                $y = 0;
+                foreach ($equivalentes as $equivalente) {
+                    $disciplinasLicenciaturasEquivalentesFaltam[$disciplinaLicenciaturaFalta][$y] = [
+                        $equivalente['coddis'],
+                        $equivalente['tipeqv']   
+                    ];
+                    $y++;
+                }
+            }    
+        }
+        
         # Obtém o gate para chavear o perfil entre secretaria e aluno
         $gate = Core::getGate();
 
-        return view($view, compact(
+        if ($verPdf == true) {
+            $pdf = \PDF::loadView($view, compact(
+                'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
+                'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
+                'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
+                'disciplinasOptativasEletivasFaltam', 'disciplinasObrigatoriasEquivalentesFaltam', 'disciplinasLicenciaturasEquivalentesFaltam'
+                )
+            );
+            return $pdf->download(config('app.name') . $codpes . '.pdf');
+        } else {
+            return view($view, compact(
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
                 'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
                 'disciplinasOptativasEletivasFaltam'
-            )
-        );
+                )
+            );
+        }
+    }
+
+    public function pdf(Request $request) {
+        /**
+         * @param object $request
+         * @return view $view         
+         */
+        $codpes = $request->route()->aluno;
+        return self::creditos($request, 'aluno.pdf', true, $codpes);
     }
 }
