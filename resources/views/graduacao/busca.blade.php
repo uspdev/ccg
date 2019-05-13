@@ -64,7 +64,7 @@
                 			</tr>
                 			<tr>
                   				<th>Ano de ingresso</td>
-                  				<td>{{ Carbon\Carbon::parse($dadosAcademicos->dtainivin)->format('d/m/Y') }}</td>
+                  				<td>{{ Carbon\Carbon::parse($dadosAcademicos->dtainivin)->format('Y') }}</td>
                 			</tr>
                 			<tr>
                   				<th>Programa</td>
