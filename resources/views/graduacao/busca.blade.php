@@ -354,27 +354,14 @@
                 ordering    	: true,
                 info        	: true,
                 autoWidth   	: true,
-                pageLength  	: 100
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],
+				pageLength  	: -1
             });
 
 			// Total de créditos
-			$('#disciplinasOptativasLivres').dataTable( {
-				"footerCallback" : function(tfoot, data, start, end, display){
-					var api = this.api();
-					$(api.column(1).footer()).html(
-						api.column(1).data().reduce(function(a, b){
-							a = parseInt(a);
-							b = parseInt(b);
-							return a + b;
-						}, 0)
-					);
-				},
-				language    	: {
-                    url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-                },  
-				pageLength  	: 100
-			});
-
 			$('#disciplinasObrigatorias').dataTable( {
 				"footerCallback" : function(tfoot, data, start, end, display){
 					var api = this.api();
@@ -388,8 +375,33 @@
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-                },  
-				pageLength  	: 100
+                },
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],				  
+				pageLength  	: -1
+			});
+			
+			$('#disciplinasOptativasLivres').dataTable( {
+				"footerCallback" : function(tfoot, data, start, end, display){
+					var api = this.api();
+					$(api.column(1).footer()).html(
+						api.column(1).data().reduce(function(a, b){
+							a = parseInt(a);
+							b = parseInt(b);
+							return a + b;
+						}, 0)
+					);
+				},
+				language    	: {
+                    url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+                }, 
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],				 
+				pageLength  	: -1
 			});			
 
 			$('#disciplinasOptativasEletivas').dataTable( {
@@ -406,7 +418,11 @@
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
                 },  
-				pageLength  	: 100
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],				
+				pageLength  	: -1
 			});				
 			
 			$('#disciplinasLicenciaturas').dataTable( {
@@ -422,16 +438,19 @@
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-                },  
-				pageLength  	: 100
-			}); 				
+                }, 
+				lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			], 
+				pageLength  	: -1
+			});				
 
-				$(window).keydown(function(event){
+			$(window).keydown(function(event){
 				if((event.keyCode == 13)) {
 					event.preventDefault();
 					return false;
 				}
-			
 			});
         });
         
