@@ -44,7 +44,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
     - Cadastrar as equivalências entre as disciplinas. :heavy_check_mark: 
     - Buscar alunos pelo nº USP ou por parte do nome. :heavy_check_mark: 
     - Analisar a situação de todos alunos de um determinado currículo.
-    - Emitir um relatório a ser entregue ao aluno.
+    - Emitir um relatório a ser entregue ao aluno em PDF. :heavy_check_mark:
     - Emitir um relatório com situação de todos os alunos de um currículo.
 
 ## Model
@@ -58,6 +58,12 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 ```bash
 composer install
 cp .env.example .env
+```
+
+- Incluir a lib libxrender1
+
+```bash
+sudo apt-get install libxrender1
 ```
 
 - Editar o arquivo .env
@@ -100,6 +106,8 @@ github: [jeroennoten/Laravel-AdminLTE](https://github.com/jeroennoten/Laravel-Ad
 github: [uspdev/senhaunica-socialite](https://github.com/uspdev/senhaunica-socialite)
 
 github: [uspdev/wsfoto](https://github.com/uspdev/wsfoto)
+
+github: [laravel-snappy](https://github.com/barryvdh/laravel-snappy)
 
 
 ## Contribuindo com o projeto
