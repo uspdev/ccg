@@ -37,6 +37,7 @@
             <li class="active"><a href="#tab_1" data-toggle="tab">Aluno</a></li>
             <li><a href="#tab_2" data-toggle="tab">Créditos</a></li>
             <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
+			<li><a href="#tab_4" data-toggle="tab">Eletivas disponíveis</a></li>
 			<li><a href="/creditos/{{ $dadosAcademicos->codpes }}/pdf"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li>
         </ul>
         <div class="tab-content">
@@ -235,7 +236,7 @@
           		</div>
             </div>
               
-            <div class="tab-pane" id="tab_3">
+			<div class="tab-pane" id="tab_3">
           		<div class="box-primary">
             		<div class="box-header">
 						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
@@ -278,14 +279,20 @@
 									</tr>
 								@endforeach
 							</tbody>
-						</table>
-						<br />
-						<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
-							<thead>
-								<tr>
-									<th><label>Disciplinas Optativas Eletivas disponíveis</label></th>
-									<th>&nbsp;</th>									
-								</tr>                     
+						</table>																		
+            		</div>					
+          		</div>
+            </div>
+
+			<div class="tab-pane" id="tab_4">
+          		<div class="box-primary">
+            		<div class="box-header">
+						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
+            		</div>
+            		<div class="box-body table-responsive">
+					<h4>Disciplinas Optativas Eletivas disponíveis</h4>
+					<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
+							<thead>                   
 								<tr>
 									<th>Disciplinas</th>
 									<th>Créditos/Aula</th>									
@@ -305,6 +312,7 @@
             		</div>					
           		</div>
             </div>
+
         </div>
     </div>
 
