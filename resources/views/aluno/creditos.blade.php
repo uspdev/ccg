@@ -15,8 +15,9 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">Aluno</a></li>
-            <!-- <li><a href="#tab_2" data-toggle="tab">Créditos</a></li> -->
+            <li><a href="#tab_2" data-toggle="tab">Créditos</a></li>
             <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
+			<li><a href="/creditos/{{ $dadosAcademicos->codpes }}/pdf"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -215,11 +216,7 @@
             <div class="tab-pane" id="tab_3">
           		<div class="box-primary">
             		<div class="box-header">
-              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}
-							<a href="/creditos/{{ $dadosAcademicos->codpes }}/pdf"
-								title="Versão em PDF do aluno {{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}">
-								<span class="fa fa-fw fa-file-pdf-o"></span>PDF</a>
-						</h3>
+              			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive">
 					<h4>Disciplinas que Faltam</h4>
