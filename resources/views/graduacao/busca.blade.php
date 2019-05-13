@@ -77,25 +77,30 @@
 										<thead>
 											<tr>
 												<th>&nbsp;</th>
-												<th>Créditos/Aula necessários</th>
-												<th>Créditos/Aula que ainda faltam</th>
+												<th>Eletivas</th>
+												<th>Livres</th>
 											</tr>
 										</thead>
 										<tbody>
-											@if ($numcredisoptelt >= 0)
 											<tr>
-												<td>Disciplinas Optativas Eletivas</td>
+												<td>Créditos-aula necessários</td>
 												<td>{{ $curriculoAluno->numcredisoptelt }}</td>
-												<td>{{ $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
-											</tr>	
-											@endif
-											@if ($curriculoAluno->numcredisoptliv >= 0)
-											<tr>
-												<td>Disciplinas Optativas Livres</td>
 												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
-												<td>{{ $curriculoAluno->numcredisoptliv - $numcredisoptliv }}</td>
+											</tr>	
+											<tr>
+												<td>Créditos-aula cursados</td>
+												<td>{{ $numcredisoptelt }}</td>
+												<td>{{ $numcredisoptliv }}</td>
 											</tr>
-											@endif																								
+											<tr>
+												<td>Créditos-aula a concluir</td>
+												<td>
+													{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt }}
+												</td>
+												<td>
+													{{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}
+												</td>
+											</tr>																																		
 										</tbody>
 									</table>
 								</td>

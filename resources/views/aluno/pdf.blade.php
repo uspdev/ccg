@@ -134,8 +134,12 @@
                 </tr>   
                 <tr style="border-top: 1px #000 solid;">
                     <td style="border-top: 1px #000 solid;">Créditos-aula a concluir</td>
-                    <td align="center" style="border-top: 1px #000 solid;">{{ $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
-                    <td align="center" style="border-top: 1px #000 solid;">{{ $curriculoAluno->numcredisoptliv - $numcredisoptliv }}</td>
+                    <td align="center" style="border-top: 1px #000 solid;">
+                        {{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt }}
+                    </td>
+                    <td align="center" style="border-top: 1px #000 solid;">
+                        {{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}
+                    </td>
                 </tr>                                                           																							
             </table>          
             <h3>Observações:</h3>
