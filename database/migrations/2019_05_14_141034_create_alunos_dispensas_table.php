@@ -15,7 +15,7 @@ class CreateAlunosDispensasTable extends Migration
     {
         Schema::create('AlunosDispensas', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('id_crl');
+            $table->integer('id_crl')->unsigned();
             $table->integer('codpes');
             $table->string('coddis');
             $table->timestamps();

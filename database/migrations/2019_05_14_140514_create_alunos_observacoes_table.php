@@ -15,7 +15,7 @@ class CreateAlunosObservacoesTable extends Migration
     {
         Schema::create('AlunosObservacoes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('id_crl');
+            $table->integer('id_crl')->unsigned();
             $table->integer('codpes');
             $table->string('txtobs');
             $table->timestamps();
