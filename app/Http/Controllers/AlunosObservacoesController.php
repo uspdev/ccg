@@ -40,12 +40,18 @@ class AlunosObservacoesController extends Controller
      */
     public function store(Request $request)
     {
+        // Somente um registro, pk composta por id_crl e codpes
+        // Se existe e $request->txtobs está vazio, delete
+        // Se existe e $request->txtobs foi alterado, update
+        // Se existe e $request->txtobs igual, não salva
+        // Se não existe, store
+
         if (!empty(trim($request->txtobs))) {
-            $observacoes = new AlunosObservacoes;
-            $observacoes->id_crl = $request->id_crl;
-            $observacoes->codpes = $request->codpes;
-            $observacoes->txtobs = $request->txtobs;
-            $observacoes->save();
+            // $observacoes = new AlunosObservacoes;
+            // $observacoes->id_crl = $request->id_crl;
+            // $observacoes->codpes = $request->codpes;
+            // $observacoes->txtobs = $request->txtobs;
+            // $observacoes->save();
             $request->session()->flash('alert-success', 'Observações salvas com sucesso!');
         }
 

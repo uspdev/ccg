@@ -143,7 +143,15 @@
                 </tr>                                                           																							
             </table>          
             <h3>Observações:</h3>
-            <ul><li>Nada consta</li></ul>
+            <ul>
+            @if (App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs)
+                <li><p>
+                    {{ App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs }}
+                </p></li>
+            @else
+                <li>Nada consta</li>
+            @endif
+            </ul>
             <p>Serviço de Graduação, {{ Carbon\Carbon::parse(now())->isoFormat('d \d\e MMMM \d\e Y') }}.</p> 
             <table width="100%">                 
                 <tr>

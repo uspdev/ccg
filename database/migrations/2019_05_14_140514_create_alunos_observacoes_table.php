@@ -18,6 +18,7 @@ class CreateAlunosObservacoesTable extends Migration
             $table->integer('id_crl')->unsigned();
             $table->integer('codpes');
             $table->string('txtobs');
+            $table->unique(array('id_crl', 'codpes'));
             $table->timestamps();
 
             $table->foreign('id_crl')->references('id')->on('Curriculos')->onDelete('cascade');

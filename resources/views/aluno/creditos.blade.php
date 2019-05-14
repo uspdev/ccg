@@ -307,7 +307,10 @@
 							<div class="form-group">
 								<label>Observações</label>
 								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
-									placeholder="Digite aqui">{{-- Trazer o valor quando tiver no bd --}}</textarea>
+									placeholder="Digite aqui">{{ App\AlunosObservacoes::where([
+											'id_crl' => $curriculoAluno->id_crl, 
+											'codpes' => $dadosAcademicos->codpes
+										])->first()->txtobs }}</textarea>
 								<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
 								<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
 							</div>
