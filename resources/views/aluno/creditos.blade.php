@@ -18,7 +18,8 @@
             <li><a href="#tab_2" data-toggle="tab">Créditos</a></li>
             <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
 			<li><a href="#tab_4" data-toggle="tab">Eletivas disponíveis</a></li>
-			<li><a href="/creditos/{{ $dadosAcademicos->codpes }}/pdf"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li>
+			<li><a href="#tab_5" data-toggle="tab"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li>
+			<!-- <li><a href="/creditos/{{ $dadosAcademicos->codpes }}/pdf"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li> -->
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -33,7 +34,7 @@
               			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive no-padding">
-              			<table class="table table-hover">
+              			<table class="table table-hover" style="width: 50%;">
                 			<tr>
                   				<th>Curso</th>
                   				<td>{{ $dadosAcademicos->codcur }} - {{ $dadosAcademicos->nomcur }}</td>
@@ -225,8 +226,8 @@
               			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive">
-					<h4>Disciplinas que Faltam</h4>
-					<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
+						<h4>Disciplinas que Faltam</h4>
+						<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
 							<thead>
 								<tr>
 									<th><label>Disciplinas Obrigatórias a concluir</label></th>
@@ -273,8 +274,8 @@
 						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive">
-					<h4>Disciplinas Optativas Eletivas disponíveis</h4>
-					<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
+						<h4>Disciplinas Optativas Eletivas disponíveis</h4>
+						<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
 							<thead>                   
 								<tr>
 									<th>Disciplinas</th>
@@ -295,6 +296,28 @@
             		</div>					
           		</div>
             </div>
+
+			<div class="tab-pane" id="tab_5">
+          		<div class="box-primary">
+            		<div class="box-header">
+						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
+            		</div>
+            		<div class="box-body table-responsive">
+						<form role="form" method="POST" action="{{-- Definir qual será a rota --}}">
+							{{ csrf_field() }}
+							<div class="form-group">
+								<label>Observações</label>
+								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
+									placeholder="Digite aqui">{{-- Trazer o valor quando tiver no bd --}}</textarea>
+								<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
+								<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
+							</div>
+							<button type="submit" class="btn btn-primary btn-sm">
+								Gerar PDF <span class="fa fa-fw fa-file-pdf-o"></span></button>
+						</form>
+            		</div>					
+          		</div>
+            </div>			
 
         </div>
     </div>
