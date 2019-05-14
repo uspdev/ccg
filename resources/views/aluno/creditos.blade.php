@@ -19,7 +19,6 @@
             <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
 			<li><a href="#tab_4" data-toggle="tab">Eletivas disponíveis</a></li>
 			<li><a href="#tab_5" data-toggle="tab"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li>
-			<!-- <li><a href="/creditos/{{ $dadosAcademicos->codpes }}/pdf"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li> -->
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">

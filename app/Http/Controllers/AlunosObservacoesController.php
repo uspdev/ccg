@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class AlunosObservacoesController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }    
+    
     /**
      * Display a listing of the resource.
      *
@@ -35,7 +40,16 @@ class AlunosObservacoesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!empty(trim($request->txtobs))) {
+            $observacoes = new AlunosObservacoes;
+            $observacoes->id_crl = $request->id_crl;
+            $observacoes->codpes = $request->codpes;
+            $observacoes->txtobs = $request->txtobs;
+            $observacoes->save();
+            $request->session()->flash('alert-success', 'Observações salvas com sucesso!');
+        }
+
+        return redirect("/creditos/{$request->codpes}/pdf");    
     }
 
     /**
