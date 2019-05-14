@@ -22,4 +22,14 @@ class Curriculo extends Model
     {
         return $this->hasMany('App\DisciplinasLicenciatura', 'id', 'id_crl');
     }
+
+    public function alunosObservacoes()
+    {
+        return $this->hasMany('App\AlunosObservacoes', 'id', 'id_crl');
+    }   
+    
+    public function alunosDispensas()
+    {
+        return $this->hasMany('App\AlunosDispensas', 'id', 'id_crl');
+    } 
 }
