@@ -335,7 +335,7 @@
 											'codpes' => $dadosAcademicos->codpes
 										])->first()->txtobs }}</textarea>
 							@else
-								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
+								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" maxlength="500" 
 									placeholder="Digite aqui"></textarea>
 							@endif
 								<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
@@ -476,12 +476,13 @@
 				pageLength  	: -1
 			});				
 
-			$(window).keydown(function(event){
-				if((event.keyCode == 13)) {
-					event.preventDefault();
-					return false;
-				}
-			});
+			// Enter desativado 			
+			// $(window).keydown(function(event){
+			// 	if((event.keyCode == 13)) {
+			// 		event.preventDefault();
+			// 		return false;
+			// 	}
+			// });
         });
         
         $('#parteNome').on('keypress', function() {

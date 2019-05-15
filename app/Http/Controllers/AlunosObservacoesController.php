@@ -40,20 +40,34 @@ class AlunosObservacoesController extends Controller
      */
     public function store(Request $request)
     {
-        // Somente um registro, pk composta por id_crl e codpes
-        // Se existe e $request->txtobs está vazio, delete
-        // Se existe e $request->txtobs foi alterado, update
-        // Se existe e $request->txtobs igual, não salva
-        // Se não existe, store
-
-        //if (!empty(trim($request->txtobs))) {
-            // $observacoes = new AlunosObservacoes;
-            // $observacoes->id_crl = $request->id_crl;
-            // $observacoes->codpes = $request->codpes;
-            // $observacoes->txtobs = $request->txtobs;
-            // $observacoes->save();
-            $request->session()->flash('alert-success', 'Observações salvas com sucesso!');
-        //}
+        # Somente um registro, pk composta por id_crl e codpes
+        # Se existe o registro
+        $observacoes = AlunosObservacoes::where(['id_crl' => $request->id_crl, 'codpes' => $request->codpes])->first();
+        # Se existe o registro
+        if (!empty($observacoes)) {
+            # Se existe e $request->txtobs está vazio
+            if (empty(trim($request->txtobs))) {
+                #delete
+                $observacoes->delete();
+            # Se existe e $request->txtobs foi alterado
+            } elseif ($observacoes->txtobs != $request->txtobs) {
+                # update
+                $observacoes->id_crl = $request->id_crl;
+                $observacoes->codpes = $request->codpes;
+                $observacoes->txtobs = $request->txtobs;
+                $observacoes->save();                
+            }
+        # Se não existe
+        } else {
+            # store
+            if (!empty(trim($request->txtobs))) {
+                $observacoes = new AlunosObservacoes;
+                $observacoes->id_crl = $request->id_crl;
+                $observacoes->codpes = $request->codpes;
+                $observacoes->txtobs = $request->txtobs;
+                $observacoes->save();
+            }
+        }
 
         return redirect("/creditos/{$request->codpes}/pdf");    
     }
