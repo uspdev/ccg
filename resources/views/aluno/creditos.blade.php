@@ -109,7 +109,8 @@
 							</thead>
 							<tbody>                                                     
 								@foreach ($disciplinasConcluidas as $disciplinaConcluida)                  
-									@if (!in_array($disciplinaConcluida['coddis'], $disciplinasOptativasLivresConcluidas))
+									@if ( (!in_array($disciplinaConcluida['coddis'], $disciplinasOptativasLivresConcluidas)) and 
+										(!in_array($disciplinaConcluida['coddis'], $disciplinasOptativasEletivasConcluidas)) )
 										<tr>
 											<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
 												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
