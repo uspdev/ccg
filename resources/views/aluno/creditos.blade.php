@@ -74,7 +74,7 @@
 											<tr>
 												<td>Créditos-aula a concluir</td>
 												<td>
-													{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt }}
+													{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt - $numcredisoptelt }}
 												</td>
 												<td>
 													{{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}
