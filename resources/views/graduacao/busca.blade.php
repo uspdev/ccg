@@ -35,8 +35,10 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#tab_1" data-toggle="tab">Aluno</a></li>
-            <!-- <li><a href="#tab_2" data-toggle="tab">Créditos</a></li> -->
+            <li><a href="#tab_2" data-toggle="tab">Créditos</a></li>
             <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
+			<li><a href="#tab_4" data-toggle="tab">Eletivas disponíveis</a></li>
+			<li><a href="#tab_5" data-toggle="tab"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
@@ -51,7 +53,7 @@
               			<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive no-padding">
-              			<table class="table table-hover">
+              			<table class="table table-hover" style="width: 50%;">
                 			<tr>
                   				<th>Curso</th>
                   				<td>{{ $dadosAcademicos->codcur }} - {{ $dadosAcademicos->nomcur }}</td>
@@ -62,7 +64,7 @@
                 			</tr>
                 			<tr>
                   				<th>Ano de ingresso</td>
-                  				<td>{{ Carbon\Carbon::parse($dadosAcademicos->dtainivin)->format('d/m/Y') }}</td>
+                  				<td>{{ Carbon\Carbon::parse($dadosAcademicos->dtainivin)->format('Y') }}</td>
                 			</tr>
                 			<tr>
                   				<th>Programa</td>
@@ -75,25 +77,30 @@
 										<thead>
 											<tr>
 												<th>&nbsp;</th>
-												<th>Créditos/Aula necessários</th>
-												<th>Créditos/Aula que ainda faltam</th>
+												<th>Eletivas</th>
+												<th>Livres</th>
 											</tr>
 										</thead>
 										<tbody>
-											@if ($numcredisoptelt >= 0)
 											<tr>
-												<td>Disciplinas Optativas Eletivas</td>
+												<td>Créditos-aula necessários</td>
 												<td>{{ $curriculoAluno->numcredisoptelt }}</td>
-												<td>{{ $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
-											</tr>	
-											@endif
-											@if ($curriculoAluno->numcredisoptliv >= 0)
-											<tr>
-												<td>Disciplinas Optativas Livres</td>
 												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
-												<td>{{ $curriculoAluno->numcredisoptliv - $numcredisoptliv }}</td>
+											</tr>	
+											<tr>
+												<td>Créditos-aula cursados</td>
+												<td>{{ $numcredisoptelt }}</td>
+												<td>{{ $numcredisoptliv }}</td>
 											</tr>
-											@endif																								
+											<tr>
+												<td>Créditos-aula a concluir</td>
+												<td>
+													{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt }}
+												</td>
+												<td>
+													{{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}
+												</td>
+											</tr>																																		
 										</tbody>
 									</table>
 								</td>
@@ -234,18 +241,14 @@
           		</div>
             </div>
               
-            <div class="tab-pane" id="tab_3">
+			<div class="tab-pane" id="tab_3">
           		<div class="box-primary">
             		<div class="box-header">
-						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}
-							<a href="/creditos/{{ $dadosAcademicos->codpes }}/pdf"
-								title="Versão em PDF do aluno {{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}">
-								<span class="fa fa-fw fa-file-pdf-o"></span>PDF</a>
-						</h3>
+						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive">
-					<h4>Disciplinas que Faltam</h4>
-					<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
+						<h4>Disciplinas que Faltam</h4>
+						<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
 							<thead>
 								<tr>
 									<th><label>Disciplinas Obrigatórias a concluir</label></th>
@@ -281,14 +284,20 @@
 									</tr>
 								@endforeach
 							</tbody>
-						</table>
-						<br />
+						</table>																		
+            		</div>					
+          		</div>
+            </div>
+
+			<div class="tab-pane" id="tab_4">
+          		<div class="box-primary">
+            		<div class="box-header">
+						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
+            		</div>
+            		<div class="box-body table-responsive">
+						<h4>Disciplinas Optativas Eletivas disponíveis</h4>
 						<table style="width: 100%;" class="table table-bordered table-striped table-hover datatable">
-							<thead>
-								<tr>
-									<th><label>Disciplinas Optativas Eletivas disponíveis</label></th>
-									<th>&nbsp;</th>									
-								</tr>                     
+							<thead>                   
 								<tr>
 									<th>Disciplinas</th>
 									<th>Créditos/Aula</th>									
@@ -308,6 +317,37 @@
             		</div>					
           		</div>
             </div>
+
+			<div class="tab-pane" id="tab_5">
+          		<div class="box-primary">
+            		<div class="box-header">
+						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
+            		</div>
+            		<div class="box-body table-responsive">
+						<form id="observacoes" role="form" method="POST" action="/creditos/{{ $dadosAcademicos->codpes }}">
+							{{ csrf_field() }}
+							<div class="form-group">
+								<label>Observações</label>
+							@if (isset(App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs))	
+								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
+									placeholder="Digite aqui">{{ App\AlunosObservacoes::where([
+											'id_crl' => $curriculoAluno->id_crl, 
+											'codpes' => $dadosAcademicos->codpes
+										])->first()->txtobs }}</textarea>
+							@else
+								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" maxlength="500" 
+									placeholder="Digite aqui"></textarea>
+							@endif
+								<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
+								<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
+							</div>
+							<button type="submit" class="btn btn-primary btn-sm">
+								Gerar PDF <span class="fa fa-fw fa-file-pdf-o"></span></button>
+						</form>
+            		</div>					
+          		</div>
+            </div>			
+
         </div>
     </div>
 
@@ -344,27 +384,14 @@
                 ordering    	: true,
                 info        	: true,
                 autoWidth   	: true,
-                pageLength  	: 100
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],
+				pageLength  	: -1
             });
 
 			// Total de créditos
-			$('#disciplinasOptativasLivres').dataTable( {
-				"footerCallback" : function(tfoot, data, start, end, display){
-					var api = this.api();
-					$(api.column(1).footer()).html(
-						api.column(1).data().reduce(function(a, b){
-							a = parseInt(a);
-							b = parseInt(b);
-							return a + b;
-						}, 0)
-					);
-				},
-				language    	: {
-                    url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-                },  
-				pageLength  	: 100
-			});
-
 			$('#disciplinasObrigatorias').dataTable( {
 				"footerCallback" : function(tfoot, data, start, end, display){
 					var api = this.api();
@@ -378,8 +405,33 @@
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-                },  
-				pageLength  	: 100
+                },
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],				  
+				pageLength  	: -1
+			});
+			
+			$('#disciplinasOptativasLivres').dataTable( {
+				"footerCallback" : function(tfoot, data, start, end, display){
+					var api = this.api();
+					$(api.column(1).footer()).html(
+						api.column(1).data().reduce(function(a, b){
+							a = parseInt(a);
+							b = parseInt(b);
+							return a + b;
+						}, 0)
+					);
+				},
+				language    	: {
+                    url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+                }, 
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],				 
+				pageLength  	: -1
 			});			
 
 			$('#disciplinasOptativasEletivas').dataTable( {
@@ -396,7 +448,11 @@
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
                 },  
-				pageLength  	: 100
+                lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			],				
+				pageLength  	: -1
 			});				
 			
 			$('#disciplinasLicenciaturas').dataTable( {
@@ -412,17 +468,21 @@
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-                },  
-				pageLength  	: 100
-			}); 				
+                }, 
+				lengthMenu		: [
+					[ 10, 25, 50, 100, -1 ],
+					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    			], 
+				pageLength  	: -1
+			});				
 
-				$(window).keydown(function(event){
-				if((event.keyCode == 13)) {
-					event.preventDefault();
-					return false;
-				}
-			
-			});
+			// Enter desativado 			
+			// $(window).keydown(function(event){
+			// 	if((event.keyCode == 13)) {
+			// 		event.preventDefault();
+			// 		return false;
+			// 	}
+			// });
         });
         
         $('#parteNome').on('keypress', function() {
