@@ -144,7 +144,7 @@
             </table>          
             <h3>Observações:</h3>
             <ul>
-            @if (App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs)
+            @if (isset(App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs))
                 <li><p>
                     {{ App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs }}
                 </p></li>

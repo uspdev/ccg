@@ -324,12 +324,20 @@
 						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive">
-						<form role="form" method="POST" action="{{-- Definir qual será a rota --}}">
+						<form id="observacoes" role="form" method="POST" action="/creditos/{{ $dadosAcademicos->codpes }}">
 							{{ csrf_field() }}
 							<div class="form-group">
 								<label>Observações</label>
+							@if (isset(App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs))	
 								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
-									placeholder="Digite aqui">{{-- Trazer o valor quando tiver no bd --}}</textarea>
+									placeholder="Digite aqui">{{ App\AlunosObservacoes::where([
+											'id_crl' => $curriculoAluno->id_crl, 
+											'codpes' => $dadosAcademicos->codpes
+										])->first()->txtobs }}</textarea>
+							@else
+								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
+									placeholder="Digite aqui"></textarea>
+							@endif
 								<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
 								<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
 							</div>

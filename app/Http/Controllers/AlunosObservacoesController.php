@@ -46,14 +46,14 @@ class AlunosObservacoesController extends Controller
         // Se existe e $request->txtobs igual, não salva
         // Se não existe, store
 
-        if (!empty(trim($request->txtobs))) {
+        //if (!empty(trim($request->txtobs))) {
             // $observacoes = new AlunosObservacoes;
             // $observacoes->id_crl = $request->id_crl;
             // $observacoes->codpes = $request->codpes;
             // $observacoes->txtobs = $request->txtobs;
             // $observacoes->save();
             $request->session()->flash('alert-success', 'Observações salvas com sucesso!');
-        }
+        //}
 
         return redirect("/creditos/{$request->codpes}/pdf");    
     }
