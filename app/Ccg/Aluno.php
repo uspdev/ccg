@@ -287,13 +287,37 @@ class Aluno
                         $eqvTip = 'E';    
                     }
                     $eqvDis .= $disciplinaEquivalente['coddis'];
-                    if (in_array($disciplinaEquivalente['coddis'], $disCon)) {
-                        $eqvDis .= "<strong><<</strong>";
+                    # equivalencia OU
+                    if ( (in_array($disciplinaEquivalente['coddis'], $disCon)) and ($eqvTip == 'OU') ) {
+                        $eqvDis .= " ";
                         $eqvSts = '';
                         array_push($disObrCon, $dObrFal);
                         unset($disObrFal[array_search($dObrFal, $disObrFal)]);
-                    } 
+                    # equivalencia E
+                    } elseif ($eqvTip == 'E') {
+                        $eqvDis .= " ";
+                    }
                 }
+                # equivalencia E
+                $arrEqvE = array();
+                $disObrOK = false;
+                if ($eqvTip == 'E') {
+                    $arrEqvE = explode(' ', trim($eqvDis));
+                    foreach ($arrEqvE as $eqvE) {
+                        if (in_array($eqvE, $disCon)) {
+                            $disObrOK = true;
+                            //echo "$eqvE<br />";
+                        } else {
+                            $disObrOK = false;
+                        }
+                    }
+                    # Cumpriu toda equivalencia E?
+                    if ($disObrOK == true) {
+                        array_push($disObrCon, $dObrFal);
+                        unset($disObrFal[array_search($dObrFal, $disObrFal)]);
+                    }
+                }
+                //dd($disObrOK);
                 if ($eqvSts == '') {
                     // echo "$lin $dObrFal $eqvSts concluida através de equivalência do tipo $eqvTip com $eqvDis<br />";
                 } else {
@@ -304,6 +328,7 @@ class Aluno
             }  
             $lin ++; 
         }
+        //dd($eqvSts, $eqvTip, trim($eqvDis), $disObrCon);
         return $disObrCon;
     }
 
