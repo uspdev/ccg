@@ -2,6 +2,7 @@
 
 namespace App\Ccg;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
@@ -287,13 +288,37 @@ class Aluno
                         $eqvTip = 'E';    
                     }
                     $eqvDis .= $disciplinaEquivalente['coddis'];
-                    if (in_array($disciplinaEquivalente['coddis'], $disCon)) {
-                        $eqvDis .= "<strong><<</strong>";
+                    # equivalencia OU
+                    if ( (in_array($disciplinaEquivalente['coddis'], $disCon)) and ($eqvTip == 'OU') ) {
+                        $eqvDis .= " ";
                         $eqvSts = '';
                         array_push($disObrCon, $dObrFal);
                         unset($disObrFal[array_search($dObrFal, $disObrFal)]);
-                    } 
+                    # equivalencia E
+                    } elseif ($eqvTip == 'E') {
+                        $eqvDis .= " ";
+                    }
                 }
+                # equivalencia E
+                $arrEqvE = array();
+                $disObrOK = '';
+                if ($eqvTip == 'E') {
+                    $arrEqvE = explode(' ', trim($eqvDis));
+                    foreach ($arrEqvE as $eqvE) {
+                        if (in_array($eqvE, $disCon)) {
+                            $disObrOK .= 'OK ';
+                            //echo "$eqvE<br />";
+                        } else {
+                            $disObrOK .= '* ';
+                        }
+                    }
+                    # Cumpriu toda equivalencia E?
+                    if (!in_array('*', explode(' ', trim($disObrOK)))) {
+                        array_push($disObrCon, $dObrFal);
+                        unset($disObrFal[array_search($dObrFal, $disObrFal)]);
+                    }
+                }
+                //dd($disObrOK);
                 if ($eqvSts == '') {
                     // echo "$lin $dObrFal $eqvSts concluida através de equivalência do tipo $eqvTip com $eqvDis<br />";
                 } else {
@@ -304,6 +329,7 @@ class Aluno
             }  
             $lin ++; 
         }
+        sort($disObrCon);
         return $disObrCon;
     }
 
@@ -408,13 +434,37 @@ class Aluno
                         $eqvTip = 'E';    
                     }
                     $eqvDis .= $disciplinaEquivalente['coddis'];
-                    if (in_array($disciplinaEquivalente['coddis'], $disCon)) {
-                        $eqvDis .= "<strong><<</strong>";
+                    # equivalencia OU
+                    if ( (in_array($disciplinaEquivalente['coddis'], $disCon)) and ($eqvTip == 'OU') ) {
+                        $eqvDis .= " ";
                         $eqvSts = '';
                         array_push($disLicCon, $dLicFal);
                         unset($disLicFal[array_search($dLicFal, $disLicFal)]);
-                    } 
+                    # equivalencia E
+                    } elseif ($eqvTip == 'E') {
+                        $eqvDis .= " ";
+                    }
                 }
+                # equivalencia E
+                $arrEqvE = array();
+                $disLicOK = '';
+                if ($eqvTip == 'E') {
+                    $arrEqvE = explode(' ', trim($eqvDis));
+                    foreach ($arrEqvE as $eqvE) {
+                        if (in_array($eqvE, $disCon)) {
+                            $disLicOK .= 'OK ';
+                            //echo "$eqvE<br />";
+                        } else {
+                            $disLicOK .= '* ';
+                        }
+                    }
+                    # Cumpriu toda equivalencia E?
+                    if (!in_array('*', explode(' ', trim($disLicOK)))) {
+                        array_push($disLicCon, $dLicFal);
+                        unset($disLicFal[array_search($dLicFal, $disLicFal)]);
+                    }
+                }
+                //dd($disLicOK);
                 if ($eqvSts == '') {
                     // echo "$lin $dLicFal $eqvSts concluida através de equivalência do tipo $eqvTip com $eqvDis<br />";
                 } else {
@@ -425,6 +475,7 @@ class Aluno
             }  
             $lin ++; 
         }
+        sort($disLicCon);
         return $disLicCon;
     }
 
@@ -437,13 +488,17 @@ class Aluno
          * @param array $disciplinasOptativasLivresConcluidas
          * @return int $numcredisoptliv
          */
-        $numcredisoptliv = 0;
-        $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
+        $numcredisoptliv = 0;     
+        $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));       
         foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
             foreach ($disciplinasOptativasLivresConcluidas as $disciplinaOptativaLivre) {
                 if ($disciplinaConcluida['coddis'] == $disciplinaOptativaLivre) {
-                    # Total de Créditos Concluídos Optativas Livres
-                    $numcredisoptliv += $disciplinaConcluida['creaul'];
+                    # Verificar se é equivalente
+                    if (self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Obrigatoria') == 0 and 
+                        self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Licenciatura') == 0) {
+                        # Total de Créditos Concluídos Optativas Livres
+                        $numcredisoptliv += $disciplinaConcluida['creaul'];
+                    }    
                 }
             }
         }
@@ -474,4 +529,26 @@ class Aluno
         }
         return $alunosCurriculo;
     }
+
+    public static function getConcluiuEquivalente($coddis, $id_crl, $table) 
+    {
+        /**
+         * Médoto que verifica se concluiu a disciplina equivalente
+         * Retorna 1 se foi concluida
+         * @param string $coddis
+         * @param int $id_crl
+         * @param string $table values 'Obrigatoria' or 'Licenciatura'
+         * @return int $consulta
+         */
+        $id_dis = ($table == 'Obrigatoria') ? 'obr' : 'lic';
+        $consulta = DB::table("Disciplinas{$table}sEquivalentes")
+            ->join("Disciplinas{$table}s", "Disciplinas{$table}sEquivalentes.id_dis_{$id_dis}", '=', "Disciplinas{$table}s.id")
+            ->where(array(
+                "Disciplinas{$table}sEquivalentes.coddis" => $coddis,
+                "Disciplinas{$table}s.id_crl" => $id_crl
+            ))
+            ->get()->count();
+
+        return $consulta;
+    } 
 }

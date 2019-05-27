@@ -129,18 +129,18 @@
 									<th>Créditos/Aula</th>
 								</tr>                                          
 							</thead>
-							<tbody>                                                     
-								@foreach ($disciplinasConcluidas as $disciplinaConcluida)                  
-									@if ( (!in_array($disciplinaConcluida['coddis'], $disciplinasOptativasLivresConcluidas)) and 
-										(!in_array($disciplinaConcluida['coddis'], $disciplinasOptativasEletivasConcluidas)) )
+							<tbody>                                                  
+								@foreach ($disciplinasObrigatoriasConcluidas as $disciplinaConcluida)                  
+									@if ( (!in_array($disciplinaConcluida, $disciplinasOptativasLivresConcluidas)) and 
+										(!in_array($disciplinaConcluida, $disciplinasOptativasEletivasConcluidas)) )
 										<tr>
-											<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
-												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-											<td style="width: 30%;">{{ $disciplinaConcluida['creaul'] }}</td>
+											<td style="width: 70%;">{{ $disciplinaConcluida }} - 
+												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida) }}</td>
+											<td style="width: 30%;">{{ Uspdev\Replicado\Graduacao::creditosDisciplina($disciplinaConcluida) }}</td>
 										</tr>
 									@endif
 								@endforeach
-							</tbody>
+							</tbody>					
 							<tfoot>
 								<tr>
 									<th style="text-align: right;">Total de créditos</th>
@@ -191,12 +191,12 @@
 								</tr>                                          
 							</thead>
 							<tbody>                                                     
-								@foreach ($disciplinasConcluidas as $disciplinaConcluida)                  
-									@if (in_array($disciplinaConcluida['coddis'], $disciplinasLicenciaturasConcluidas))
+								@foreach ($disciplinasLicenciaturasConcluidas as $disciplinaConcluida)                  
+									@if (in_array($disciplinaConcluida, $disciplinasLicenciaturasConcluidas))
 										<tr>
-											<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
-												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-											<td style="width: 30%;">{{ $disciplinaConcluida['creaul'] }}</td>
+											<td style="width: 70%;">{{ $disciplinaConcluida }} - 
+												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida) }}</td>
+											<td style="width: 30%;">{{ Uspdev\Replicado\Graduacao::creditosDisciplina($disciplinaConcluida) }}</td>
 										</tr>
 									@endif
 								@endforeach
@@ -223,11 +223,15 @@
 							<tbody>                                                     
 								@foreach ($disciplinasConcluidas as $disciplinaConcluida)                  
 									@if (in_array($disciplinaConcluida['coddis'], $disciplinasOptativasLivresConcluidas))
-										<tr>
-											<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
-												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-											<td style="width: 30%;">{{ $disciplinaConcluida['creaul'] }}</td>
-										</tr>
+										@if (App\Ccg\Aluno::getConcluiuEquivalente($disciplinaConcluida['coddis'], $curriculoAluno->id_crl, 'Obrigatoria') == 0 and
+											App\Ccg\Aluno::getConcluiuEquivalente($disciplinaConcluida['coddis'], $curriculoAluno->id_crl, 'Licenciatura') == 0
+										)
+											<tr>
+												<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
+													{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
+												<td style="width: 30%;">{{ $disciplinaConcluida['creaul'] }}</td>
+											</tr>
+										@endif
 									@endif
 								@endforeach
 							</tbody>
