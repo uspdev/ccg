@@ -2,6 +2,7 @@
 
 namespace App\Ccg;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
@@ -329,6 +330,7 @@ class Aluno
             $lin ++; 
         }
         //dd($eqvSts, $eqvTip, trim($eqvDis), $disObrCon);
+        sort($disObrCon);
         return $disObrCon;
     }
 
@@ -499,4 +501,26 @@ class Aluno
         }
         return $alunosCurriculo;
     }
+
+    public static function getConcluiuEquivalente($coddis, $id_crl, $table) 
+    {
+        /**
+         * Médoto que verifica se concluiu a disciplina equivalente
+         * Retorna 1 se foi concluida
+         * @param string $coddis
+         * @param int $id_crl
+         * @param string $table values 'Obrigatoria' or 'Licenciatura'
+         * @return int $consulta
+         */
+        $id_dis = ($table == 'Obrigatoria') ? 'obr' : 'lic';
+        $consulta = DB::table("Disciplinas{$table}sEquivalentes")
+            ->join("Disciplinas{$table}s", "Disciplinas{$table}sEquivalentes.id_dis_{$id_dis}", '=', "Disciplinas{$table}s.id")
+            ->where(array(
+                "Disciplinas{$table}sEquivalentes.coddis" => $coddis,
+                "Disciplinas{$table}s.id_crl" => $id_crl
+            ))
+            ->get()->count();
+
+        return $consulta;
+    } 
 }
