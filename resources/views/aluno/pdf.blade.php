@@ -1,7 +1,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <style>
+        <style type="text/css" media="print">
             /** 
                 Set the margins of the page to 0, so the footer and the header
                 can be of the full height and width !
@@ -32,6 +32,7 @@
             /** Define the footer rules **/
             footer {
                 position: fixed; 
+                top: 2cm;
                 bottom: 0cm; 
                 left: 0.2cm; 
                 right: 0cm;
@@ -49,10 +50,6 @@
         <header>
             <img src="{{ public_path('/images/logoUnd.png') }}" width="300px">
         </header>
-
-        <footer>
-            <strong>SERVIÇO DE GRADUAÇÃO</strong>
-        </footer>
 
         <!-- Wrap the content of your PDF inside a main tag -->
         <main>
@@ -176,6 +173,10 @@
                 </tr>
             </table>    
         </main>
+
+        <!-- <footer>
+            <strong>SERVIÇO DE GRADUAÇÃO</strong>
+        </footer> -->
     
     </body>
 </html>
