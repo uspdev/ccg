@@ -301,19 +301,19 @@ class Aluno
                 }
                 # equivalencia E
                 $arrEqvE = array();
-                $disObrOK = false;
+                $disObrOK = '';
                 if ($eqvTip == 'E') {
                     $arrEqvE = explode(' ', trim($eqvDis));
                     foreach ($arrEqvE as $eqvE) {
                         if (in_array($eqvE, $disCon)) {
-                            $disObrOK = true;
+                            $disObrOK .= 'OK ';
                             //echo "$eqvE<br />";
                         } else {
-                            $disObrOK = false;
+                            $disObrOK .= '* ';
                         }
                     }
                     # Cumpriu toda equivalencia E?
-                    if ($disObrOK == true) {
+                    if (!in_array('*', explode(' ', trim($disObrOK)))) {
                         array_push($disObrCon, $dObrFal);
                         unset($disObrFal[array_search($dObrFal, $disObrFal)]);
                     }
@@ -329,7 +329,6 @@ class Aluno
             }  
             $lin ++; 
         }
-        //dd($eqvSts, $eqvTip, trim($eqvDis), $disObrCon);
         sort($disObrCon);
         return $disObrCon;
     }
@@ -435,13 +434,37 @@ class Aluno
                         $eqvTip = 'E';    
                     }
                     $eqvDis .= $disciplinaEquivalente['coddis'];
-                    if (in_array($disciplinaEquivalente['coddis'], $disCon)) {
-                        $eqvDis .= "<strong><<</strong>";
+                    # equivalencia OU
+                    if ( (in_array($disciplinaEquivalente['coddis'], $disCon)) and ($eqvTip == 'OU') ) {
+                        $eqvDis .= " ";
                         $eqvSts = '';
                         array_push($disLicCon, $dLicFal);
                         unset($disLicFal[array_search($dLicFal, $disLicFal)]);
-                    } 
+                    # equivalencia E
+                    } elseif ($eqvTip == 'E') {
+                        $eqvDis .= " ";
+                    }
                 }
+                # equivalencia E
+                $arrEqvE = array();
+                $disLicOK = '';
+                if ($eqvTip == 'E') {
+                    $arrEqvE = explode(' ', trim($eqvDis));
+                    foreach ($arrEqvE as $eqvE) {
+                        if (in_array($eqvE, $disCon)) {
+                            $disLicOK .= 'OK ';
+                            //echo "$eqvE<br />";
+                        } else {
+                            $disLicOK .= '* ';
+                        }
+                    }
+                    # Cumpriu toda equivalencia E?
+                    if (!in_array('*', explode(' ', trim($disLicOK)))) {
+                        array_push($disLicCon, $dLicFal);
+                        unset($disLicFal[array_search($dLicFal, $disLicFal)]);
+                    }
+                }
+                //dd($disLicOK);
                 if ($eqvSts == '') {
                     // echo "$lin $dLicFal $eqvSts concluida através de equivalência do tipo $eqvTip com $eqvDis<br />";
                 } else {
@@ -452,6 +475,7 @@ class Aluno
             }  
             $lin ++; 
         }
+        sort($disLicCon);
         return $disLicCon;
     }
 
@@ -464,13 +488,17 @@ class Aluno
          * @param array $disciplinasOptativasLivresConcluidas
          * @return int $numcredisoptliv
          */
-        $numcredisoptliv = 0;
-        $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
+        $numcredisoptliv = 0;     
+        $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));       
         foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
             foreach ($disciplinasOptativasLivresConcluidas as $disciplinaOptativaLivre) {
                 if ($disciplinaConcluida['coddis'] == $disciplinaOptativaLivre) {
-                    # Total de Créditos Concluídos Optativas Livres
-                    $numcredisoptliv += $disciplinaConcluida['creaul'];
+                    # Verificar se é equivalente
+                    if (self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Obrigatoria') == 0 and 
+                        self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Licenciatura') == 0) {
+                        # Total de Créditos Concluídos Optativas Livres
+                        $numcredisoptliv += $disciplinaConcluida['creaul'];
+                    }    
                 }
             }
         }
