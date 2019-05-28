@@ -1,5 +1,3 @@
-## Em desenvolvimento
-
 ## Conceito
 
 Ferramenta para auxiliar na verificação das disciplinas cursadas pelos alunos e no levantamento das pendências para a conclusão do seu curso. A ferramenta deve ser acessada pelo navegador com acesso restrito aos servidores do Serviço de Graduação, consultar o resumo escolar dos alunos pela replicação do Júpiter e fazer a comparação com um currículo previamente cadastrado.
@@ -38,14 +36,15 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
 
 ## Funcionalidades
 
-- O aluno de Graduação pode acessar o sistema e ver as disciplinas <strike>que já cursou e as</strike> que faltam. :heavy_check_mark: 
+- O aluno de Graduação pode acessar o sistema e ver as disciplinas que já cursou e as que faltam. :heavy_check_mark: 
 - O Serviço de Graduação pode: 
     - Cadastrar os currículos de acordo com suas alterações ao longo dos anos. :heavy_check_mark: 
     - Cadastrar as equivalências entre as disciplinas. :heavy_check_mark: 
+    - Cadastrar dispensas de disciplinas de um ano dentro de um currículo. :heavy_check_mark:
     - Buscar alunos pelo nº USP ou por parte do nome. :heavy_check_mark: 
-    - Analisar a situação de todos alunos de um determinado currículo.
     - Emitir um relatório a ser entregue ao aluno em PDF. :heavy_check_mark:
-    - Emitir um relatório com situação de todos os alunos de um currículo.
+    - Copiar a estrutura de disciplinas de um currículo já cadastrado. 
+    - Emitir um relatório PDF com situação de todos os alunos de um currículo.
 
 ## Model
 
