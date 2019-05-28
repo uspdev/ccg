@@ -127,6 +127,8 @@
 							</tfoot>							
 						</table>
 						<br />
+						<form id="dispensas" role="form" method="post" action="/dispensas">
+						{{ csrf_field() }} 
 						<table style="width: 100%;" class="table table-bordered table-striped table-hover" id="disciplinasOptativasEletivas">
 							<thead>
 								<tr>
@@ -134,7 +136,7 @@
 									<th>&nbsp;</th>
 								</tr>                     
 								<tr>
-									<th>Disciplinas</th>
+									<th>Dispensa&nbsp;&nbsp;|&nbsp;&nbsp;Disciplinas</th>
 									<th>Créditos/Aula</th>
 								</tr>                                          
 							</thead>
@@ -142,20 +144,51 @@
 								@foreach ($disciplinasConcluidas as $disciplinaConcluida)                  
 									@if (in_array($disciplinaConcluida['coddis'], $disciplinasOptativasEletivasConcluidas))
 										<tr>
-											<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
+											<td style="width: 70%;" 
+												id="td{{ $disciplinaConcluida['coddis'] }}">
+												
+												@php 
+													if (in_array($disciplinaConcluida['coddis'], $dispensas)) {
+														$checked = 'checked';
+														$creaul = 0;
+													} else {
+														$checked = '';
+														$creaul = $disciplinaConcluida['creaul'];
+													}	
+												@endphp
+												
+												<input type="checkbox" name="coddis[]" id="input{{ $disciplinaConcluida['coddis'] }}" 
+													title="Marque para dispensar o aluno desta disciplina" value="{{ $disciplinaConcluida['coddis'] }}"
+													{{ $checked }}>
+												&nbsp;&nbsp;{{ $disciplinaConcluida['coddis'] }} - 
 												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-											<td style="width: 30%;">{{ $disciplinaConcluida['creaul'] }}</td>
+											<td style="width: 30%;">{{ $creaul }}</td>
 										</tr>
 									@endif
 								@endforeach
 							</tbody>
+							@php 
+								if (!empty($dispensas)) {
+									$button = '';
+								} else {
+									$button = 'disabled';
+								}
+							@endphp
 							<tfoot>
 								<tr>
-									<th style="text-align: right;">Total de créditos</th>
+									<th style="text-align: right;">
+										<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
+										<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
+										<button type="button" class="btn btn-primary"
+											onclick="document.getElementById('dispensas').submit();" {{ $button }}
+											title="Recalcular os créditos considerando as dispensas">Recalcular</button>
+										&nbsp;&nbsp;Total de créditos
+									</th>
 									<th></th>
 								</tr>
 							</tfoot>
 						</table>
+						</form>
 						<br />
 						<table style="width: 100%;" class="table table-bordered table-striped table-hover" id="disciplinasLicenciaturas">
 							<thead>
@@ -303,11 +336,11 @@
 
 			<div class="tab-pane" id="tab_5">
           		<div class="box-primary">
-            		<div class="box-header">
+            		<div class="box-header">			
 						<h3 class="box-title">{{ $dadosAcademicos->codpes }} - {{ $dadosAcademicos->nompes }}</h3>
             		</div>
             		<div class="box-body table-responsive">
-						<form role="form" method="POST" action="/creditos">
+						<form id="observacoes" role="form" method="POST" action="/creditos">
 							{{ csrf_field() }}
 							<div class="form-group">
 								<label>Observações</label>
@@ -324,7 +357,8 @@
 								<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
 								<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
 							</div>
-							<button type="submit" class="btn btn-primary btn-sm">
+							<button type="button" class="btn btn-primary btn-sm"
+								onclick="document.getElementById('observacoes').submit();">
 								Gerar PDF <span class="fa fa-fw fa-file-pdf-o"></span></button>
 						</form>
             		</div>					

@@ -14,13 +14,16 @@ Route::get('/busca', 'GraduacaoController@search');
 Route::post('/busca', 'GraduacaoController@dadosAcademicos');
 Route::get('/busca/{parteNome}', 'GraduacaoController@searchAlunos');
 
-# aluno
-# meus créditos
-Route::get('/creditos', 'GraduacaoController@creditos');
 Route::get('/creditos/{aluno}', 'GraduacaoController@aluno');
 Route::get('/creditos/{aluno}/pdf', 'GraduacaoController@pdf')->name('aluno.pdf');
 Route::post('/creditos', 'AlunosObservacoesController@store');
 Route::post('/creditos/{aluno}', 'AlunosObservacoesController@store');
+
+Route::post('/dispensas', 'AlunosDispensasController@store');
+
+# aluno
+# meus créditos
+Route::get('/creditos', 'GraduacaoController@creditos');
 
 # curriculo
 Route::resource('/curriculos', 'CurriculoController');
@@ -61,6 +64,5 @@ Route::get('/disciplinasLicEquivalentes/create/{disciplinasLicenciatura}', 'Disc
 Route::post('/disciplinasLicEquivalentes/create/{disciplinasLicenciatura}', 'DisciplinasLicenciaturasEquivalenteController@store');
 Route::delete('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}', 'DisciplinasLicenciaturasEquivalenteController@destroy');
 Route::get('/disciplinasLicEquivalentes/{disciplinasLicenciatura}', 'DisciplinasLicenciaturasEquivalenteController@show');
-Route::get('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}/edit', 'DisciplinasLicenciaturasEquivalenteController@edit');
 Route::get('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}/edit', 'DisciplinasLicenciaturasEquivalenteController@edit');
 Route::post('/disciplinasLicEquivalentes/{disciplinasLicEquivalente}', 'DisciplinasLicenciaturasEquivalenteController@update');

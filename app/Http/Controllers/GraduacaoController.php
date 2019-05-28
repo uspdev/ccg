@@ -11,6 +11,7 @@ use App\DisciplinasOptativasEletiva;
 use App\DisciplinasLicenciatura;
 use App\DisciplinasObrigatoriasEquivalente;
 use App\DisciplinasLicenciaturasEquivalente;
+use App\AlunosDispensas;
 use Carbon;
 use Auth;
 use App\Ccg\Aluno;
@@ -180,7 +181,13 @@ class GraduacaoController extends Controller
                 }
             }    
         }
-        
+
+        # Dispensas
+        $dispensas = AlunosDispensas::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $aluno])->get()->toArray();
+        if (!empty($dispensas)) {
+            $dispensas = explode(',', $dispensas[0]['coddis']);
+        }
+
         # Obtém o gate para chavear o perfil entre secretaria e aluno
         $gate = Core::getGate();
 
@@ -189,7 +196,8 @@ class GraduacaoController extends Controller
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
                 'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
-                'disciplinasOptativasEletivasFaltam', 'disciplinasObrigatoriasEquivalentesFaltam', 'disciplinasLicenciaturasEquivalentesFaltam'
+                'disciplinasOptativasEletivasFaltam', 'disciplinasObrigatoriasEquivalentesFaltam', 'disciplinasLicenciaturasEquivalentesFaltam',
+                'dispensas'
                 )
             );
             return $pdf->download(config('app.name') . $codpes . '.pdf');
@@ -198,7 +206,7 @@ class GraduacaoController extends Controller
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
                 'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
-                'disciplinasOptativasEletivasFaltam'
+                'disciplinasOptativasEletivasFaltam', 'dispensas'
                 )
             );
         }
