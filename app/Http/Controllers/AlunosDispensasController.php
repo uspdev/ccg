@@ -40,7 +40,21 @@ class AlunosDispensasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        # Se alguma disciplina foi selecionada
+        if (isset($request->coddis)) {
+            # Somente registro id_crl e codpes
+            # Se existe registro, deleta
+            $delete = AlunosDispensas::where(['id_crl' => $request->id_crl, 'codpes' => $request->codpes])->delete();
+            # Salva as dispensas selecionadas
+            $dispensas = new AlunosDispensas;
+            $dispensas->id_crl = $request->id_crl;
+            $dispensas->codpes = $request->codpes;
+            $dispensas->coddis = implode(',', $request->coddis); 
+            $dispensas->save();
+        }
+
+        # Recalcula os créditos
+        return redirect("/creditos/{$request->codpes}");
     }
 
     /**

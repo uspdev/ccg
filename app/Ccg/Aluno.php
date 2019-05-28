@@ -14,6 +14,7 @@ use App\DisciplinasOptativasEletiva;
 use App\DisciplinasLicenciatura;
 use App\DisciplinasObrigatoriasEquivalente;
 use App\DisciplinasLicenciaturasEquivalente;
+use App\AlunosDispensas;
 
 class Aluno 
 {
@@ -371,11 +372,17 @@ class Aluno
             ->toArray();
         $numcredisoptelt = 0;
         $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
+        $dispensas = AlunosDispensas::where(['id_crl' => $id_crl, 'codpes' => $aluno])->get()->toArray();
+        if (!empty($dispensas)) {
+            $dispensas = explode(',', $dispensas[0]['coddis']);
+        } 
         foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
             foreach ($disciplinasOptativasEletivasRs as $disciplinaOptativaEletiva) {
                 if ($disciplinaConcluida['coddis'] == $disciplinaOptativaEletiva['coddis']) {
-                    # Total de Créditos Concluídos Optativas Eletivas
-                    $numcredisoptelt += $disciplinaConcluida['creaul'];
+                    if (!in_array($disciplinaConcluida['coddis'], $dispensas)) {
+                        # Total de Créditos Concluídos Optativas Eletivas
+                        $numcredisoptelt += $disciplinaConcluida['creaul'];                        
+                    }    
                 }
             }
         }
