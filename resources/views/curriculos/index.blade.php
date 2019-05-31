@@ -58,7 +58,11 @@
                                 <button type="button" class="btn btn-primary btn-xs" 
                                     onclick='location.href="curriculos/{{ $curriculo->id }}/edit";' title="Editar Currículo">
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                </button>                            
+                                </button>     
+                                <button type="button" class="btn btn-primary btn-xs" 
+                                    onclick='location.href="curriculos/{{ $curriculo->id }}/copy";' title="Copiar Currículo">
+                                    <span class="glyphicon glyphicon-duplicate"></span>
+                                </button>                                                        
                                 <button type="button" class="btn btn-success btn-xs" title="Analisar Currículo">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </button>
