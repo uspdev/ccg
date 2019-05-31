@@ -6,9 +6,11 @@
     <h1>Buscar aluno</h1>
 @stop
 
+@can('secretaria')
+
 @section('content')
 
-    @include('flash')
+	@include('flash')
 
     <div class="box box-primary">
         <form id="busca" role="form" method="post" action"/buscaReplicado">
@@ -540,3 +542,5 @@
     </script>
 
 @stop
+
+@endcan

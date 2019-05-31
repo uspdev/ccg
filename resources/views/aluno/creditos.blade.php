@@ -18,8 +18,10 @@
             <li><a href="#tab_2" data-toggle="tab">Créditos</a></li>
             <li><a href="#tab_3" data-toggle="tab">Faltam</a></li>
 			<li><a href="#tab_4" data-toggle="tab">Eletivas disponíveis</a></li>
+		@can('secretaria')
 			<li><a href="#tab_5" data-toggle="tab"><span class="fa fa-fw fa-file-pdf-o"></span>PDF</a></li>
-        </ul>
+        @endcan
+		</ul>
         <div class="tab-content">
             <div class="tab-pane active" id="tab_1">
           		<div class="box-primary">
@@ -127,8 +129,10 @@
 							</tfoot>							
 						</table>
 						<br />
+					@can('secretaria')
 						<form id="dispensas" role="form" method="post" action="/dispensas">
 						{{ csrf_field() }} 
+					@endcan
 						<table style="width: 100%;" class="table table-bordered table-striped table-hover" id="disciplinasOptativasEletivas">
 							<thead>
 								<tr>
@@ -136,7 +140,11 @@
 									<th>&nbsp;</th>
 								</tr>                     
 								<tr>
-									<th>Dispensa&nbsp;&nbsp;|&nbsp;&nbsp;Disciplinas</th>
+									<th>								
+								@can('secretaria')	
+									Dispensa&nbsp;&nbsp;|&nbsp;&nbsp;
+								@endcan	
+									Disciplinas</th>
 									<th>Créditos/Aula</th>
 								</tr>                                          
 							</thead>
@@ -145,8 +153,7 @@
 									@if (in_array($disciplinaConcluida['coddis'], $disciplinasOptativasEletivasConcluidas))
 										<tr>
 											<td style="width: 70%;" 
-												id="td{{ $disciplinaConcluida['coddis'] }}">
-												
+												id="td{{ $disciplinaConcluida['coddis'] }}">	
 												@php 
 													if (in_array($disciplinaConcluida['coddis'], $dispensas)) {
 														$checked = 'checked';
@@ -155,12 +162,14 @@
 														$checked = '';
 														$creaul = $disciplinaConcluida['creaul'];
 													}	
-												@endphp
-												
+												@endphp	
+											@can('secretaria')	
 												<input type="checkbox" name="coddis[]" id="input{{ $disciplinaConcluida['coddis'] }}" 
 													title="Marque para dispensar o aluno desta disciplina" value="{{ $disciplinaConcluida['coddis'] }}"
 													{{ $checked }}>
-												&nbsp;&nbsp;{{ $disciplinaConcluida['coddis'] }} - 
+												&nbsp;&nbsp;
+											@endcan	
+												{{ $disciplinaConcluida['coddis'] }} - 
 												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
 											<td style="width: 30%;">{{ $creaul }}</td>
 										</tr>
@@ -177,18 +186,23 @@
 							<tfoot>
 								<tr>
 									<th style="text-align: right;">
+									@can('secretaria')
 										<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
 										<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
 										<button type="button" class="btn btn-primary"
 											onclick="document.getElementById('dispensas').submit();" {{ $button }}
 											title="Recalcular os créditos considerando as dispensas">Recalcular</button>
-										&nbsp;&nbsp;Total de créditos
+										&nbsp;&nbsp;
+										Total de créditos
+									@endcan
 									</th>
 									<th></th>
 								</tr>
 							</tfoot>
 						</table>
+					@can('secretaria')			
 						</form>
+					@endcan	
 						<br />
 						<table style="width: 100%;" class="table table-bordered table-striped table-hover" id="disciplinasLicenciaturas">
 							<thead>
