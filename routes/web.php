@@ -30,6 +30,8 @@ Route::resource('/curriculos', 'CurriculoController');
 Route::get('/curriculos/{curriculo}', 'CurriculoController@show');
 Route::get('/curriculos/{curriculo}/alunos', 'CurriculoController@alunos');
 Route::get('/curriculos/{curriculo}/print', 'CurriculoController@print');
+Route::get('/curriculos/{curriculo}/copy', 'CurriculoController@copy');
+Route::post('/curriculos/{curriculo}/copy', 'CurriculoController@storeCopy');
 
 # disciplinas obrigatórias
 # Route::resource('disciplinasObrigatorias', 'DisciplinasObrigatoriaController');

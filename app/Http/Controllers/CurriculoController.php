@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Curriculo;
 use App\DisciplinasObrigatoria;
+use App\DisciplinasObrigatoriasEquivalente;
 use App\DisciplinasOptativasEletiva;
 use App\DisciplinasLicenciatura;
+use App\DisciplinasLicenciaturasEquivalente;
 use Illuminate\Http\Request;
 use Auth;
 use Uspdev\Replicado\Connection;
@@ -214,4 +216,130 @@ class CurriculoController extends Controller
             'disciplinasLicenciaturas'
         ));     
     }
+
+    /**
+     * Show the form for copy the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function copy(Curriculo $curriculo)
+    {
+        $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();        
+        $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
+        
+        $cursos = array();
+        foreach ($cursosHabilitacoes as $curso) {
+            if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
+                array_push($cursos, array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']));
+            }
+        }
+
+        $habilitacoes = array();
+        foreach ($cursosHabilitacoes as $habilitacao) {
+            if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
+                array_push($habilitacoes, array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']));
+            }    
+        }
+
+        return view('curriculos.copy', compact(
+            'curriculo', 
+            'cursos', 
+            'habilitacoes', 
+            'cursosHabilitacoes',
+            'disciplinasObrigatorias',
+            'disciplinasOptativasEletivas',
+            'disciplinasLicenciaturas'
+        ));
+    }
+
+    /**
+     * Store Copy Curriculo a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeCopy(Request $request, Curriculo $curriculo)
+    {
+        # Se não existe currículo, salva
+        if (Curriculo::where(array(
+                'codcur'    => $request->codcur,
+                'codhab'    => $request->codhab,
+                'dtainicrl' => Carbon::parse($request->dtainicrl) 
+            ))->get()->count() == 0) {
+            # Salvar o novo currículo
+            $curriculoNew = new Curriculo;
+            $curriculoNew->codcur = $request->codcur;
+            $curriculoNew->codhab = $request->codhab;
+            $curriculoNew->numcredisoptelt = $request->numcredisoptelt;
+            $curriculoNew->numcredisoptliv = $request->numcredisoptliv;
+            $curriculoNew->dtainicrl = Carbon::parse($request->dtainicrl);
+            $curriculoNew->save();            
+            $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get()->toArray();    
+            # Salvar disciplinas obrigaórias, se tiver
+            if (!empty($disciplinasObrigatorias)) {                
+                foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
+                    $disciplinaObrigatoriaNew = new DisciplinasObrigatoria;
+                    $disciplinaObrigatoriaNew->id_crl = $curriculoNew->id;
+                    $disciplinaObrigatoriaNew->coddis = $disciplinaObrigatoria['coddis'];
+                    $disciplinaObrigatoriaNew->save();   
+                    $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinaObrigatoria['id'])->get()->toArray();                 
+                    # Salvar disciplinas obrigatórias equivalentes, se tiver 
+                    if (!empty($disciplinasObrigatoriasEquivalentes)) {
+                        foreach ($disciplinasObrigatoriasEquivalentes as $disciplinaObrigatoriaEquivalente) {
+                            $disciplinaObrigatoriaEquivalenteNew = new DisciplinasObrigatoriasEquivalente;
+                            $disciplinaObrigatoriaEquivalenteNew->id_dis_obr = $disciplinaObrigatoriaNew->id;
+                            $disciplinaObrigatoriaEquivalenteNew->coddis = $disciplinaObrigatoriaEquivalente['coddis'];
+                            $disciplinaObrigatoriaEquivalenteNew->tipeqv = $disciplinaObrigatoriaEquivalente['tipeqv'];
+                            $disciplinaObrigatoriaEquivalenteNew->save();
+                        }    
+                    }
+                }
+            }    
+            $disciplinasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get()->toArray();    
+            # Salvar disciplinas eletivas, se tiver
+            if (!empty($disciplinasEletivas)) {                
+                foreach ($disciplinasEletivas as $disciplinaEletiva) {
+                    $disciplinaEletivaNew = new DisciplinasOptativasEletiva;
+                    $disciplinaEletivaNew->id_crl = $curriculoNew->id;
+                    $disciplinaEletivaNew->coddis = $disciplinaEletiva['coddis'];
+                    $disciplinaEletivaNew->save();                    
+                }
+            }             
+            $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get()->toArray();    
+            # Salvar disciplinas licenciaturas, se tiver
+            if (!empty($disciplinasLicenciaturas)) {                
+                foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
+                    $disciplinaLicenciaturaNew = new DisciplinasLicenciatura;
+                    $disciplinaLicenciaturaNew->id_crl = $curriculoNew->id;
+                    $disciplinaLicenciaturaNew->coddis = $disciplinaLicenciatura['coddis'];
+                    $disciplinaLicenciaturaNew->save();                    
+                    $disciplinasLicenciaturasEquivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinaLicenciatura['id'])->get()->toArray();
+                    # Salvar disciplinas licenciaturas equivalentes, se tiver 
+                    if (!empty($disciplinasLicenciaturasEquivalentes)) {
+                        foreach ($disciplinasLicenciaturasEquivalentes as $disciplinaLicenciaturaEquivalente) {
+                            $disciplinaLicenciaturaEquivalenteNew = new DisciplinasLicenciaturasEquivalente;
+                            $disciplinaLicenciaturaEquivalenteNew->id_dis_lic = $disciplinaLicenciaturaNew->id;
+                            $disciplinaLicenciaturaEquivalenteNew->coddis = $disciplinaLicenciaturaEquivalente['coddis'];
+                            $disciplinaLicenciaturaEquivalenteNew->tipeqv = $disciplinaLicenciaturaEquivalente['tipeqv'];
+                            $disciplinaLicenciaturaEquivalenteNew->save();
+                        }    
+                    }                    
+                }
+            } 
+            # mensagem
+            $msg = "Curriculo copiado com sucesso!"; 
+            $tip = "alert-success";   
+        # Se existe, avisa
+        } else {
+            $msg = "Já existe um currículo cadastrado com Curso = {$request->codcur}, 
+                Habilitação = {$request->codhab} e ano de ingresso = " . substr(Carbon::parse($request->dtainicrl), 0, 4) . "!";
+            $tip = "alert-danger";
+        }
+
+        $request->session()->flash($tip, $msg);
+        return redirect('/curriculos');
+    }       
 }
