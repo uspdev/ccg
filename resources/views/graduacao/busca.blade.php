@@ -190,21 +190,14 @@
 										</tr>
 									@endif
 								@endforeach
-							</tbody>
-							@php 
-								if (!empty($dispensas)) {
-									$button = '';
-								} else {
-									$button = 'disabled';
-								}
-							@endphp							
+							</tbody>					
 							<tfoot>
 								<tr>
 									<th style="text-align: right;">
 										<input type="hidden" class="form-control" id="id_crl" name="id_crl" value="{{ $curriculoAluno->id_crl }}">
 										<input type="hidden" class="form-control" id="codpes" name="codpes" value="{{ $dadosAcademicos->codpes }}">
 										<button type="button" class="btn btn-primary"
-											onclick="document.getElementById('dispensas').submit();" {{ $button }}
+											onclick="document.getElementById('dispensas').submit();"
 											title="Recalcular os créditos considerando as dispensas">Recalcular</button>
 										&nbsp;&nbsp;Total de créditos
 									</th>
