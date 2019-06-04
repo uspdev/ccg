@@ -51,6 +51,9 @@ class AlunosDispensasController extends Controller
             $dispensas->codpes = $request->codpes;
             $dispensas->coddis = implode(',', $request->coddis); 
             $dispensas->save();
+        # Se nenhuma disciplina foi selecionada, delete 
+        } else {
+            $delete = AlunosDispensas::where(['id_crl' => $request->id_crl, 'codpes' => $request->codpes])->delete();
         }
 
         # Recalcula os créditos
