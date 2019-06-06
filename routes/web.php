@@ -20,6 +20,7 @@ Route::post('/creditos', 'AlunosObservacoesController@store');
 Route::post('/creditos/{aluno}', 'AlunosObservacoesController@store');
 
 Route::post('/dispensas', 'AlunosDispensasController@store');
+Route::post('/dispensas/livres', 'AlunosDispensasController@store');
 
 # aluno
 # meus créditos

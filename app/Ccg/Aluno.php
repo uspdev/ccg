@@ -497,14 +497,20 @@ class Aluno
          */
         $numcredisoptliv = 0;     
         $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));       
+        $dispensas = AlunosDispensas::where(['id_crl' => $id_crl, 'codpes' => $aluno])->get()->toArray();
+        if (!empty($dispensas)) {
+            $dispensas = explode(',', $dispensas[0]['coddis']);
+        }         
         foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
             foreach ($disciplinasOptativasLivresConcluidas as $disciplinaOptativaLivre) {
                 if ($disciplinaConcluida['coddis'] == $disciplinaOptativaLivre) {
                     # Verificar se é equivalente
                     if (self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Obrigatoria') == 0 and 
                         self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Licenciatura') == 0) {
-                        # Total de Créditos Concluídos Optativas Livres
-                        $numcredisoptliv += $disciplinaConcluida['creaul'];
+                        if (!in_array($disciplinaConcluida['coddis'], $dispensas)) {    
+                            # Total de Créditos Concluídos Optativas Livres
+                            $numcredisoptliv += $disciplinaConcluida['creaul'];
+                        }
                     }    
                 }
             }
