@@ -515,6 +515,11 @@ class Aluno
                 }
             }
         }
+        // Créditos atribuídos em disciplinas livres cursadas no exterior
+        $disciplinasConcluidasAE = Graduacao::creditosDisciplinasConcluidasAproveitamentoEstudosExterior($aluno, config('ccg.codUnd'));
+        foreach ($disciplinasConcluidasAE as $disciplinaConcluida) {
+            $numcredisoptliv += $disciplinaConcluida['creaulatb'];
+        }
         return $numcredisoptliv;
     }
 
