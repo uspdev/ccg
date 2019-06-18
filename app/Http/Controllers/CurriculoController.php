@@ -342,4 +342,38 @@ class CurriculoController extends Controller
         $request->session()->flash($tip, $msg);
         return redirect('/curriculos');
     }       
+
+    /**
+     * Recuperar grade curricular no replicado e inserir no currículo do CCG
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function gradeCurricularJupiter(Curriculo $curriculo)
+    {
+        // Seleciona grade curricular atual
+        $grade_atual = Graduacao::disciplinasCurriculo($curriculo->codcur, $curriculo->codhab);
+        $disciplinasObrigatorias = array();
+        $disciplinasOptativasEletivas = array();
+
+        // Percorre todas disciplinas da grade
+        // e separa em arrays específicos
+        foreach ($grade_atual as $disciplina) {
+            switch ($disciplina['tipobg']) {
+                // Tipo Obrigatória
+                case 'O':
+                    array_push($disciplinasObrigatorias, $disciplina['coddis']);
+                    break;
+                // Tipo Optativa Eletiva
+                case 'C':
+                    array_push($disciplinasOptativasEletivas, $disciplina['coddis']);
+                    break;
+            }
+        }
+        // Método do controller específico para salvar a partir do Júpiter
+        DisciplinasObrigatoriaController::storeJupiter($disciplinasObrigatorias, $curriculo);
+        // Método do controller específico para salvar a partir do Júpiter
+        DisciplinasOptativasEletivaController::storeJupiter($disciplinasOptativasEletivas, $curriculo);
+        return redirect()->back()->with('alert-success', 'Disciplina(s) Obrigatória(s) e Eletiva(s) cadastrada(s) com sucesso!');
+    }
+ 
 }

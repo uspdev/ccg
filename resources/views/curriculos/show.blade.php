@@ -50,18 +50,22 @@
                             <button type="button" class="btn btn-primary btn-sm" title="Editar" 
                                 onclick="location.href='/curriculos/{{ $curriculo['id'] }}/edit';">
                                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;Editar Currículo
-                            </button>              
+                            </button>
+                            <button type="button" class="btn btn-success btn-sm" title="Grade Curricular atual (Jupiter)"
+                                onclick="location.href='/curriculos/{{ $curriculo['id'] }}/gradeCurricularJupiter';">
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Grade Curricular (Jupiter)
+                            </button>
                             <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória" 
                                 onclick="location.href='/disciplinasObrigatorias/create/{{ $curriculo['id'] }}';">
-                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar Disciplina Obrigatória
                             </button>  
                             <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Optativa Eletiva" 
                                 onclick="location.href='/disciplinasOptativasEletivas/create/{{ $curriculo['id'] }}';">
-                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Optativa Eletiva
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar Disciplina Optativa Eletiva
                             </button>  
                             <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Licenciaturas (Faculdade de Educação)" 
                                 onclick="location.href='/disciplinasLicenciaturas/create/{{ $curriculo['id'] }}';">
-                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
+                                <span class="glyphicon glyphicon-plus"></span>&nbsp;Adicionar Disciplina Licenciaturas (Faculdade de Educação)
                             </button>
                         </div>              
                         <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
