@@ -162,4 +162,34 @@ class DisciplinasOptativasEletivaController extends Controller
         $request->session()->flash('alert-danger', 'Disciplina Optativa Eletiva apagada!');
         return redirect("/curriculos/" . $disciplinasOptativasEletiva['id_crl']);
     }
+
+    /**
+     * Método estático para salvar disciplinas obrigatórias
+     * a partir da grade curricular atual do JupiterWeb
+     */
+    public static function storeJupiter($disciplinasOptativasEletivas, Curriculo $curriculo)
+    {
+        if (!is_null($disciplinasOptativasEletivas)) {
+            # salva várias diciplinas
+            $arrlstcoddis = array_filter($disciplinasOptativasEletivas);
+            $disciplinas = Graduacao::obterDisciplinas(config('ccg.arrCoddis'));
+            $arrdis = array();
+            foreach ($disciplinas as $disciplina) {
+                array_push($arrdis, $disciplina['coddis']);
+            }
+            foreach ($arrlstcoddis as $coddis) {
+                # verifica se a disciplina existe para a unidade
+                if (in_array($coddis, $arrdis)) {
+                    # verifica se a disciplina não está salva
+                    if (DisciplinasOptativasEletiva::where(['id_crl' => $curriculo->id, 'coddis' => $coddis])->count() == 0) {
+                        # salva a disciplina
+                        $disciplinasOptativaLivre = new DisciplinasOptativasEletiva();
+                        $disciplinasOptativaLivre->id_crl = $curriculo->id;
+                        $disciplinasOptativaLivre->coddis = $coddis;
+                        $disciplinasOptativaLivre->save();
+                    }
+                }
+            }
+        } 
+    }
 }
