@@ -164,4 +164,35 @@ class DisciplinasObrigatoriaController extends Controller
         
         return redirect("/curriculos/" . $curriculo);
     }
+
+    /**
+     * Método estático para salvar disciplinas obrigatórias
+     * a partir da grade curricular atual do JupiterWeb
+     */
+    public static function storeJupiter($disciplinasObrigatorias, Curriculo $curriculo)
+    {
+        // dd($disciplinasObrigatorias);
+        if (!is_null($disciplinasObrigatorias)) {
+            # salva várias diciplinas
+            $arrlstcoddis = array_filter($disciplinasObrigatorias);
+            $disciplinas = Graduacao::obterDisciplinas(config('ccg.arrCoddis'));
+            $arrdis = array();
+            foreach ($disciplinas as $disciplina) {
+                array_push($arrdis, $disciplina['coddis']);
+            }
+            foreach ($arrlstcoddis as $coddis) {
+                # verifica se a disciplina existe para a unidade
+                if (in_array($coddis, $arrdis)) {
+                    # verifica se a disciplina não está salva
+                    if (DisciplinasObrigatoria::where(['id_crl' => $curriculo->id, 'coddis' => $coddis])->count() == 0) {
+                        # salva a disciplina
+                        $disciplinaObrigatoria = new DisciplinasObrigatoria;
+                        $disciplinaObrigatoria->id_crl = $curriculo->id;
+                        $disciplinaObrigatoria->coddis = $coddis;
+                        $disciplinaObrigatoria->save();
+                    }
+                }
+            }
+        } 
+    }
 }
