@@ -150,7 +150,7 @@
                 <li>Nada consta</li>
             @endif
             </ul>
-            <p>Serviço de Graduação, {{ Carbon\Carbon::parse(now())->isoFormat('d \d\e MMMM \d\e Y') }}.</p> 
+            <p>Serviço de Graduação, {{ Carbon\Carbon::parse(now())->isoFormat('D \d\e MMMM \d\e Y') }}.</p> 
             <table width="100%">                 
                 <tr>
                     <td width="50%" align="center">&nbsp;</td>
