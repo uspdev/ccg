@@ -148,4 +148,61 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
         $request->session()->flash('alert-danger', 'Disciplina Obrigatória Equivalente apagada!');
         return redirect("/disciplinasObrEquivalentes/" . $disciplinaObrigatoria);
     }
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  Array $disciplinasEquivalentes
+     * @param  Curriculo $curriculo
+     */
+    public static function storeEquivalenteJupiter(array $disciplinasEquivalentes, Curriculo $curriculo)
+    {
+        if (isset($disciplinasEquivalentes) && !is_null($disciplinasEquivalentes)) {
+            foreach ($disciplinasEquivalentes as $disciplina => $equivalencias) {
+                // Utilizando substr() pois o coddis está acompanhado de _tipobg (_O)
+                $disciplinaObrigatoria = DisciplinasObrigatoria::select('id')
+                                                                ->where('coddis', '=', substr($disciplina, 0, -2))
+                                                                ->where('id_crl', '=', $curriculo->id)
+                                                                ->get();
+                // Verifica se a disciplina obrigatória faz parte do curriculo no CCG
+                if (isset($disciplinaObrigatoria) && !is_null($disciplinaObrigatoria)) {
+                    // Percorre todas as equivalências 'OU'/'E'
+                    foreach ($equivalencias as $tipo => $coddis_eq) {
+                        switch ($tipo) {
+                            // Quando é do tipo 'OU', pode haver UMA
+                            case 'OU':
+                                foreach ($coddis_eq as $disciplina_equivalente) {
+                                    $disciplinasObrigatoriasEquivalente = new DisciplinasObrigatoriasEquivalente;
+                                    $disciplinasObrigatoriasEquivalente->id_dis_obr = $disciplinaObrigatoria[0]->id;
+                                    $disciplinasObrigatoriasEquivalente->coddis = $disciplina_equivalente[0];
+                                    $disciplinasObrigatoriasEquivalente->tipeqv = 'OU';
+                                    try {
+                                        $disciplinasObrigatoriasEquivalente->save();
+                                    } catch (\Exception $e) {
+                                        echo 'Não foi possível salvar as equivalências!';
+                                    }
+                                }
+                                break;
+
+                            // Quando é do tipo 'E', haverá MAIS de uma
+                            case 'E':
+                                foreach ($coddis_eq as $disciplina_equivalente) {
+                                    $disciplinasObrigatoriasEquivalente = new DisciplinasObrigatoriasEquivalente;
+                                    $disciplinasObrigatoriasEquivalente->id_dis_obr = $disciplinaObrigatoria[0]->id;
+                                    $disciplinasObrigatoriasEquivalente->coddis = $disciplina_equivalente;
+                                    $disciplinasObrigatoriasEquivalente->tipeqv = 'E';
+                                    try {
+                                        $disciplinasObrigatoriasEquivalente->save();
+                                    } catch (\Exception $e) {
+                                        echo 'Não foi possível salvar as equivalências!';
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
