@@ -373,6 +373,33 @@ class CurriculoController extends Controller
         DisciplinasObrigatoriaController::storeJupiter($disciplinasObrigatorias, $curriculo);
         // Método do controller específico para salvar a partir do Júpiter
         DisciplinasOptativasEletivaController::storeJupiter($disciplinasOptativasEletivas, $curriculo);
+
+        // Disciplinas Equivalentes
+        $disciplinasEquivalentes = Graduacao::disciplinasEquivalentesCurriculo($curriculo->codcur, $curriculo->codhab);
+        $equivalencias_temp = array(); // array auxiliar
+        $disciplinasObrigatariosEquivalentesComTipo = array(); //array tratada com os tipos 'OU'/'E'
+
+        foreach ($disciplinasEquivalentes as $disc) {
+            $equivalencias_temp[$disc['coddis'] . '_' . $disc['tipobg']][$disc['codeqv']]['coddis_eq'][] = $disc['coddis_eq'];
+        }
+
+        foreach ($equivalencias_temp as $coddis => $codeqv) {
+            // https://stackoverflow.com/questions/2681786/how-to-get-the-last-char-of-a-string-in-php
+            if ($coddis[-1] === 'O') {
+                foreach ($codeqv as $discEquivalente) {
+                    if (count($discEquivalente['coddis_eq']) > 1) {
+                        foreach ($discEquivalente as $coddis_eq) {
+                            $disciplinasObrigatariosEquivalentesComTipo[$coddis]['E'] = $coddis_eq;
+                        }
+                    } else {
+                        $disciplinasObrigatariosEquivalentesComTipo[$coddis]['OU'][] = $discEquivalente['coddis_eq'];
+                    }
+                }
+            }
+        }
+
+        // Método do controller específico para salvar as equivalências a partir do Júpiter
+        DisciplinasObrigatoriasEquivalenteController::storeEquivalenteJupiter($disciplinasObrigatariosEquivalentesComTipo, $curriculo);
         return redirect()->back()->with('alert-success', 'Disciplina(s) Obrigatória(s) e Eletiva(s) cadastrada(s) com sucesso!');
     }
  
