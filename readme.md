@@ -44,6 +44,7 @@ Esses dados devem ser comparados com o currículo previamente cadastrado na ferr
     - Buscar alunos pelo nº USP ou por parte do nome. :heavy_check_mark: 
     - Emitir um relatório a ser entregue ao aluno em PDF. :heavy_check_mark:
     - Copiar a estrutura de disciplinas de um currículo já cadastrado. :heavy_check_mark: 
+    - Copiar a estrutura de disciplinas (com equivalências para disciplinas Obrigatórias) do currículo atual no JupiterWeb. :heavy_check_mark: 
     - Emitir um relatório PDF com situação de todos os alunos de um currículo.
 
 ## Model
