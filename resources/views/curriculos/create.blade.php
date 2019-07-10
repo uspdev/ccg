@@ -29,9 +29,24 @@
                     <label>Habilitação</label>
                     <select class="form-control select2" style="width: 100%;" id="codhab" name="codhab" required>
                         <option></option>
+                        @php 
+                            $curso_atual = $cursosHabilitacoes[0]['codcur'];
+                            $curso_anterior = $cursosHabilitacoes[0]['codcur'];
+                        @endphp 
+                        <optgroup label="{{ $curso_atual }}">
                         @foreach ($cursosHabilitacoes as $habilitacao)
+                            @php 
+                                $curso_anterior = $curso_atual;
+                                $curso_atual = $habilitacao['codcur']; 
+                            @endphp
+                            @if ($curso_atual != $curso_anterior)
+                                <!-- fecha optiongroup e começa outro -->
+                                </optgroup>
+                                <optgroup label="{{ $habilitacao['codcur'] }}">
+                            @endif
                             <option value="{{ $habilitacao['codhab'] }}">{{ $habilitacao['codcur'] }} - {{ $habilitacao['codhab'] }} - {{ $habilitacao['nomhab'] }}</option>
                         @endforeach
+                        </optgroup>
                     </select>
                 </div> 
                 <div class="form-group">
@@ -99,6 +114,28 @@
 				pageLength  	: -1
             });
         })
+
+        // Exemplo adaptado de https://stackoverflow.com/questions/43820002/filter-seelct2-by-optgroup-from-another-select2
+        $(document).ready(function() {
+            let habilitacao_html = $('select[name=codhab]').html();
+            // Define os dois selects como select2
+            $('[name=codcur]').select2({placeholder: 'Selecione um curso', width: '100%'});
+            $('[name=codhab]').select2({placeholder: 'Selecione uma habilitação', width: '100%'});
+
+            // Ao alterar o select do curso, atualiza a lista das habilitações
+            $('select[name=codcur]').change(function() {
+                let curso_selecionado = $('[name=codcur] :selected').val();
+                let habilitacao = $('select[name=codhab]');
+
+                // Restaura as opções iniciais para habilitação
+                habilitacao.html(habilitacao_html);
+                
+                // Verifica qual curso foi selecionado por meio do option group
+                let opt_group = $('optgroup[label="' + curso_selecionado + '"]')[0].outerHTML;
+                // 'Filtra' o select da habilitação
+                habilitacao.html(opt_group);
+            });
+        });
     </script>
 
 @stop
