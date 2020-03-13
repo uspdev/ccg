@@ -384,6 +384,11 @@
 						<form id="observacoes" role="form" method="POST" action="/creditos/{{ $dadosAcademicos->codpes }}">
 							{{ csrf_field() }}
 							<div class="form-group">
+								<label>Observações do Currículo</label>
+								<textarea id="txtobscur" name="txtobscur" class="form-control" rows="3" maxlength="500" 
+									placeholder="Digite aqui" disabled>{{ $curriculoAluno->txtobs }}</textarea>							
+							</div>
+							<div class="form-group">
 								<label>Observações do Aluno</label>
 							@if (isset(App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs))	
 								<textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
