@@ -142,9 +142,14 @@
             </table>          
             <h3>Observações:</h3>
             <ul>
+            @if ($curriculoAluno->txtobs != '')
+                <li><p>
+                    {!! nl2br(e($curriculoAluno->txtobs)) !!}
+                </p></li>
+            @endif                
             @if (isset(App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs))
                 <li><p>
-                    {{ App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs }}
+                    {!! nl2br(e(App\AlunosObservacoes::where(['id_crl' => $curriculoAluno->id_crl, 'codpes' => $dadosAcademicos->codpes])->first()->txtobs)) !!}
                 </p></li>
             @else
                 <li>Nada consta</li>

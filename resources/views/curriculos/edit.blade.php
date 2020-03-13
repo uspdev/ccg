@@ -62,6 +62,11 @@
                             data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" type="text" required>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label>Observações</label>
+                        <textarea id="txtobs" name="txtobs" class="form-control" rows="3" 
+                            placeholder="Digite aqui">{{ $curriculo['txtobs'] }}</textarea>
+                </div>
             </div>
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-sm">Salvar</button>

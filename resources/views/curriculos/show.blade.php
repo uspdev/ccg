@@ -44,7 +44,11 @@
                             <tr>
                                 <th>Ano de ingresso</td>
                                 <td>{{ Carbon\Carbon::parse($curriculo['dtainicrl'])->format('Y') }}</td>
-                            </tr> 
+                            </tr>
+                        <tr>
+                            <th>Observações</td>
+                            <td>{!! nl2br(e($curriculo['txtobs'])) !!}</td>
+                        </tr>                              
                         </table>            
                         <div class="box-body table-responsive">
                             <button type="button" class="btn btn-primary btn-sm" title="Editar" 

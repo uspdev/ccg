@@ -98,7 +98,8 @@ class Aluno
                 'id_crl' => $curriculo[0]->id,
                 'numcredisoptelt' => $curriculo[0]->numcredisoptelt,
                 'numcredisoptliv' => $curriculo[0]->numcredisoptliv,
-                'dtainicrl' => substr($curriculo[0]->dtainicrl, 0, 4)
+                'dtainicrl' => substr($curriculo[0]->dtainicrl, 0, 4),
+                'txtobs' => $curriculo[0]->txtobs
             );
         }
         return $curriculoAluno;       
