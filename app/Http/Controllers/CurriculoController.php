@@ -154,6 +154,7 @@ class CurriculoController extends Controller
         $curriculo->numcredisoptelt = $request->numcredisoptelt;
         $curriculo->numcredisoptliv = $request->numcredisoptliv;
         $curriculo->dtainicrl = Carbon::parse($request->dtainicrl);
+        $curriculo->txtobs = $request->txtobs;
         $curriculo->save();
 
         $request->session()->flash('alert-success', 'Curriculo salvo com sucesso!');
