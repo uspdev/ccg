@@ -13,8 +13,9 @@ class AddObsToCurriculosTable extends Migration
      */
     public function up()
     {
-        Schema::table('curriculos', function (Blueprint $table) {
-            //
+        Schema::table('Curriculos', function (Blueprint $table) {
+            # Observações
+            $table->string('txtobs')->nullable();
         });
     }
 
@@ -25,8 +26,8 @@ class AddObsToCurriculosTable extends Migration
      */
     public function down()
     {
-        Schema::table('curriculos', function (Blueprint $table) {
-            //
+        Schema::table('Curriculos', function (Blueprint $table) {
+            $table->IfExists('txtobs');
         });
     }
 }
