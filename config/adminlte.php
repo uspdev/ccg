@@ -120,7 +120,7 @@ return [
             'text' => 'Meus créditos',
             'url'  => 'creditos',
             'icon' => 'credit-card',
-            'can'  => 'alunos', # para testar mude o valor para 'secretaria', adicione no arquivo .env o nº USP do aluno em CODPES_ALUNO e prd em APP_ENV
+            'can'  => 'secretaria', # para testar mude o valor para 'secretaria', adicione no arquivo .env o nº USP do aluno em CODPES_ALUNO e env em APP_ENV
         ],
         'Secretaria', # somente para secretaria de graduação
         [
