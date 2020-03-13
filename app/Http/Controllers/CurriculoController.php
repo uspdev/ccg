@@ -278,6 +278,7 @@ class CurriculoController extends Controller
             $curriculoNew->numcredisoptelt = $request->numcredisoptelt;
             $curriculoNew->numcredisoptliv = $request->numcredisoptliv;
             $curriculoNew->dtainicrl = Carbon::parse($request->dtainicrl);
+            $curriculoNew->txtobs = $request->txtobs;
             $curriculoNew->save();            
             $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get()->toArray();    
             # Salvar disciplinas obrigaórias, se tiver
