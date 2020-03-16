@@ -3750,12 +3750,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/uspdev/replicado.git",
-                "reference": "5e990042868d30cb68832579005bf0587c2faea8"
+                "reference": "f432718f91b3b648734bf8bb8e52ad6eb05bcc0b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/uspdev/replicado/zipball/5e990042868d30cb68832579005bf0587c2faea8",
-                "reference": "5e990042868d30cb68832579005bf0587c2faea8",
+                "url": "https://api.github.com/repos/uspdev/replicado/zipball/f432718f91b3b648734bf8bb8e52ad6eb05bcc0b",
+                "reference": "f432718f91b3b648734bf8bb8e52ad6eb05bcc0b",
                 "shasum": ""
             },
             "require": {
@@ -3782,7 +3782,7 @@
             ],
             "description": "Classes PHP que consome dados do Replicado USP",
             "homepage": "https://github.com/uspdev/replicado",
-            "time": "2020-03-06T19:17:54+00:00"
+            "time": "2020-03-16T21:09:33+00:00"
         },
         {
             "name": "uspdev/senhaunica-socialite",
