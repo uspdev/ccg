@@ -54,36 +54,42 @@
                 			</tr>
                 			<tr>
                   				<th colspan="2">
-									<table class="table table-hover">
+									<table class="table table-hover table-striped">
 										<thead>
 											<tr>
-												<th>&nbsp;</th>
-												<th>Eletivas</th>
-												<th>Livres</th>
+												<th style="border-bottom: 1px solid #000;">&nbsp;</th>
+												<th style="border-bottom: 1px solid #000;">Necessários</th>
+												<th style="border-bottom: 1px solid #000; border-right: 1px solid #000;">Cursados</th>
+												<th style="border-bottom: 1px solid #000;">A concluir</th>												
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>Créditos-aula necessários</td>
+												<td>Créditos-aula em eletivas</td>
 												<td>{{ $curriculoAluno->numcredisoptelt }}</td>
-												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
+												<td style="border-right: 1px solid #000;">{{ $numcredisoptelt }}</td>
+												<td>{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
 											</tr>	
 											<tr>
-												<td>Créditos-aula cursados</td>
-												<td>{{ $numcredisoptelt }}</td>
-												<td>{{ $numcredisoptliv }}</td>
+												<td>Créditos totais em eletivas</td>
+												<td>0</td>
+												<td style="border-right: 1px solid #000;">0</td>
+												<td>0</td>
+											</tr>											
+											<tr>
+												<td>Créditos-aula em livres</td>
+												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
+												<td style="border-right: 1px solid #000;">{{ $numcredisoptliv }}</td>
+												<td>{{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}</td>
 											</tr>
 											<tr>
-												<td>Créditos-aula a concluir</td>
-												<td>
-													{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt - $numcredisoptelt }}
-												</td>
-												<td>
-													{{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}
-												</td>
-											</tr>																																		
+												<td>Créditos totais em livres</td>
+												<td>0</td>
+												<td style="border-right: 1px solid #000;">0</td>
+												<td>0</td>
+											</tr>																																													
 										</tbody>
-									</table>
+									</table>									
 								</td>
                 			</tr>															
               			</table>
