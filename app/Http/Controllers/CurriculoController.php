@@ -76,6 +76,8 @@ class CurriculoController extends Controller
         $curriculo->numcredisoptliv = $request->numcredisoptliv;
         $curriculo->dtainicrl = Carbon::parse($request->dtainicrl);
         $curriculo->txtobs = $request->txtobs;
+        $curriculo->numtotcredisoptelt = $request->numtotcredisoptelt;
+        $curriculo->numtotcredisoptliv = $request->numtotcredisoptliv;        
         $curriculo->save();
 
         $request->session()->flash('alert-success', 'Curriculo cadastrado com sucesso!');
@@ -155,6 +157,8 @@ class CurriculoController extends Controller
         $curriculo->numcredisoptliv = $request->numcredisoptliv;
         $curriculo->dtainicrl = Carbon::parse($request->dtainicrl);
         $curriculo->txtobs = $request->txtobs;
+        $curriculo->numtotcredisoptelt = $request->numtotcredisoptelt;
+        $curriculo->numtotcredisoptliv = $request->numtotcredisoptliv;
         $curriculo->save();
 
         $request->session()->flash('alert-success', 'Curriculo salvo com sucesso!');
@@ -279,6 +283,8 @@ class CurriculoController extends Controller
             $curriculoNew->numcredisoptliv = $request->numcredisoptliv;
             $curriculoNew->dtainicrl = Carbon::parse($request->dtainicrl);
             $curriculoNew->txtobs = $request->txtobs;
+            $curriculo->numtotcredisoptelt = $request->numtotcredisoptelt;
+            $curriculo->numtotcredisoptliv = $request->numtotcredisoptliv;
             $curriculoNew->save();            
             $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get()->toArray();    
             # Salvar disciplinas obrigaórias, se tiver
