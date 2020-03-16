@@ -99,7 +99,9 @@ class Aluno
                 'numcredisoptelt' => $curriculo[0]->numcredisoptelt,
                 'numcredisoptliv' => $curriculo[0]->numcredisoptliv,
                 'dtainicrl' => substr($curriculo[0]->dtainicrl, 0, 4),
-                'txtobs' => $curriculo[0]->txtobs
+                'txtobs' => $curriculo[0]->txtobs,
+                'numtotcredisoptelt' => $curriculo[0]->numtotcredisoptelt,
+                'numtotcredisoptliv' => $curriculo[0]->numtotcredisoptliv                
             );
         }
         return $curriculoAluno;       
