@@ -13,7 +13,7 @@ class AddNumtotcredisoptlivToCurriculosTable extends Migration
      */
     public function up()
     {
-        Schema::table('curriculos', function (Blueprint $table) {
+        Schema::table('Curriculos', function (Blueprint $table) {
             $table->integer('numtotcredisoptliv')->default(0);
         });
     }
@@ -25,7 +25,7 @@ class AddNumtotcredisoptlivToCurriculosTable extends Migration
      */
     public function down()
     {
-        Schema::table('curriculos', function (Blueprint $table) {
+        Schema::table('Curriculos', function (Blueprint $table) {
             $table->IfExists('numtotcredisoptliv');
         });
     }
