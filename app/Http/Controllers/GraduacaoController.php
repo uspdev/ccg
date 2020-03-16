@@ -114,7 +114,9 @@ class GraduacaoController extends Controller
         # Obtém as discplinas optativas eletivas que faltam/disponíveis do aluno
         $disciplinasOptativasEletivasFaltam = array_diff($disciplinasOptativasEletivas, $disciplinasOptativasEletivasConcluidas);
         # Obtém o total de créditos nas disciplinas optativas eletivas concluídas
-        $numcredisoptelt = Aluno::getTotalCreditosDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);;
+        $numcredisoptelt = Aluno::getTotalCreditosDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);
+        # Obtém o total de créditos (aulas + trabalhos) nas disciplinas optativas eletivas concluídas
+        $numtotcredisoptelt = Aluno::getTotalCreditosAulasTrabalhosDisciplinasOptativasEletivasConcluidas($aluno, $curriculoAluno->id_crl);        
         # Obtém as discplinas licenciaturas concluídas do aluno
         $disciplinasLicenciaturasConcluidas = Aluno::getDisciplinasLicenciaturasConcluidas($aluno, $curriculoAluno->id_crl);
         # Obtém as disciplinas licenciaturas faltam
@@ -131,6 +133,8 @@ class GraduacaoController extends Controller
         }
         # Obtém o total de créditos nas disciplinas optativas livres concluídas
         $numcredisoptliv = Aluno::getTotalCreditosDisciplinasOptativasLivresConcluidas($aluno, $curriculoAluno->id_crl, $disciplinasOptativasLivresConcluidas);
+        # Obtém o total de créditos (aulas + trabalhos) nas disciplinas optativas livres concluídas
+        $numtotcredisoptliv = Aluno::getTotalCreditosAulasTrabalhosDisciplinasOptativasLivresConcluidas($aluno, $curriculoAluno->id_crl, $disciplinasOptativasLivresConcluidas);        
         # Obtém as disciplinas concluídas diretamente do replicado
         $disciplinasConcluidas = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));      
 
@@ -197,7 +201,7 @@ class GraduacaoController extends Controller
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
                 'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
                 'disciplinasOptativasEletivasFaltam', 'disciplinasObrigatoriasEquivalentesFaltam', 'disciplinasLicenciaturasEquivalentesFaltam',
-                'dispensas'
+                'dispensas', 'numtotcredisoptelt', 'numtotcredisoptliv'
                 )
             );
             return $pdf->download(config('app.name') . $codpes . '.pdf');
@@ -206,7 +210,7 @@ class GraduacaoController extends Controller
                 'gate', 'dadosAcademicos', 'curriculoAluno', 'disciplinasConcluidas', 'disciplinasObrigatoriasConcluidas',
                 'disciplinasObrigatoriasFaltam', 'disciplinasOptativasEletivasConcluidas', 'disciplinasOptativasLivresConcluidas',
                 'numcredisoptelt', 'disciplinasLicenciaturasConcluidas', 'disciplinasLicenciaturasFaltam', 'numcredisoptliv',
-                'disciplinasOptativasEletivasFaltam', 'dispensas'
+                'disciplinasOptativasEletivasFaltam', 'dispensas', 'numtotcredisoptelt', 'numtotcredisoptliv'
                 )
             );
         }

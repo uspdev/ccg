@@ -73,7 +73,7 @@
 											<tr>
 												<td>Créditos totais em eletivas</td>
 												<td>0</td>
-												<td style="border-right: 1px solid #000;">0</td>
+												<td style="border-right: 1px solid #000;">{{ $numtotcredisoptelt }}</td>
 												<td>0</td>
 											</tr>											
 											<tr>
@@ -85,7 +85,7 @@
 											<tr>
 												<td>Créditos totais em livres</td>
 												<td>0</td>
-												<td style="border-right: 1px solid #000;">0</td>
+												<td style="border-right: 1px solid #000;">{{ $numtotcredisoptliv }}</td>
 												<td>0</td>
 											</tr>																																													
 										</tbody>
@@ -144,6 +144,7 @@
 								<tr>
 									<th><label>Disciplinas Optativas Eletivas</label></th>
 									<th>&nbsp;</th>
+									<th>&nbsp;</th>
 								</tr>                     
 								<tr>
 									<th>								
@@ -152,6 +153,7 @@
 								@endcan	
 									Disciplinas</th>
 									<th>Créditos/Aula</th>
+									<th>Créditos/Trabalhos</th>									
 								</tr>                                          
 							</thead>
 							<tbody>                                                     
@@ -164,9 +166,11 @@
 													if (in_array($disciplinaConcluida['coddis'], $dispensas)) {
 														$checked = 'checked';
 														$creaul = 0;
+														$cretrb = 0;														
 													} else {
 														$checked = '';
 														$creaul = $disciplinaConcluida['creaul'];
+														$cretrb = $disciplinaConcluida['cretrb'];														
 													}	
 												@endphp	
 											@can('secretaria')	
@@ -177,7 +181,8 @@
 											@endcan	
 												{{ $disciplinaConcluida['coddis'] }} - 
 												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-											<td style="width: 30%;">{{ $creaul }}</td>
+											<td style="width: 15%;">{{ $creaul }}</td>
+											<td style="width: 15%;">{{ $cretrb }}</td>
 										</tr>
 									@endif
 								@endforeach
@@ -195,6 +200,7 @@
 										Total de créditos
 									@endcan
 									</th>
+									<th></th>
 									<th></th>
 								</tr>
 							</tfoot>
@@ -238,10 +244,12 @@
 								<tr>
 									<th><label>Disciplinas Optativas Livres</label></th>
 									<th>&nbsp;</th>
+									<th>&nbsp;</th>
 								</tr>                     
 								<tr>
 									<th>Disciplinas</th>
 									<th>Créditos/Aula</th>
+									<th>Créditos/Trabalhos</th>									
 								</tr>                                          
 							</thead>
 							<tbody>                                                     
@@ -253,7 +261,8 @@
 											<tr>
 												<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
 													{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-												<td style="width: 30%;">{{ $disciplinaConcluida['creaul'] }}</td>
+												<td style="width: 15%;">{{ $disciplinaConcluida['creaul'] }}</td>
+												<td style="width: 15%;">{{ $disciplinaConcluida['cretrb'] }}</td>												
 											</tr>
 										@endif
 									@endif
@@ -262,6 +271,7 @@
 							<tfoot>
 								<tr>
 									<th style="text-align: right;">Total de créditos</th>
+									<th></th>
 									<th></th>
 								</tr>
 							</tfoot>
@@ -458,6 +468,13 @@
 							return a + b;
 						}, 0)
 					);
+					$(api.column(2).footer()).html(
+						api.column(2).data().reduce(function(a, b){
+							a = parseInt(a);
+							b = parseInt(b);
+							return a + b;
+						}, 0)
+					);					
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
@@ -479,6 +496,13 @@
 							return a + b;
 						}, 0)
 					);
+					$(api.column(2).footer()).html(
+						api.column(2).data().reduce(function(a, b){
+							a = parseInt(a);
+							b = parseInt(b);
+							return a + b;
+						}, 0)
+					);					
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'

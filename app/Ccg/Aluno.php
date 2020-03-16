@@ -390,6 +390,37 @@ class Aluno
         return $numcredisoptelt;
     }
 
+    public static function getTotalCreditosAulasTrabalhosDisciplinasOptativasEletivasConcluidas($aluno, $id_crl)
+    {
+        /**
+         * Médoto que retorna o total de créditos (aulas + trabalhos) nas disciplinas optativas eletivas concluídas do aluno de graduação
+         * @param int $aluno
+         * @param int $id_crl
+         * @return int $numtotcredisoptelt
+         */
+        $disciplinasOptativasEletivasRs = DisciplinasOptativasEletiva::where('id_crl', $id_crl)
+            ->orderBy('coddis', 'asc')
+            ->get()
+            ->toArray();
+        $numtotcredisoptelt = 0;
+        $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));
+        $dispensas = AlunosDispensas::where(['id_crl' => $id_crl, 'codpes' => $aluno])->get()->toArray();
+        if (!empty($dispensas)) {
+            $dispensas = explode(',', $dispensas[0]['coddis']);
+        } 
+        foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
+            foreach ($disciplinasOptativasEletivasRs as $disciplinaOptativaEletiva) {
+                if ($disciplinaConcluida['coddis'] == $disciplinaOptativaEletiva['coddis']) {
+                    if (!in_array($disciplinaConcluida['coddis'], $dispensas)) {
+                        # Total de Créditos Concluídos Optativas Eletivas
+                        $numtotcredisoptelt += $disciplinaConcluida['creaul'] + $disciplinaConcluida['cretrb'];                        
+                    }    
+                }
+            }
+        }
+        return $numtotcredisoptelt;
+    }    
+
     public static function getDisciplinasLicenciaturasConcluidas($aluno, $id_crl)
     {
         /**
@@ -522,6 +553,43 @@ class Aluno
             $numcredisoptliv += $disciplinaConcluida['creaulatb'];
         }
         return $numcredisoptliv;
+    }
+
+    public static function getTotalCreditosAulasTrabalhosDisciplinasOptativasLivresConcluidas($aluno, $id_crl, $disciplinasOptativasLivresConcluidas)
+    {
+        /**
+         * Médoto que retorna o total de créditos (aulas + trabalhos) nas disciplinas optativas livres concluídas do aluno de graduação
+         * @param int $aluno
+         * @param int $id_crl
+         * @param array $disciplinasOptativasLivresConcluidas
+         * @return int $numtotcredisoptliv
+         */
+        $numtotcredisoptliv = 0;     
+        $disciplinasConcluidasRs = Graduacao::disciplinasConcluidas($aluno, config('ccg.codUnd'));       
+        $dispensas = AlunosDispensas::where(['id_crl' => $id_crl, 'codpes' => $aluno])->get()->toArray();
+        if (!empty($dispensas)) {
+            $dispensas = explode(',', $dispensas[0]['coddis']);
+        }         
+        foreach ($disciplinasConcluidasRs as $disciplinaConcluida) {
+            foreach ($disciplinasOptativasLivresConcluidas as $disciplinaOptativaLivre) {
+                if ($disciplinaConcluida['coddis'] == $disciplinaOptativaLivre) {
+                    # Verificar se é equivalente
+                    if (self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Obrigatoria') == 0 and 
+                        self::getConcluiuEquivalente($disciplinaConcluida['coddis'], $id_crl, 'Licenciatura') == 0) {
+                        if (!in_array($disciplinaConcluida['coddis'], $dispensas)) {    
+                            # Total de Créditos Concluídos Optativas Livres
+                            $numtotcredisoptliv += $disciplinaConcluida['creaul'] + $disciplinaConcluida['cretrb'];
+                        }
+                    }    
+                }
+            }
+        }
+        // Créditos atribuídos em disciplinas livres cursadas no exterior
+        $disciplinasConcluidasAE = Graduacao::creditosDisciplinasConcluidasAproveitamentoEstudosExterior($aluno, config('ccg.codUnd'));
+        foreach ($disciplinasConcluidasAE as $disciplinaConcluida) {
+            $numtotcredisoptliv += $disciplinaConcluida['creaulatb'];
+        }
+        return $numtotcredisoptliv;
     }
 
     public static function getAlunosCurriculo($curriculo) 
