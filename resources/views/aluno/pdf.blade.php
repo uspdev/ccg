@@ -129,9 +129,9 @@
                 </tr>	
                 <tr>
                     <td>Créditos totais em eletivas</td>
-                    <td style="text-align: center;">0</td>
-                    <td style="text-align: center; border-right: 1px solid #000;">0</td>
-                    <td style="text-align: center;">0</td>
+                    <td style="text-align: center;">{{ $curriculoAluno->numtotcredisoptelt }}</td>
+                    <td style="text-align: center; border-right: 1px solid #000;">{{ $numtotcredisoptelt }}</td>
+                    <td style="text-align: center;">{{ (($curriculoAluno->numtotcredisoptelt - $numtotcredisoptelt) < 0) ? 0 : $curriculoAluno->numtotcredisoptelt - $numtotcredisoptelt }}</td>
                 </tr>											
                 <tr>
                     <td>Créditos-aula em livres</td>
@@ -141,9 +141,9 @@
                 </tr>
                 <tr>
                     <td>Créditos totais em livres</td>
-                    <td style="text-align: center;">0</td>
-                    <td style="text-align: center; border-right: 1px solid #000;">0</td>
-                    <td style="text-align: center;">0</td>
+                    <td style="text-align: center;">{{ $curriculoAluno->numtotcredisoptliv }}</td>
+                    <td style="text-align: center; border-right: 1px solid #000;">{{ $numtotcredisoptliv }}</td>
+                    <td style="text-align: center;">{{ (($curriculoAluno->numtotcredisoptliv - $numtotcredisoptliv) < 0) ? 0 : $curriculoAluno->numtotcredisoptliv - $numtotcredisoptliv }}</td>
                 </tr>																																													
             </table>           
             <h3>Observações:</h3>
