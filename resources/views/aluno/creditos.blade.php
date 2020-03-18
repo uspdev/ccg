@@ -54,36 +54,42 @@
                 			</tr>
                 			<tr>
                   				<th colspan="2">
-									<table class="table table-hover">
+									<table class="table table-hover table-striped">
 										<thead>
 											<tr>
-												<th>&nbsp;</th>
-												<th>Eletivas</th>
-												<th>Livres</th>
+												<th style="border-bottom: 1px solid #000;">&nbsp;</th>
+												<th style="border-bottom: 1px solid #000;">Necessários</th>
+												<th style="border-bottom: 1px solid #000; border-right: 1px solid #000;">Cursados</th>
+												<th style="border-bottom: 1px solid #000;">A concluir</th>												
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
-												<td>Créditos-aula necessários</td>
+												<td>Créditos-aula em eletivas</td>
 												<td>{{ $curriculoAluno->numcredisoptelt }}</td>
-												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
+												<td style="border-right: 1px solid #000;">{{ $numcredisoptelt }}</td>
+												<td>{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt - $numcredisoptelt }}</td>
 											</tr>	
 											<tr>
-												<td>Créditos-aula cursados</td>
-												<td>{{ $numcredisoptelt }}</td>
-												<td>{{ $numcredisoptliv }}</td>
+												<td>Créditos totais em eletivas</td>
+												<td>{{ $curriculoAluno->numtotcredisoptelt }}</td>
+												<td style="border-right: 1px solid #000;">{{ $numtotcredisoptelt }}</td>
+												<td>{{ (($curriculoAluno->numtotcredisoptelt - $numtotcredisoptelt) < 0) ? 0 : $curriculoAluno->numtotcredisoptelt - $numtotcredisoptelt }}</td>
+											</tr>											
+											<tr>
+												<td>Créditos-aula em livres</td>
+												<td>{{ $curriculoAluno->numcredisoptliv }}</td>
+												<td style="border-right: 1px solid #000;">{{ $numcredisoptliv }}</td>
+												<td>{{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}</td>
 											</tr>
 											<tr>
-												<td>Créditos-aula a concluir</td>
-												<td>
-													{{ (($curriculoAluno->numcredisoptelt - $numcredisoptelt) < 0) ? 0 : $curriculoAluno->numcredisoptelt - $numcredisoptelt }}
-												</td>
-												<td>
-													{{ (($curriculoAluno->numcredisoptliv - $numcredisoptliv) < 0) ? 0 : $curriculoAluno->numcredisoptliv - $numcredisoptliv }}
-												</td>
-											</tr>																																		
+												<td>Créditos totais em livres</td>
+												<td>{{ $curriculoAluno->numtotcredisoptliv }}</td>
+												<td style="border-right: 1px solid #000;">{{ $numtotcredisoptliv }}</td>
+												<td>{{ (($curriculoAluno->numtotcredisoptliv - $numtotcredisoptliv) < 0) ? 0 : $curriculoAluno->numtotcredisoptliv - $numtotcredisoptliv }}</td>
+											</tr>																																													
 										</tbody>
-									</table>
+									</table>									
 								</td>
                 			</tr>															
               			</table>
@@ -138,6 +144,7 @@
 								<tr>
 									<th><label>Disciplinas Optativas Eletivas</label></th>
 									<th>&nbsp;</th>
+									<th>&nbsp;</th>
 								</tr>                     
 								<tr>
 									<th>								
@@ -146,6 +153,7 @@
 								@endcan	
 									Disciplinas</th>
 									<th>Créditos/Aula</th>
+									<th>Créditos/Trabalhos</th>									
 								</tr>                                          
 							</thead>
 							<tbody>                                                     
@@ -158,9 +166,11 @@
 													if (in_array($disciplinaConcluida['coddis'], $dispensas)) {
 														$checked = 'checked';
 														$creaul = 0;
+														$cretrb = 0;														
 													} else {
 														$checked = '';
 														$creaul = $disciplinaConcluida['creaul'];
+														$cretrb = $disciplinaConcluida['cretrb'];														
 													}	
 												@endphp	
 											@can('secretaria')	
@@ -171,7 +181,8 @@
 											@endcan	
 												{{ $disciplinaConcluida['coddis'] }} - 
 												{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-											<td style="width: 30%;">{{ $creaul }}</td>
+											<td style="width: 15%;">{{ $creaul }}</td>
+											<td style="width: 15%;">{{ $cretrb }}</td>
 										</tr>
 									@endif
 								@endforeach
@@ -189,6 +200,7 @@
 										Total de créditos
 									@endcan
 									</th>
+									<th></th>
 									<th></th>
 								</tr>
 							</tfoot>
@@ -232,10 +244,12 @@
 								<tr>
 									<th><label>Disciplinas Optativas Livres</label></th>
 									<th>&nbsp;</th>
+									<th>&nbsp;</th>
 								</tr>                     
 								<tr>
 									<th>Disciplinas</th>
 									<th>Créditos/Aula</th>
+									<th>Créditos/Trabalhos</th>									
 								</tr>                                          
 							</thead>
 							<tbody>                                                     
@@ -247,7 +261,8 @@
 											<tr>
 												<td style="width: 70%;">{{ $disciplinaConcluida['coddis'] }} - 
 													{{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinaConcluida['coddis']) }}</td>
-												<td style="width: 30%;">{{ $disciplinaConcluida['creaul'] }}</td>
+												<td style="width: 15%;">{{ $disciplinaConcluida['creaul'] }}</td>
+												<td style="width: 15%;">{{ $disciplinaConcluida['cretrb'] }}</td>												
 											</tr>
 										@endif
 									@endif
@@ -256,6 +271,7 @@
 							<tfoot>
 								<tr>
 									<th style="text-align: right;">Total de créditos</th>
+									<th></th>
 									<th></th>
 								</tr>
 							</tfoot>
@@ -452,6 +468,13 @@
 							return a + b;
 						}, 0)
 					);
+					$(api.column(2).footer()).html(
+						api.column(2).data().reduce(function(a, b){
+							a = parseInt(a);
+							b = parseInt(b);
+							return a + b;
+						}, 0)
+					);					
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
@@ -473,6 +496,13 @@
 							return a + b;
 						}, 0)
 					);
+					$(api.column(2).footer()).html(
+						api.column(2).data().reduce(function(a, b){
+							a = parseInt(a);
+							b = parseInt(b);
+							return a + b;
+						}, 0)
+					);					
 				},
 				language    	: {
                     url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'

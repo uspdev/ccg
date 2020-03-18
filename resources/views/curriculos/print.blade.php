@@ -35,13 +35,25 @@
                                 <td>{{ $curriculo['numcredisoptelt'] }}</td>
                             </tr>
                             <tr>
+                                <th>Nº de créditos totais exigidos em displinas optativas eletivas</td>
+                                <td>{{ $curriculo['numtotcredisoptelt'] }}</td>
+                            </tr>                             
+                            <tr>
                                 <th>Nº de créditos exigidos em displinas optativas livres</td>
                                 <td>{{ $curriculo['numcredisoptliv'] }}</td>
-                            </tr>                                         
+                            </tr> 
+                            <tr>
+                                <th>Nº de créditos totais exigidos em displinas optativas livres</td>
+                                <td>{{ $curriculo['numtotcredisoptliv'] }}</td>
+                            </tr>                                                                     
                             <tr>
                                 <th>Ano de ingresso</td>
                                 <td>{{ Carbon\Carbon::parse($curriculo['dtainicrl'])->format('Y') }}</td>
                             </tr> 
+                            <tr>
+                                <th>Observações</td>
+                                <td>{!! nl2br(e($curriculo['txtobs'])) !!}</td>
+                            </tr>                             
                         </table>                       
                         <table class="table table-bordered table-striped table-hover datatable" style="width: 100%;">
                             <thead>
