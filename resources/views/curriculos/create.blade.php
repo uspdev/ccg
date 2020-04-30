@@ -73,7 +73,7 @@
                     <label for="dtainicrl">Ano de ingresso</label>
                     <div class="input-group">
                         <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
+                            <i class="glyphicon glyphicon-calendar"></i>
                         </div>
                         <input id="dtainicrl" name="dtainicrl" class="form-control datepicker" 
                             data-inputmask="'alias': 'dd/mm/yyyy'" data-mask="" type="text" required>

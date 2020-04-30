@@ -112,27 +112,27 @@ return [
         [
             'text' => 'Home',
             'url'  => '/',
-            'icon' => 'home',
+            'icon' => 'glyphicon glyphicon-home',
             'icon_color' => 'yelow',
         ],
         'Aluno', # somente para aluno de graduação ativo na unidade
         [
             'text' => 'Meus créditos',
             'url'  => 'creditos',
-            'icon' => 'credit-card',
+            'icon' => 'glyphicon glyphicon-credit-card',
             'can'  => 'alunos', # para testar mude o valor para 'secretaria', adicione no arquivo .env o nº USP do aluno em CODPES_ALUNO e env em APP_ENV
         ],
         'Secretaria', # somente para secretaria de graduação
         [
             'text' => 'Busca',
             'url'  => 'busca',
-            'icon' => 'graduation-cap',
+            'icon' => 'glyphicon glyphicon-user',
             'can'  => 'secretaria', 
         ],
         [
             'text' => 'Currículo',
             'url'  => 'curriculos',
-            'icon' => 'institution',
+            'icon' => 'glyphicon glyphicon-list',
             'can'  => 'secretaria', 
         ],
     ],
