@@ -27,7 +27,7 @@
                             {!! config('adminlte.logo', '<b>Admin</b>LTE') !!}
                         </a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                            <i class="fa fa-bars"></i>
+                            <i class="glyphicon glyphicon-menu-hamburger"></i>
                         </button>
                     </div>
 
@@ -67,8 +67,9 @@
                                         alt="{{ Auth::user()->name }}" style="width: 13px;" />&nbsp;
                                     @endif
                                     
-                                    {{ Auth::user()->id }} - {{ Auth::user()->name }}
-                                    <i class="fa fa-fw fa-power-off"></i> {{ trans('adminlte::adminlte.log_out') }}
+                                    <i class="glyphicon glyphicon-user"></i>&nbsp;&nbsp;
+                                    {{ Auth::user()->id }} - {{ Auth::user()->name }}&nbsp;&nbsp;
+                                    <i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;{{ trans('adminlte::adminlte.log_out') }}
                                 </a>
                                 <form id="logout-form" action="{{ url(config('adminlte.logout_url', 'auth/logout')) }}" 
                                     method="POST" style="display: none;">
@@ -79,7 +80,7 @@
                                 </form>
                             @else
                                 <a href="login">
-                                    <i class="fa fa-fw fa-power-off"></i> Entrar
+                                    <i class="glyphicon glyphicon-off"></i>&nbsp;&nbsp;Entrar
                                 </a>
                             @endauth
                         </li>
