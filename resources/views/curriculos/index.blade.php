@@ -23,7 +23,16 @@
                     </tr>  
                     <tr>
                         <th colspan="4">
-                            Currículos de {{ substr($ano, 0, 4) }}
+                            Listando Currículos &nbsp;&nbsp;&nbsp;<span class="badge bg-yellow">{{ substr($ano, 0, 4) }}</span>&nbsp;&nbsp;
+                            @foreach ($anos as $a)
+                                @if (substr($ano, 0, 4) != substr($a->dtainicrl, 0, 4))
+                                    | <a href="/curriculos?ano={{ substr($a->dtainicrl, 0, 4) }}" 
+                                        title="Listar currículos no ano de {{ substr($a->dtainicrl, 0, 4) }}">
+                                        {{ substr($a->dtainicrl , 0, 4) }}</a>
+                                @endif
+                            @endforeach
+                            | <a href="/curriculos?ano=Tudo" title="Lista todos os currículos">
+                                Tudo</a> (pode demorar a carregar a página)
                         </th>
                     </tr>                   
                     <tr>
