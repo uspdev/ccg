@@ -32,16 +32,16 @@ class CurriculoController extends Controller
         // $curriculos = Curriculo::all();
 
         # Descobrir qual é o ano mais recente com Currículo cadastrado, do contrário considera o ano atual
-        $ano = Curriculo::select('dtainicrl')
+        $anos = Curriculo::select('dtainicrl')
                 ->groupBy('dtainicrl')
-                ->orderBy('dtainicrl', 'desc')
-                ->first()->dtainicrl
-                ?? Carbon::now()->format('Y') . '-01-01';
+                ->orderBy('dtainicrl', 'desc');
+        $ano = $anos->first()->dtainicrl ?? Carbon::now()->format('Y') . '-01-01';
+        $anos = $anos->get();
 
         # Somente os Currículos do ano anterior
         $curriculos = Curriculo::where('dtainicrl', $ano)->get();
 
-        return view('curriculos.index', compact('curriculos'));
+        return view('curriculos.index', compact('curriculos', 'ano', 'anos'));
     }
 
     /**

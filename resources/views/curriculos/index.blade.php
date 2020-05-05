@@ -20,7 +20,12 @@
                                 <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Currículo
                             </button>                             
                         </th>
-                    </tr>                    
+                    </tr>  
+                    <tr>
+                        <th colspan="4">
+                            Currículos de {{ substr($ano, 0, 4) }}
+                        </th>
+                    </tr>                   
                     <tr>
                         <th>Curso</th>
                         <th>Habilitação</th>
