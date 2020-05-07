@@ -29,9 +29,37 @@ class CurriculoController extends Controller
      */
     public function index()
     {
-        $curriculos = Curriculo::all();
-        
-        return view('curriculos.index', compact('curriculos'));
+        // $curriculos = Curriculo::all();
+
+        # Descobrir qual é o ano mais recente com Currículo cadastrado, do contrário considera o ano atual
+        $anos = Curriculo::select('dtainicrl')
+            ->groupBy('dtainicrl')
+            ->orderBy('dtainicrl', 'desc')
+            ->get();
+
+        # Get ano
+        if (isset(explode('=', url()->full())[1])) {
+            if (explode('=', url()->full())[1] == 'Tudo') {
+                $ano = explode('=', url()->full())[1];
+            } else {
+                $ano = explode('=', url()->full())[1] . '-01-01';
+            }
+        } else {
+            $ano = Curriculo::select('dtainicrl')
+                ->groupBy('dtainicrl')
+                ->orderBy('dtainicrl', 'desc')
+                ->first()
+                ->dtainicrl ?? Carbon::now()->format('Y') . '-01-01';
+        }
+
+        # Verifica se são todos os anos
+        if ($ano == 'Tudo') {
+            $curriculos = Curriculo::all();
+        } else {
+            $curriculos = Curriculo::where('dtainicrl', $ano)->get();
+        }        
+
+        return view('curriculos.index', compact('curriculos', 'ano', 'anos'));
     }
 
     /**
@@ -43,13 +71,16 @@ class CurriculoController extends Controller
     {
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
         
+        // Ordena por curso em ordem crescente
+        array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);
+
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
             if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
                 array_push($cursos, array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']));
             }
-        }
-
+        }  
+        
         $habilitacoes = array();
         foreach ($cursosHabilitacoes as $habilitacao) {
             if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {

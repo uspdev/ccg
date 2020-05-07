@@ -107,8 +107,6 @@
                         <img class="profile-user-img img-responsive img-circle" src="data: image/jpeg; base64, {{ Uspdev\Wsfoto::obter(Auth::user()->id) }}" 
                             alt="{{ Auth::user()->name }}" />
                         @endif
-                        
-                        <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
                     </div>
                 @endauth
 
