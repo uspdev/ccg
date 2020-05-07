@@ -148,6 +148,9 @@ class CurriculoController extends Controller
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();        
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
         
+        // Ordena por curso em ordem crescente
+        array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);
+        
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
             if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
@@ -266,6 +269,9 @@ class CurriculoController extends Controller
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();        
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
+
+        // Ordena por curso em ordem crescente
+        array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);        
         
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
