@@ -15,3 +15,6 @@ yarn-error.log
 public/vendor/adminlte
 composer.lock
 /teste
+.vsls.json
+.vscode
+

@@ -71,13 +71,16 @@ class CurriculoController extends Controller
     {
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
         
+        // Ordena por curso em ordem crescente
+        array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);
+
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
             if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
                 array_push($cursos, array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']));
             }
-        }
-
+        }  
+        
         $habilitacoes = array();
         foreach ($cursosHabilitacoes as $habilitacao) {
             if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
