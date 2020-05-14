@@ -31,19 +31,19 @@
                                     {{ Uspdev\Replicado\Graduacao::nomeHabilitacao($curriculo['codhab'], $curriculo['codcur']) }}</td>
                             </tr>
                             <tr>
-                                <th>Nº de créditos exigidos em displinas optativas eletivas</td>
+                                <th>Nº de créditos (aula) exigidos em displinas optativas eletivas</td>
                                 <td>{{ $curriculo['numcredisoptelt'] }}</td>
                             </tr>
                             <tr>
-                                <th>Nº de créditos totais exigidos em displinas optativas eletivas</td>
+                                <th>Nº de créditos totais (aula + trabalho) exigidos em displinas optativas eletivas</td>
                                 <td>{{ $curriculo['numtotcredisoptelt'] }}</td>
                             </tr>                             
                             <tr>
-                                <th>Nº de créditos exigidos em displinas optativas livres</td>
+                                <th>Nº de créditos (aula) exigidos em displinas optativas livres</td>
                                 <td>{{ $curriculo['numcredisoptliv'] }}</td>
                             </tr> 
                             <tr>
-                                <th>Nº de créditos totais exigidos em displinas optativas livres</td>
+                                <th>Nº de créditos totais (aula + trabalho) exigidos em displinas optativas livres</td>
                                 <td>{{ $curriculo['numtotcredisoptliv'] }}</td>
                             </tr>                                                                     
                             <tr>
