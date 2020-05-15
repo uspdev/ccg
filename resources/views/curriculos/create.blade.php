@@ -50,24 +50,24 @@
                     </select>
                 </div> 
                 <div class="form-group">
-                    <label for="numcredisoptelt">Nº de créditos exigidos em displinas optativas eletivas</label>
+                    <label for="numcredisoptelt">Nº de créditos (aula) exigidos em displinas optativas eletivas</label>
                     <input class="form-control" id="numcredisoptelt" name="numcredisoptelt" pattern="\d*"  
-                        placeholder="Nº de créditos exigidos em displinas optativas eletivas" type="text" required>
+                        placeholder="Nº de créditos (aula) exigidos em displinas optativas eletivas" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label for="numtotcredisoptelt">Nº de créditos totais exigidos em displinas optativas eletivas</label>
+                    <label for="numtotcredisoptelt">Nº de créditos totais (aula + trabalho) exigidos em displinas optativas eletivas</label>
                     <input class="form-control" id="numtotcredisoptelt" name="numtotcredisoptelt" pattern="\d*"  
-                        placeholder="Nº de créditos totais exigidos em displinas optativas eletivas" type="text" required>
+                        placeholder="Nº de créditos totais (aula + trabalho) exigidos em displinas optativas eletivas" type="text" required>
                 </div>                
                 <div class="form-group">
-                    <label for="numcredisoptliv">Nº de créditos exigidos em displinas optativas livres</label>
+                    <label for="numcredisoptliv">Nº de créditos (aula) exigidos em displinas optativas livres</label>
                     <input class="form-control" id="numcredisoptliv" name="numcredisoptliv"  pattern="\d*" 
-                        placeholder="Nº de créditos exigidos em displinas optativas livres" type="text" required>
+                        placeholder="Nº de créditos (aula) exigidos em displinas optativas livres" type="text" required>
                 </div>
                 <div class="form-group">
-                    <label for="numtotcredisoptliv">Nº de créditos totais exigidos em displinas optativas livres</label>
+                    <label for="numtotcredisoptliv">Nº de créditos totais (aula + trabalho) exigidos em displinas optativas livres</label>
                     <input class="form-control" id="numtotcredisoptliv" name="numtotcredisoptliv"  pattern="\d*" 
-                        placeholder="Nº de créditos totais exigidos em displinas optativas livres" type="text" required>
+                        placeholder="Nº de créditos totais (aula + trabalho) exigidos em displinas optativas livres" type="text" required>
                 </div>                
                 <div class="form-group">
                     <label for="dtainicrl">Ano de ingresso</label>

@@ -126,7 +126,7 @@ class GraduacaoController extends Controller
         # Adiciona as disciplinas concluídas por equivalência em disciplinas obrigatórias ou licenciaturas concluídas
         $disciplinasConcluidasPorEquivalencia = array_diff($disciplinasConcluidas, $disciplinasCurriculo);
         # Obtém as disciplinas optativas livres concluídas                
-        if ($curriculoAluno->numcredisoptliv == 0) {
+        if ( ($curriculoAluno->numcredisoptliv + $curriculoAluno->numtotcredisoptliv) == 0 ) {
             $disciplinasOptativasLivresConcluidas = Array();
         } else {
             $disciplinasOptativasLivresConcluidas = array_diff($disciplinasConcluidas, $disciplinasCurriculo);
