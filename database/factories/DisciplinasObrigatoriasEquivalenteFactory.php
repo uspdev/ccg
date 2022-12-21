@@ -1,9 +1,9 @@
 <?php
 
-use App\DisciplinasObrigatoria;
+use App\Models\DisciplinasObrigatoria;
 use Faker\Generator as Faker;
 
-$factory->define(App\DisciplinasObrigatoriasEquivalente::class, function (Faker $faker) {
+$factory->define(App\Models\DisciplinasObrigatoriasEquivalente::class, function (Faker $faker) {
     return [
         'id_dis_obr' => function () {
             return DisciplinasObrigatoria::orderByRaw("RAND()")

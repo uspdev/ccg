@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\DisciplinasObrigatoriasEquivalente;
-use App\DisciplinasObrigatoria;
+use App\Models\Curriculo;
+use App\Models\DisciplinasObrigatoria;
+use App\Models\DisciplinasObrigatoriasEquivalente;
 use Illuminate\Http\Request;
-use App\Curriculo;
-use Auth;
-use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
-use Carbon\Carbon;
 
 class DisciplinasObrigatoriasEquivalenteController extends Controller
 {
@@ -35,27 +32,27 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
      */
     public function create(DisciplinasObrigatoria $disciplinasObrigatoria)
     {
-        $curriculo = Curriculo::find($disciplinasObrigatoria->id_crl);     
+        $curriculo = Curriculo::find($disciplinasObrigatoria->id_crl);
         $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->orderBy('coddis', 'asc')->get();
         $arrCoddis = config('ccg.arrCoddis');
         array_push($arrCoddis, $disciplinasObrigatoria->coddis);
-        $disciplinas = Graduacao::obterDisciplinas($arrCoddis);  
+        $disciplinas = Graduacao::obterDisciplinas($arrCoddis);
 
         $disciplinasOferecidas = $disciplinas;
         foreach ($disciplinas as $key => $value) {
             if ($disciplinasObrigatoria['coddis'] == $value['coddis']) {
-                unset($disciplinas[$key]);              
-            }            
+                unset($disciplinas[$key]);
+            }
             foreach ($disciplinasObrigatoriasEquivalentes as $disciplinaObrigatoriaEquivalente) {
                 if ($disciplinaObrigatoriaEquivalente['coddis'] == $value['coddis']) {
-                    unset($disciplinas[$key]);              
+                    unset($disciplinas[$key]);
                 }
             }
         }
 
         return view('disciplinasObrEquivalentes.create', compact(
-            'curriculo', 
-            'disciplinas', 
+            'curriculo',
+            'disciplinas',
             'disciplinasObrigatoria',
             'disciplinasObrigatoriasEquivalentes'
         ));
@@ -76,7 +73,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
         $disciplinasObrigatoriasEquivalente->save();
 
         $request->session()->flash('alert-success', 'Disciplina Obrigatória Equivalente cadastrada com sucesso!');
-        return redirect("/disciplinasObrEquivalentes/create/" . $disciplinasObrigatoria->id);    
+        return redirect("/disciplinasObrEquivalentes/create/" . $disciplinasObrigatoria->id);
     }
 
     /**
@@ -87,12 +84,12 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
      */
     public function show(DisciplinasObrigatoria $disciplinasObrigatoria)
     {
-        $curriculo = Curriculo::find($disciplinasObrigatoria->id_crl);     
+        $curriculo = Curriculo::find($disciplinasObrigatoria->id_crl);
         $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->orderBy('coddis', 'asc')->get();
 
         return view('disciplinasObrEquivalentes.show', compact(
             'curriculo',
-            'disciplinasObrigatoria', 
+            'disciplinasObrigatoria',
             'disciplinasObrigatoriasEquivalentes'
         ));
     }
@@ -106,12 +103,12 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
     public function edit($id)
     {
         $disciplinaObrigatoriaEquivalente = DisciplinasObrigatoriasEquivalente::where('id', $id)->get();
-        $disciplinaObrigatoria = DisciplinasObrigatoria::where('id', $disciplinaObrigatoriaEquivalente[0]->id_dis_obr)->get();;
-        $curriculo = Curriculo::find($disciplinaObrigatoria[0]->id_crl); 
+        $disciplinaObrigatoria = DisciplinasObrigatoria::where('id', $disciplinaObrigatoriaEquivalente[0]->id_dis_obr)->get();
+        $curriculo = Curriculo::find($disciplinaObrigatoria[0]->id_crl);
 
         return view('disciplinasObrEquivalentes.edit', compact(
             'curriculo',
-            'disciplinaObrigatoria', 
+            'disciplinaObrigatoria',
             'disciplinaObrigatoriaEquivalente'
         ));
     }
@@ -124,15 +121,15 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {   
-        $disciplinasObrigatoriasEquivalente = DisciplinasObrigatoriasEquivalente::find($id);        
+    {
+        $disciplinasObrigatoriasEquivalente = DisciplinasObrigatoriasEquivalente::find($id);
         $disciplinasObrigatoriasEquivalente->id_dis_obr = $request->id_dis_obr;
         $disciplinasObrigatoriasEquivalente->coddis = $request->coddis;
         $disciplinasObrigatoriasEquivalente->tipeqv = $request->tipeqv;
         $disciplinasObrigatoriasEquivalente->save();
 
         $request->session()->flash('alert-success', 'Disciplina Obrigatória Equivalente salva com sucesso!');
-        return redirect("/disciplinasObrEquivalentes/" . $request->id_dis_obr);  
+        return redirect("/disciplinasObrEquivalentes/" . $request->id_dis_obr);
     }
 
     /**
@@ -149,7 +146,6 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
         return redirect("/disciplinasObrEquivalentes/" . $disciplinaObrigatoria);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
@@ -162,9 +158,9 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
             foreach ($disciplinasEquivalentes as $disciplina => $equivalencias) {
                 // Utilizando substr() pois o coddis está acompanhado de _tipobg (_O)
                 $disciplinaObrigatoria = DisciplinasObrigatoria::select('id')
-                                                                ->where('coddis', '=', substr($disciplina, 0, -2))
-                                                                ->where('id_crl', '=', $curriculo->id)
-                                                                ->get();
+                    ->where('coddis', '=', substr($disciplina, 0, -2))
+                    ->where('id_crl', '=', $curriculo->id)
+                    ->get();
                 // Verifica se a disciplina obrigatória faz parte do curriculo no CCG
                 if (isset($disciplinaObrigatoria) && !is_null($disciplinaObrigatoria)) {
                     // Percorre todas as equivalências 'OU'/'E'
@@ -174,7 +170,8 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
                             case 'OU':
                                 foreach ($coddis_eq as $disciplina_equivalente) {
                                     $disciplinasObrigatoriasEquivalente = new DisciplinasObrigatoriasEquivalente;
-                                    $disciplinasObrigatoriasEquivalente->id_dis_obr = $disciplinaObrigatoria[0]->id;
+                                    // $disciplinasObrigatoriasEquivalente->id_dis_obr = $disciplinaObrigatoria[0]->id;
+                                    $disciplinasObrigatoriasEquivalente->id_dis_obr = empty($disciplinaObrigatoria[0]) ? 'sem id': $disciplinaObrigatoria[0]->id;
                                     $disciplinasObrigatoriasEquivalente->coddis = $disciplina_equivalente[0];
                                     $disciplinasObrigatoriasEquivalente->tipeqv = 'OU';
                                     try {
@@ -189,7 +186,7 @@ class DisciplinasObrigatoriasEquivalenteController extends Controller
                             case 'E':
                                 foreach ($coddis_eq as $disciplina_equivalente) {
                                     $disciplinasObrigatoriasEquivalente = new DisciplinasObrigatoriasEquivalente;
-                                    $disciplinasObrigatoriasEquivalente->id_dis_obr = $disciplinaObrigatoria[0]->id;
+                                    $disciplinasObrigatoriasEquivalente->id_dis_obr = empty($disciplinaObrigatoria[0]) ? 'sem id': $disciplinaObrigatoria[0]->id;
                                     $disciplinasObrigatoriasEquivalente->coddis = $disciplina_equivalente;
                                     $disciplinasObrigatoriasEquivalente->tipeqv = 'E';
                                     try {

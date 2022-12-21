@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\DisciplinasObrigatoria;
-use App\DisciplinasOptativasEletiva;
-use App\DisciplinasLicenciatura;
+use App\Models\DisciplinasObrigatoria;
+use App\Models\DisciplinasOptativasEletiva;
+use App\Models\DisciplinasLicenciatura;
 use Illuminate\Http\Request;
-use App\Curriculo;
+use App\Models\Curriculo;
 use Auth;
 use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
@@ -168,13 +168,16 @@ class DisciplinasObrigatoriaController extends Controller
     /**
      * Método estático para salvar disciplinas obrigatórias
      * a partir da grade curricular atual do JupiterWeb
+     * 
+     * @param Array $disciplinasObrigatorias
+     * @param Curriculo $curriculo
      */
     public static function storeJupiter($disciplinasObrigatorias, Curriculo $curriculo)
     {
-        // dd($disciplinasObrigatorias);
         if (!is_null($disciplinasObrigatorias)) {
             # salva várias diciplinas
             $arrlstcoddis = array_filter($disciplinasObrigatorias);
+            // dd($arrlstcoddis, $disciplinasObrigatorias);
             $disciplinas = Graduacao::obterDisciplinas(config('ccg.arrCoddis'));
             $arrdis = array();
             foreach ($disciplinas as $disciplina) {
@@ -182,7 +185,9 @@ class DisciplinasObrigatoriaController extends Controller
             }
             foreach ($arrlstcoddis as $coddis) {
                 # verifica se a disciplina existe para a unidade
-                if (in_array($coddis, $arrdis)) {
+                # Aqui acredito que deveria ter todas as disciplinas da grade curricular e não
+                # somente os da unidade. Deixei comentado o if. Masaki 12/22
+                // if (in_array($coddis, $arrdis)) {
                     # verifica se a disciplina não está salva
                     if (DisciplinasObrigatoria::where(['id_crl' => $curriculo->id, 'coddis' => $coddis])->count() == 0) {
                         # salva a disciplina
@@ -191,7 +196,7 @@ class DisciplinasObrigatoriaController extends Controller
                         $disciplinaObrigatoria->coddis = $coddis;
                         $disciplinaObrigatoria->save();
                     }
-                }
+                // }
             }
         } 
     }

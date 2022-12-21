@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.app')
 
 @section('title', config('app.name') . ' - Versão impressa do Currículo ' . $curriculo['id'])
 
@@ -10,10 +10,11 @@
     .content-wrapper {margin-left: 0px;}
 </style>
 
-<h1>Currículo {{ $curriculo['id'] }}</h1>
 @stop
 
 @section('content')
+
+<h3>Currículo {{ $curriculo['id'] }}</h3>
     
     <div class="nav-tabs-custom">
         <div class="tab-content">
@@ -69,8 +70,8 @@
                                     <tr>
                                         <td style="width: 70%;">{{ $disciplinasObrigatoria['coddis'] }} - 
                                             {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}
-                                            @if (App\DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->get()->count() > 0)
-                                                @foreach (App\DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->orderBy('coddis', 'asc')->get() as $disciplinaObrigatoriaEquivalente)
+                                            @if (App\Models\DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->get()->count() > 0)
+                                                @foreach (App\Models\DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinasObrigatoria->id)->orderBy('coddis', 'asc')->get() as $disciplinaObrigatoriaEquivalente)
                                                     <br />
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                     <strong>{{ $disciplinaObrigatoriaEquivalente->tipeqv }}</strong> 
@@ -117,8 +118,8 @@
                                     <tr>
                                         <td style="width: 70%;">{{ $disciplinasLicenciatura['coddis'] }} - 
                                             {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}
-                                            @if (App\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get()->count() > 0)
-                                                @foreach (App\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->orderBy('coddis', 'asc')->get() as $disciplinaLicenciaturaEquivalente)
+                                            @if (App\Models\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get()->count() > 0)
+                                                @foreach (App\Models\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->orderBy('coddis', 'asc')->get() as $disciplinaLicenciaturaEquivalente)
                                                     <br />
                                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                                     <strong>{{ $disciplinaLicenciaturaEquivalente->tipeqv }}</strong> 

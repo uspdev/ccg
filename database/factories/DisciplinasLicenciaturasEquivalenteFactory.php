@@ -1,9 +1,9 @@
 <?php
 
-use App\DisciplinasLicenciatura;
+use App\Models\DisciplinasLicenciatura;
 use Faker\Generator as Faker;
 
-$factory->define(App\DisciplinasLicenciaturasEquivalente::class, function (Faker $faker) {
+$factory->define(App\Models\DisciplinasLicenciaturasEquivalente::class, function (Faker $faker) {
     return [
         'id_dis_lic' => function () {
             return DisciplinasLicenciatura::orderByRaw("RAND()")

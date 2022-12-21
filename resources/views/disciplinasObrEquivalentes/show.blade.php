@@ -1,15 +1,12 @@
-@extends('adminlte::page')
+@extends('layouts.app')
 
 @section('title', config('app.name') . ' - Currículo ' . $curriculo['id'] . 
     ' - Disciplinas Obrigatórias Equivalentes - ' . $disciplinasObrigatoria['coddis'])
 
-@section('content_header')
-<h1>Curriculo {{ $curriculo['id'] }} - Disciplinas Obrigatórias Equivalentes - {{ $disciplinasObrigatoria['coddis'] }}</h1>
-@stop
-
 @section('content')
 
     @include('flash')
+    <h3>Curriculo {{ $curriculo['id'] }} - Disciplinas Obrigatórias Equivalentes - {{ $disciplinasObrigatoria['coddis'] }}</h3>
 
     <div class="box box-primary">
         <div class="box-body">
@@ -37,8 +34,8 @@
                             {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasObrigatoria['coddis']) }}</label>    
                             &nbsp;&nbsp;&nbsp;&nbsp;
                             <button type="button" class="btn btn-success btn-sm" title="Adicionar Disciplina Obrigatória Equivalente" 
-                                onclick="location.href='/disciplinasObrEquivalentes/create/{{ $disciplinasObrigatoria->id }}';">
-                                <span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória Equivalente
+                                onclick="location.href='disciplinasObrEquivalentes/create/{{ $disciplinasObrigatoria->id }}';">
+                                <i class="fas fa-plus"></i>&nbsp;&nbsp;&nbsp;Adicionar Disciplina Obrigatória Equivalente
                             </button>                             
                         </th>
                         <th>&nbsp;</th>
@@ -60,15 +57,15 @@
                                 &nbsp;&nbsp;<strong>{{ $disciplinasObrigatoriasEquivalente['tipeqv'] }}</strong>
                             </td>
                             <td>    
-                                <form role="form" method="POST" action="/disciplinasObrEquivalentes/{{ $disciplinasObrigatoriasEquivalente->id }}">
+                                <form role="form" method="POST" action="disciplinasObrEquivalentes/{{ $disciplinasObrigatoriasEquivalente->id }}">
                                     {{ csrf_field() }}
                                     {{ method_field('delete') }}                                  
                                     <button type="button" class="btn btn-primary btn-xs" title="Editar" 
-                                        onclick="location.href='/disciplinasObrEquivalentes/{{ $disciplinasObrigatoriasEquivalente->id }}/edit';">
-                                        <span class="glyphicon glyphicon-pencil"></span>
+                                        onclick="location.href='disciplinasObrEquivalentes/{{ $disciplinasObrigatoriasEquivalente->id }}/edit';">
+                                        <i class="far fa-edit"></i>
                                     </button>                                    
-                                    <button type="submit" class="btn btn-danger btn-xs" title="Apagar disciplina">
-                                        <span class="glyphicon glyphicon-trash"></span>
+                                    <button type="submit" class="btn btn-danger btn-xs confirm" title="Apagar disciplina">
+                                        <i class="far fa-trash-alt"></i>
                                     </button> 
                                 </form>
                             </td>
@@ -79,15 +76,16 @@
         </div>
         <div class="box-footer">
             <button type="button" class="btn btn-info btn-sm" 
-                onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
-                <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
+                onclick='location.href="curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
+                <span class="far fa-eye"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
             </button>                 
         </div>   
     </div>
 
 @stop
 
-@section('js')
+@section('javascripts_bottom')
+@parent
     
     <script type="text/javascript">
         $(function () {
@@ -106,22 +104,22 @@
             });
 
             // DataTables
-            $('.datatable').DataTable({
-                language    	: {
-                    url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
-                },  
-                paging      	: true,
-                lengthChange	: true,
-                searching   	: true,
-                ordering    	: true,
-                info        	: true,
-                autoWidth   	: true,
-                lengthMenu		: [
-					[ 10, 25, 50, 100, -1 ],
-					[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
-    			],
-				pageLength  	: -1
-            });
+            // $('.datatable').DataTable({
+            //     language    	: {
+            //         url     : '//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json'
+            //     },  
+            //     paging      	: true,
+            //     lengthChange	: true,
+            //     searching   	: true,
+            //     ordering    	: true,
+            //     info        	: true,
+            //     autoWidth   	: true,
+            //     lengthMenu		: [
+			// 		[ 10, 25, 50, 100, -1 ],
+			// 		[ '10 linhas', '25 linhas', '50 linhas', '100 linhas', 'Mostar todos' ]
+    		// 	],
+			// 	pageLength  	: -1
+            // });
         })
     </script>
 

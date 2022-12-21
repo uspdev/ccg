@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\AlunosObservacoes;
+use App\Models\AlunosObservacoes;
 use Illuminate\Http\Request;
 
 class AlunosObservacoesController extends Controller
@@ -75,7 +75,7 @@ class AlunosObservacoesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AlunosObservacoes  $alunosObservacoes
+     * @param  \App\Models\AlunosObservacoes  $alunosObservacoes
      * @return \Illuminate\Http\Response
      */
     public function show(AlunosObservacoes $alunosObservacoes)
@@ -86,7 +86,7 @@ class AlunosObservacoesController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AlunosObservacoes  $alunosObservacoes
+     * @param  \App\Models\AlunosObservacoes  $alunosObservacoes
      * @return \Illuminate\Http\Response
      */
     public function edit(AlunosObservacoes $alunosObservacoes)
@@ -98,7 +98,7 @@ class AlunosObservacoesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AlunosObservacoes  $alunosObservacoes
+     * @param  \App\Models\AlunosObservacoes  $alunosObservacoes
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, AlunosObservacoes $alunosObservacoes)
@@ -109,7 +109,7 @@ class AlunosObservacoesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AlunosObservacoes  $alunosObservacoes
+     * @param  \App\Models\AlunosObservacoes  $alunosObservacoes
      * @return \Illuminate\Http\Response
      */
     public function destroy(AlunosObservacoes $alunosObservacoes)

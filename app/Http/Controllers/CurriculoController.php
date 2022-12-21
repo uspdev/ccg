@@ -1,19 +1,16 @@
 <?php
-
 namespace App\Http\Controllers;
 
-use App\Curriculo;
-use App\DisciplinasObrigatoria;
-use App\DisciplinasObrigatoriasEquivalente;
-use App\DisciplinasOptativasEletiva;
-use App\DisciplinasLicenciatura;
-use App\DisciplinasLicenciaturasEquivalente;
-use Illuminate\Http\Request;
-use Auth;
-use Uspdev\Replicado\Connection;
-use Uspdev\Replicado\Graduacao;
-use Carbon\Carbon;
 use App\Ccg\Aluno;
+use App\Models\Curriculo;
+use App\Models\DisciplinasLicenciatura;
+use App\Models\DisciplinasLicenciaturasEquivalente;
+use App\Models\DisciplinasObrigatoria;
+use App\Models\DisciplinasObrigatoriasEquivalente;
+use App\Models\DisciplinasOptativasEletiva;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Uspdev\Replicado\Graduacao;
 
 class CurriculoController extends Controller
 {
@@ -21,7 +18,7 @@ class CurriculoController extends Controller
     {
         $this->middleware('auth');
     }
-        
+
     /**
      * Display a listing of the resource.
      *
@@ -57,7 +54,7 @@ class CurriculoController extends Controller
             $curriculos = Curriculo::all();
         } else {
             $curriculos = Curriculo::where('dtainicrl', $ano)->get();
-        }        
+        }
 
         return view('curriculos.index', compact('curriculos', 'ano', 'anos'));
     }
@@ -70,7 +67,7 @@ class CurriculoController extends Controller
     public function create()
     {
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
-        
+
         // Ordena por curso em ordem crescente
         array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);
 
@@ -79,13 +76,13 @@ class CurriculoController extends Controller
             if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
                 array_push($cursos, array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']));
             }
-        }  
-        
+        }
+
         $habilitacoes = array();
         foreach ($cursosHabilitacoes as $habilitacao) {
             if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
                 array_push($habilitacoes, array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']));
-            }    
+            }
         }
 
         return view('curriculos.create', compact('cursos', 'habilitacoes', 'cursosHabilitacoes'));
@@ -108,7 +105,7 @@ class CurriculoController extends Controller
         $curriculo->dtainicrl = Carbon::parse($request->dtainicrl);
         $curriculo->txtobs = $request->txtobs;
         $curriculo->numtotcredisoptelt = $request->numtotcredisoptelt;
-        $curriculo->numtotcredisoptliv = $request->numtotcredisoptliv;        
+        $curriculo->numtotcredisoptliv = $request->numtotcredisoptliv;
         $curriculo->save();
 
         $request->session()->flash('alert-success', 'Curriculo cadastrado com sucesso!');
@@ -126,10 +123,10 @@ class CurriculoController extends Controller
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
-        
+
         return view('curriculos.show', compact(
-            'curriculo', 
-            'disciplinasObrigatorias', 
+            'curriculo',
+            'disciplinasObrigatorias',
             'disciplinasOptativasEletivas',
             'disciplinasLicenciaturas'
         ));
@@ -145,12 +142,12 @@ class CurriculoController extends Controller
     {
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();        
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
-        
+
         // Ordena por curso em ordem crescente
         array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);
-        
+
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
             if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
@@ -162,13 +159,13 @@ class CurriculoController extends Controller
         foreach ($cursosHabilitacoes as $habilitacao) {
             if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
                 array_push($habilitacoes, array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']));
-            }    
+            }
         }
 
         return view('curriculos.edit', compact(
-            'curriculo', 
-            'cursos', 
-            'habilitacoes', 
+            'curriculo',
+            'cursos',
+            'habilitacoes',
             'cursosHabilitacoes',
             'disciplinasObrigatorias',
             'disciplinasOptativasEletivas',
@@ -202,11 +199,11 @@ class CurriculoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id                
-     * @return \Illuminate\Http\Response                
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy(Curriculo $curriculo, Request $request)
-    {   
+    {
         $curriculo->delete();
         $request->session()->flash('alert-danger', 'Curriculo apagado!');
         return redirect('/curriculos');
@@ -219,21 +216,21 @@ class CurriculoController extends Controller
      * @return array  $alunosCurriculo
      */
     public function alunos(Curriculo $curriculo)
-    {   
+    {
         # Traz somente os alunos do Currículo
         $alunosCurriculo = Aluno::getAlunosCurriculo($curriculo);
 
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
-        
+
         return view('curriculos.show', compact(
-            'curriculo', 
-            'disciplinasObrigatorias', 
+            'curriculo',
+            'disciplinasObrigatorias',
             'disciplinasOptativasEletivas',
             'disciplinasLicenciaturas',
             'alunosCurriculo'
-        ));       
+        ));
     }
 
     /**
@@ -242,19 +239,18 @@ class CurriculoController extends Controller
      * @param  int  $curriculo
      * @return view
      */
-    public function print($id_crl)
-    {   
-        $curriculo = Curriculo::find($id_crl);     
+    function print($id_crl) {
+        $curriculo = Curriculo::find($id_crl);
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $id_crl)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $id_crl)->orderBy('coddis', 'asc')->get();
         $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $id_crl)->orderBy('coddis', 'asc')->get();
 
         return view('curriculos.print', compact(
-            'curriculo', 
+            'curriculo',
             'disciplinasObrigatorias',
             'disciplinasOptativasEletivas',
             'disciplinasLicenciaturas'
-        ));     
+        ));
     }
 
     /**
@@ -267,12 +263,12 @@ class CurriculoController extends Controller
     {
         $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $disciplinasOptativasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
-        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();        
+        $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->orderBy('coddis', 'asc')->get();
         $cursosHabilitacoes = Graduacao::obterCursosHabilitacoes(config('ccg.codUnd'));
 
         // Ordena por curso em ordem crescente
-        array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);        
-        
+        array_multisort(array_column($cursosHabilitacoes, "codcur"), SORT_ASC, $cursosHabilitacoes);
+
         $cursos = array();
         foreach ($cursosHabilitacoes as $curso) {
             if (!in_array(array('codcur' => $curso['codcur'], 'nomcur' => $curso['nomcur']), $cursos)) {
@@ -284,13 +280,13 @@ class CurriculoController extends Controller
         foreach ($cursosHabilitacoes as $habilitacao) {
             if (!in_array(array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']), $habilitacoes)) {
                 array_push($habilitacoes, array('codhab' => $habilitacao['codhab'], 'nomhab' => $habilitacao['nomhab']));
-            }    
+            }
         }
 
         return view('curriculos.copy', compact(
-            'curriculo', 
-            'cursos', 
-            'habilitacoes', 
+            'curriculo',
+            'cursos',
+            'habilitacoes',
             'cursosHabilitacoes',
             'disciplinasObrigatorias',
             'disciplinasOptativasEletivas',
@@ -308,10 +304,10 @@ class CurriculoController extends Controller
     {
         # Se não existe currículo, salva
         if (Curriculo::where(array(
-                'codcur'    => $request->codcur,
-                'codhab'    => $request->codhab,
-                'dtainicrl' => Carbon::parse($request->dtainicrl) 
-            ))->get()->count() == 0) {
+            'codcur' => $request->codcur,
+            'codhab' => $request->codhab,
+            'dtainicrl' => Carbon::parse($request->dtainicrl),
+        ))->get()->count() == 0) {
             # Salvar o novo currículo
             $curriculoNew = new Curriculo;
             $curriculoNew->codcur = $request->codcur;
@@ -322,17 +318,17 @@ class CurriculoController extends Controller
             $curriculoNew->txtobs = $request->txtobs;
             $curriculo->numtotcredisoptelt = $request->numtotcredisoptelt;
             $curriculo->numtotcredisoptliv = $request->numtotcredisoptliv;
-            $curriculoNew->save();            
-            $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get()->toArray();    
+            $curriculoNew->save();
+            $disciplinasObrigatorias = DisciplinasObrigatoria::where('id_crl', $curriculo->id)->get()->toArray();
             # Salvar disciplinas obrigaórias, se tiver
-            if (!empty($disciplinasObrigatorias)) {                
+            if (!empty($disciplinasObrigatorias)) {
                 foreach ($disciplinasObrigatorias as $disciplinaObrigatoria) {
                     $disciplinaObrigatoriaNew = new DisciplinasObrigatoria;
                     $disciplinaObrigatoriaNew->id_crl = $curriculoNew->id;
                     $disciplinaObrigatoriaNew->coddis = $disciplinaObrigatoria['coddis'];
-                    $disciplinaObrigatoriaNew->save();   
-                    $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinaObrigatoria['id'])->get()->toArray();                 
-                    # Salvar disciplinas obrigatórias equivalentes, se tiver 
+                    $disciplinaObrigatoriaNew->save();
+                    $disciplinasObrigatoriasEquivalentes = DisciplinasObrigatoriasEquivalente::where('id_dis_obr', $disciplinaObrigatoria['id'])->get()->toArray();
+                    # Salvar disciplinas obrigatórias equivalentes, se tiver
                     if (!empty($disciplinasObrigatoriasEquivalentes)) {
                         foreach ($disciplinasObrigatoriasEquivalentes as $disciplinaObrigatoriaEquivalente) {
                             $disciplinaObrigatoriaEquivalenteNew = new DisciplinasObrigatoriasEquivalente;
@@ -340,30 +336,30 @@ class CurriculoController extends Controller
                             $disciplinaObrigatoriaEquivalenteNew->coddis = $disciplinaObrigatoriaEquivalente['coddis'];
                             $disciplinaObrigatoriaEquivalenteNew->tipeqv = $disciplinaObrigatoriaEquivalente['tipeqv'];
                             $disciplinaObrigatoriaEquivalenteNew->save();
-                        }    
+                        }
                     }
                 }
-            }    
-            $disciplinasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get()->toArray();    
+            }
+            $disciplinasEletivas = DisciplinasOptativasEletiva::where('id_crl', $curriculo->id)->get()->toArray();
             # Salvar disciplinas eletivas, se tiver
-            if (!empty($disciplinasEletivas)) {                
+            if (!empty($disciplinasEletivas)) {
                 foreach ($disciplinasEletivas as $disciplinaEletiva) {
                     $disciplinaEletivaNew = new DisciplinasOptativasEletiva;
                     $disciplinaEletivaNew->id_crl = $curriculoNew->id;
                     $disciplinaEletivaNew->coddis = $disciplinaEletiva['coddis'];
-                    $disciplinaEletivaNew->save();                    
+                    $disciplinaEletivaNew->save();
                 }
-            }             
-            $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get()->toArray();    
+            }
+            $disciplinasLicenciaturas = DisciplinasLicenciatura::where('id_crl', $curriculo->id)->get()->toArray();
             # Salvar disciplinas licenciaturas, se tiver
-            if (!empty($disciplinasLicenciaturas)) {                
+            if (!empty($disciplinasLicenciaturas)) {
                 foreach ($disciplinasLicenciaturas as $disciplinaLicenciatura) {
                     $disciplinaLicenciaturaNew = new DisciplinasLicenciatura;
                     $disciplinaLicenciaturaNew->id_crl = $curriculoNew->id;
                     $disciplinaLicenciaturaNew->coddis = $disciplinaLicenciatura['coddis'];
-                    $disciplinaLicenciaturaNew->save();                    
+                    $disciplinaLicenciaturaNew->save();
                     $disciplinasLicenciaturasEquivalentes = DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinaLicenciatura['id'])->get()->toArray();
-                    # Salvar disciplinas licenciaturas equivalentes, se tiver 
+                    # Salvar disciplinas licenciaturas equivalentes, se tiver
                     if (!empty($disciplinasLicenciaturasEquivalentes)) {
                         foreach ($disciplinasLicenciaturasEquivalentes as $disciplinaLicenciaturaEquivalente) {
                             $disciplinaLicenciaturaEquivalenteNew = new DisciplinasLicenciaturasEquivalente;
@@ -371,27 +367,29 @@ class CurriculoController extends Controller
                             $disciplinaLicenciaturaEquivalenteNew->coddis = $disciplinaLicenciaturaEquivalente['coddis'];
                             $disciplinaLicenciaturaEquivalenteNew->tipeqv = $disciplinaLicenciaturaEquivalente['tipeqv'];
                             $disciplinaLicenciaturaEquivalenteNew->save();
-                        }    
-                    }                    
+                        }
+                    }
                 }
-            } 
+            }
             # mensagem
-            $msg = "Curriculo copiado com sucesso!"; 
-            $tip = "alert-success";   
-        # Se existe, avisa
+            $msg = "Curriculo copiado com sucesso!";
+            $tip = "alert-success";
+            # Se existe, avisa
         } else {
-            $msg = "Já existe um currículo cadastrado com Curso = {$request->codcur}, 
+            $msg = "Já existe um currículo cadastrado com Curso = {$request->codcur},
                 Habilitação = {$request->codhab} e ano de ingresso = " . substr(Carbon::parse($request->dtainicrl), 0, 4) . "!";
             $tip = "alert-danger";
         }
 
         $request->session()->flash($tip, $msg);
         return redirect('/curriculos');
-    }       
+    }
 
     /**
      * Recuperar grade curricular no replicado e inserir no currículo do CCG
-     * @param  \Illuminate\Http\Request  $request
+     *
+     * @param App\Models\Curriculo $curriculo Currículo
+     *
      * @return \Illuminate\Http\Response
      */
     public function gradeCurricularJupiter(Curriculo $curriculo)
@@ -400,6 +398,8 @@ class CurriculoController extends Controller
         $grade_atual = Graduacao::disciplinasCurriculo($curriculo->codcur, $curriculo->codhab);
         $disciplinasObrigatorias = array();
         $disciplinasOptativasEletivas = array();
+
+        // dd($grade_atual);
 
         // Percorre todas disciplinas da grade
         // e separa em arrays específicos
@@ -411,6 +411,9 @@ class CurriculoController extends Controller
                     break;
                 // Tipo Optativa Eletiva
                 case 'C':
+                // case 'E':
+                // case 'L':
+                // case 'F':
                     array_push($disciplinasOptativasEletivas, $disciplina['coddis']);
                     break;
             }
@@ -422,13 +425,12 @@ class CurriculoController extends Controller
 
         // Disciplinas Equivalentes
         $disciplinasEquivalentes = Graduacao::disciplinasEquivalentesCurriculo($curriculo->codcur, $curriculo->codhab);
-        $equivalencias_temp = array(); // array auxiliar
+        $equivalencias_temp = []; // array auxiliar
         $disciplinasObrigatariosEquivalentesComTipo = array(); //array tratada com os tipos 'OU'/'E'
 
         foreach ($disciplinasEquivalentes as $disc) {
             $equivalencias_temp[$disc['coddis'] . '_' . $disc['tipobg']][$disc['codeqv']]['coddis_eq'][] = $disc['coddis_eq'];
         }
-
         foreach ($equivalencias_temp as $coddis => $codeqv) {
             // https://stackoverflow.com/questions/2681786/how-to-get-the-last-char-of-a-string-in-php
             if ($coddis[-1] === 'O') {
@@ -445,8 +447,9 @@ class CurriculoController extends Controller
         }
 
         // Método do controller específico para salvar as equivalências a partir do Júpiter
+        // dd($disciplinasObrigatariosEquivalentesComTipo, $curriculo);
         DisciplinasObrigatoriasEquivalenteController::storeEquivalenteJupiter($disciplinasObrigatariosEquivalentesComTipo, $curriculo);
         return redirect()->back()->with('alert-success', 'Disciplina(s) Obrigatória(s) e Eletiva(s) cadastrada(s) com sucesso!');
     }
- 
+
 }

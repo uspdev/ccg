@@ -22,21 +22,21 @@ class DatabaseSeeder extends Seeder
         $disciplinasOptativasEletivas = 150;
 
         echo "Creating $curriculos Currículos...\n";
-        factory(App\Curriculo::class, $curriculos)->create();
+        factory(App\Models\Curriculo::class, $curriculos)->create();
 
         echo "Creating $disciplinasLicenciaturas Disciplinas Licenciaturas...\n";
-        factory(App\DisciplinasLicenciatura::class, $disciplinasLicenciaturas)->create();
+        factory(App\Models\DisciplinasLicenciatura::class, $disciplinasLicenciaturas)->create();
 
         echo "Creating $disciplinasLicenciaturasEquivalentes Disciplinas Licenciaturas Equivalentes...\n";
-        factory(App\DisciplinasLicenciaturasEquivalente::class, $disciplinasLicenciaturasEquivalentes)->create();
+        factory(App\Models\DisciplinasLicenciaturasEquivalente::class, $disciplinasLicenciaturasEquivalentes)->create();
 
         echo "Creating $disciplinasObrigatorias Disciplinas Obrigatórias...\n";
-        factory(App\DisciplinasObrigatoria::class, $disciplinasObrigatorias)->create();
+        factory(App\Models\DisciplinasObrigatoria::class, $disciplinasObrigatorias)->create();
 
         echo "Creating $disciplinasObrigatoriasEquivalentes Disciplinas Obrigatórias Equivalentes...\n";
-        factory(App\DisciplinasObrigatoriasEquivalente::class, $disciplinasObrigatoriasEquivalentes)->create();
+        factory(App\Models\DisciplinasObrigatoriasEquivalente::class, $disciplinasObrigatoriasEquivalentes)->create();
 
         echo "Creating $disciplinasOptativasEletivas Disciplinas Optativas Eletivas...\n";
-        factory(App\DisciplinasOptativasEletiva::class, $disciplinasOptativasEletivas)->create();
+        factory(App\Models\DisciplinasOptativasEletiva::class, $disciplinasOptativasEletivas)->create();
     }
 }

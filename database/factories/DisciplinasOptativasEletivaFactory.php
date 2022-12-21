@@ -1,9 +1,9 @@
 <?php
 
-use App\Curriculo;
+use App\Models\Curriculo;
 use Faker\Generator as Faker;
 
-$factory->define(App\DisciplinasOptativasEletiva::class, function (Faker $faker) {
+$factory->define(App\Models\DisciplinasOptativasEletiva::class, function (Faker $faker) {
     return [
         'id_crl' => function () {
             return Curriculo::orderByRaw("RAND()")

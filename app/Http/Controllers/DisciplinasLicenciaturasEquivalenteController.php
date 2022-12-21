@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DisciplinasLicenciaturasEquivalente;
-use App\DisciplinasLicenciatura;
+use App\Models\DisciplinasLicenciaturasEquivalente;
+use App\Models\DisciplinasLicenciatura;
 use Illuminate\Http\Request;
-use App\Curriculo;
+use App\Models\Curriculo;
 use Auth;
 use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;

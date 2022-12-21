@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\DisciplinasObrigatoria;
-use App\DisciplinasOptativasEletiva;
-use App\DisciplinasLicenciatura;
+use App\Models\DisciplinasObrigatoria;
+use App\Models\DisciplinasOptativasEletiva;
+use App\Models\DisciplinasLicenciatura;
 use Illuminate\Http\Request;
-use App\Curriculo;
+use App\Models\Curriculo;
 use Auth;
 use Uspdev\Replicado\Connection;
 use Uspdev\Replicado\Graduacao;
@@ -160,7 +160,7 @@ class DisciplinasOptativasEletivaController extends Controller
     {
         $disciplinasOptativasEletiva->delete();
         $request->session()->flash('alert-danger', 'Disciplina Optativa Eletiva apagada!');
-        return redirect("/curriculos/" . $disciplinasOptativasEletiva['id_crl']);
+        return redirect("curriculos/" . $disciplinasOptativasEletiva['id_crl']);
     }
 
     /**

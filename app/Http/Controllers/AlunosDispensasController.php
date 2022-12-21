@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\AlunosDispensas;
+use App\Models\AlunosDispensas;
 use Illuminate\Http\Request;
 
 class AlunosDispensasController extends Controller
@@ -63,7 +63,7 @@ class AlunosDispensasController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AlunosDispensas  $alunosDispensas
+     * @param  \App\Models\AlunosDispensas  $alunosDispensas
      * @return \Illuminate\Http\Response
      */
     public function show(AlunosDispensas $alunosDispensas)
@@ -74,7 +74,7 @@ class AlunosDispensasController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AlunosDispensas  $alunosDispensas
+     * @param  \App\Models\AlunosDispensas  $alunosDispensas
      * @return \Illuminate\Http\Response
      */
     public function edit(AlunosDispensas $alunosDispensas)
@@ -86,7 +86,7 @@ class AlunosDispensasController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AlunosDispensas  $alunosDispensas
+     * @param  \App\Models\AlunosDispensas  $alunosDispensas
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, AlunosDispensas $alunosDispensas)
@@ -97,7 +97,7 @@ class AlunosDispensasController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AlunosDispensas  $alunosDispensas
+     * @param  \App\Models\AlunosDispensas  $alunosDispensas
      * @return \Illuminate\Http\Response
      */
     public function destroy(AlunosDispensas $alunosDispensas)

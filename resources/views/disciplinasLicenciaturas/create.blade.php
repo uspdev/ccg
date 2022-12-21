@@ -2,16 +2,14 @@
 
 @section('title', config('app.name') . ' - Currículo ' . $curriculo['id'] . ' - Disciplinas Licenciaturas ')
 
-@section('content_header')
-    <h1>Curriculo {{ $curriculo['id'] }} - Adicionar Disciplinas Licenciaturas </h1>
-@stop
-
 @section('content')
 
     @include('flash')
 
+    <h3>Curriculo {{ $curriculo['id'] }} - Adicionar Disciplinas Licenciaturas </h3>
+
     <div class="box box-primary">
-        <form role="form" method="POST" action="/disciplinasLicenciaturas/create/{{ $curriculo['id'] }}">
+        <form role="form" method="POST" action="disciplinasLicenciaturas/create/{{ $curriculo['id'] }}">
                         
             {{ csrf_field() }}   
 
@@ -58,16 +56,16 @@
                                     {{ Uspdev\Replicado\Graduacao::nomeDisciplina($disciplinasLicenciatura['coddis']) }}</td>
                                 <td>                              
                                     {{-- Se existe disciplina equivalente cadastrada, mostra as equivalentes --}}
-                                    @if (App\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get()->count() > 0)
+                                    @if (App\Models\DisciplinasLicenciaturasEquivalente::where('id_dis_lic', $disciplinasLicenciatura->id)->get()->count() > 0)
                                         <button type="button" class="btn btn-info btn-xs" title="Disciplinas Licenciaturas Equivalentes" 
-                                            onclick="location.href='/disciplinasLicEquivalentes/{{ $disciplinasLicenciatura->id }}';">
-                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                            onclick="location.href='disciplinasLicEquivalentes/{{ $disciplinasLicenciatura->id }}';">
+                                            <span class="far fa-eye"></span>
                                         </button>
                                     @endif  
                                         <button style="float: left; margin-right: 3px; margin-top: 1px;" type="button" class="btn btn-success btn-xs" 
                                             title="Adicionar Disciplinas Licenciaturas Equivalentes" 
-                                            onclick="location.href='/disciplinasLicEquivalentes/create/{{ $disciplinasLicenciatura->id }}';">
-                                            <span class="glyphicon glyphicon-plus"></span>
+                                            onclick="location.href='disciplinasLicEquivalentes/create/{{ $disciplinasLicenciatura->id }}';">
+                                            <i class="fas fa-plus"></i>
                                         </button>                                     
                                 </td>
                             </tr>
@@ -98,12 +96,12 @@
             <div class="box-footer">
                 <button type="submit" class="btn btn-primary btn-sm">Salvar</button>
                 <button type="button" class="btn btn-info btn-sm" 
-                    onclick='location.href="/curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
-                    <span class="glyphicon glyphicon-eye-open"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
+                    onclick='location.href="curriculos/{{ $curriculo->id }}";' title="Ver Currículo">
+                    <span class="far fa-eye"></span>&nbsp;&nbsp;&nbsp;Ver Currículo
                 </button>
                 <button type="button" class="btn btn-primary btn-sm" title="Editar" 
-                    onclick="location.href='/curriculos/{{ $curriculo['id'] }}/edit';">
-                    <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;&nbsp;Editar Currículo
+                    onclick="location.href='curriculos/{{ $curriculo['id'] }}/edit';">
+                    <i class="far fa-edit"></i>&nbsp;&nbsp;&nbsp;Editar Currículo
                 </button>                   
             </div>   
         </form>
@@ -111,7 +109,8 @@
 
 @stop
 
-@section('js')
+@section('javascripts_bottom')
+@parent
     
     <script type="text/javascript">
         $(function () {

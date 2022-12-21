@@ -29,10 +29,10 @@ return [
     |   
     |   Devem ser colocados separados por vírgula sem espaço
     */
-    'codpesAdmins' => env('CODPES_ADMINS'),
+    'codpesAdmins' => env('SENHAUNICA_ADMINS'),
 
     /* TODO: DOCUMENTAR ESSE AQUI NO REPLICADO */
-    'codUnd' => env('REPLICADO_CODUND'),
+    'codUnd' => env('REPLICADO_CODUNDCLG'),
 
     /*
     |--------------------------------------------------------------------------
