@@ -6,6 +6,10 @@ Ferramenta para auxiliar na verificação das disciplinas cursadas pelos alunos 
 
 O sistema Júpiter não foi concebido para verificar as alterações que ocorrem dentro do mesmo currículo para anos diferentes de ingresso.
 
+## Atualização
+
+Atualizando para laravel 8 e uspdev/laravel-usp-theme (em andamento)
+
 ## Tela inicial
 
 A ferramenta deve extrair dos dados do Júpiter de duas formas: individual, através do nº USP ou, por grupo de alunos, através da informação do ano de ingresso, curso e habilitação desejados. 
